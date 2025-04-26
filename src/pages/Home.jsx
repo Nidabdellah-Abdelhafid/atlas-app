@@ -395,8 +395,8 @@ function Home() {
           </div>
         </div>
       </div>
-          {/* envies Section */}
-          <div className="py-20 bg-white">
+      {/* envies Section */}
+        <div className="py-20 bg-white">
         <div className="container mx-auto px-4 md:px-8">
           <div className="text-center mb-12">
             <h3 className="text-gray-500 mb-2">DÉCOUVREZ</h3>
@@ -479,7 +479,12 @@ function Home() {
             </button>
           </div>
         </div>
+
+
       </div>
+      
+      {/* Vedette Section */}
+
     </div>
   );
 }
