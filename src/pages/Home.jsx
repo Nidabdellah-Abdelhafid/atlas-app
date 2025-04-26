@@ -439,7 +439,7 @@ function Home() {
                     alt={slide.title} 
                     className="w-full h-full object-cover"
                   />
-                  <div className="absolute bottom-0 left-0 p-8 text-white bg-gradient-to-t from-black/50 to-transparent w-full">
+                  <div className="absolute bottom-0 left-0 p-8 text-white  w-full">
                     <h3 className="text-4xl font-light mb-4">{slide.title}</h3>
                     <p className="mb-4 max-w-xl text-white/90">
                       {slide.description}
@@ -482,8 +482,98 @@ function Home() {
 
 
       </div>
-      
-      {/* Vedette Section */}
+
+            {/* Vedette Section */}
+      <div className="bg-[#F9F5F9] py-10 mx-16">
+        <div className="container mx-auto px-4 md:px-8">
+          <h2 className="text-5xl mb-2">En Vedette</h2>
+          <p className="text-gray-600 mb-12">
+            Nos nouvelles inspirations de voyages,<br />
+            soigneusement conçues et entièrement adaptées à vos envies.
+          </p>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-10 mb-10">
+            <div className="relative group cursor-pointer rounded-lg">
+              <img 
+                src={`${process.env.PUBLIC_URL}/assets/images/greece.png`}
+                alt="Greece" 
+                className="w-full h-full object-cover rounded-lg"
+              />
+              <div className="absolute bottom-0 left-0 right-0 p-6 ">
+                <h3 className="text-white text-2xl">Greece</h3>
+              </div>
+              <div className="absolute bottom-0 right-0 p-6 ">
+                <ChevronRight className="text-white bg-black rounded-full " size={24} />
+              </div>
+            </div>
+
+            <div className="relative group cursor-pointer rounded-lg">
+              <img 
+                src={`${process.env.PUBLIC_URL}/assets/images/dubai.png`}
+                alt="Dubai" 
+                className="w-full h-full object-cover rounded-lg"
+              />
+              <div className="absolute bottom-0 left-0 right-0 p-6 ">
+                <h3 className="text-white text-2xl">Dubai</h3>
+              </div>
+              <div className="absolute bottom-0 right-0 p-6 ">
+                <ChevronRight className="text-white bg-black rounded-full " size={24} />
+              </div>
+              
+            </div>
+
+            <div className="relative group cursor-pointer rounded-lg">
+              <img 
+                src={`${process.env.PUBLIC_URL}/assets/images/argentine.png`}
+                alt="Argentine" 
+                className="w-full h-full object-cover rounded-lg"
+              />
+              <div className="absolute bottom-0 left-0 right-0 p-6 ">
+                <h3 className="text-white text-2xl">Argentine</h3>
+              </div>
+              <div className="absolute bottom-0 right-0 p-6 ">
+                <ChevronRight className="text-white bg-black rounded-full " size={24} />
+              </div>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-12 gap-10">
+            <div className="relative group cursor-pointer rounded-lg h-[500px] col-span-4">
+              <img 
+                src={`${process.env.PUBLIC_URL}/assets/images/japon.png`}
+                alt="Japon" 
+                className="w-full h-full object-cover rounded-lg"
+              />
+              <div className="absolute bottom-0 left-0 right-0 p-6 ">
+                <h3 className="text-white text-2xl">Japon</h3>
+              </div>
+              <div className="absolute bottom-6 right-6">
+                <ChevronRight className="text-white bg-black/50 rounded-full p-1" size={32} />
+              </div>
+            </div>
+
+            <div className="relative group cursor-pointer rounded-lg h-[500px] col-span-8">
+              <img 
+                src={`${process.env.PUBLIC_URL}/assets/images/thailande.png`}
+                alt="Thailande" 
+                className="w-full h-full object-cover rounded-lg"
+              />
+              <div className="absolute bottom-0 left-0 right-0 p-6">
+                <h3 className="text-white text-2xl">Thailande</h3>
+              </div>
+              <div className="absolute bottom-6 right-6">
+                <ChevronRight className="text-white bg-black/50 rounded-full p-1" size={32} />
+              </div>
+            </div>
+          </div>
+
+          <div className="text-right mt-4">
+            <button className="text-gray-600 hover:text-black transition-colors">
+              Voir plus {'>'}
+            </button>
+          </div>
+        </div>
+      </div>
 
     </div>
   );
