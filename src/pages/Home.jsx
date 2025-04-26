@@ -448,7 +448,7 @@ function Home() {
                       <button className="border border-white px-6 py-2 hover:bg-white hover:text-black transition-colors">
                         Découvrir {'>'}
                       </button>
-                      <div className="text-sm text-white/80">
+                      <div className="text-sm text-white/80 bg-white/20 px-6 py-2">
                         {slide.location}
                       </div>
                     </div>
