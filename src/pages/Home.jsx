@@ -574,7 +574,130 @@ function Home() {
           </div>
         </div>
       </div>
+    {/* Tendance Section */}
+    <div className="py-20 px-16 bg-white">
+        <div className="container mx-auto px-4 md:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-5xl mb-4">TENDANCE du moment</h2>
+            <p className="text-gray-600">
+              Les tendances voyages du moment,<br />
+              pensées pour sublimer chaque envie d'évasion.
+            </p>
+          </div>
 
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+            <div className="space-y-4">
+              <div className="relative h-[400px] rounded-lg overflow-hidden">
+                <img 
+                  src={`${process.env.PUBLIC_URL}/assets/images/tanzanie.png`}
+                  alt="Tanzanie" 
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div>
+                <div className="flex justify-between items-center mb-2">
+                  <span className="text-gray-500">Tanzanie</span>
+                  <span className="text-gray-500">En savoir plus {'>'}</span>
+                </div>
+                <h3 className="text-2xl">Sauvage, vibrante<br />et indomptable</h3>
+              </div>
+            </div>
+
+            <div className="space-y-4">
+              <div className="relative h-[400px] rounded-lg overflow-hidden">
+                <img 
+                  src={`${process.env.PUBLIC_URL}/assets/images/bali.png`}
+                  alt="Bali" 
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div>
+                <div className="flex justify-between items-center mb-2">
+                  <span className="text-gray-500">Bali</span>
+                  <span className="text-gray-500">En savoir plus {'>'}</span>
+                </div>
+                <h3 className="text-2xl">Vibration tropicale<br />et âmes libres</h3>
+              </div>
+            </div>
+
+            <div className="space-y-4">
+              <div className="relative h-[400px] rounded-lg overflow-hidden">
+                <img 
+                  src={`${process.env.PUBLIC_URL}/assets/images/iceland.png`}
+                  alt="Islande" 
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div>
+                <div className="flex justify-between items-center mb-2">
+                  <span className="text-gray-500">Islande</span>
+                  <span className="text-gray-500">En savoir plus {'>'}</span>
+                </div>
+                <h3 className="text-2xl">Terres mystiques<br />et horizons infinis</h3>
+              </div>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="space-y-4">
+              <div className="relative h-[400px] rounded-lg overflow-hidden">
+                <img 
+                  src={`${process.env.PUBLIC_URL}/assets/images/newyork.png`}
+                  alt="New York" 
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div>
+                <div className="flex justify-between items-center mb-2">
+                  <span className="text-gray-500">New York</span>
+                  <span className="text-gray-500">En savoir plus {'>'}</span>
+                </div>
+                <h3 className="text-2xl">Shopping Art<br />& Nightlife</h3>
+              </div>
+            </div>
+
+            <div className="space-y-4">
+              <div className="relative h-[400px] rounded-lg overflow-hidden">
+                <img 
+                  src={`${process.env.PUBLIC_URL}/assets/images/mexique.png`}
+                  alt="Mexique" 
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div>
+                <div className="flex justify-between items-center mb-2">
+                  <span className="text-gray-500">Mexique</span>
+                  <span className="text-gray-500">En savoir plus {'>'}</span>
+                </div>
+                <h3 className="text-2xl">Bienvenue<br />chez les Mayas !</h3>
+              </div>
+            </div>
+
+            <div className="space-y-4">
+              <div className="relative h-[400px] rounded-lg overflow-hidden">
+                <img 
+                  src={`${process.env.PUBLIC_URL}/assets/images/seychelles.png`}
+                  alt="Seychelles" 
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div>
+                <div className="flex justify-between items-center mb-2">
+                  <span className="text-gray-500">Seychelles</span>
+                  <span className="text-gray-500">En savoir plus {'>'}</span>
+                </div>
+                <h3 className="text-2xl">luxe et plages<br />de rêve</h3>
+              </div>
+            </div>
+          </div>
+
+          <div className="text-center mt-12">
+            <button className="bg-[#8C6EA8] text-white px-8 py-3 hover:bg-opacity-90 transition-colors">
+              Voir toutes les tendances {'>'}
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
