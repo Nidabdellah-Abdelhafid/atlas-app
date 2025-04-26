@@ -364,17 +364,17 @@ function Home() {
                 />
                 <div className='relative'>
                     <div className='flex flex-row gap-4 items-center'>
-                        <div className="text-[80px] leading-[0.9] tracking-tight">
+                        <div className="text-[90px] leading-[0.9] tracking-tight">
                     60 ANS
                 </div>
-                <div className="text-2xl tracking-wider">
+                <div className="text-3xl tracking-wider">
                     D'ÉVASION
                     <br />
                     DANS
                 </div>
                     </div>
                 
-                <div className="text-[120px] leading-[1] font-light">
+                <div className="text-[160px] leading-[1] font-meduim">
                     le Luxe
                 </div>
                 </div>
