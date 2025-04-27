@@ -467,8 +467,7 @@ const prevEvasionSlide = () => {
             <div className="flex overflow-x-auto snap-x snap-mandatory touch-pan-x scroll-smooth max-w-[90vw] mx-auto space-x-4"
             style={{
               ...carouselStyles,
-              touchAction: 'none',
-              pointerEvents: 'none'
+              touchAction: 'none'
             }}
             ref={carouselRef}
             >
@@ -757,8 +756,7 @@ const prevEvasionSlide = () => {
             <div   className="flex overflow-x-auto snap-x snap-mandatory touch-pan-x scroll-smooth space-x-4" 
               style={{
                 ...carouselStyles,
-                touchAction: 'none',
-                pointerEvents: 'none'
+                touchAction: 'none'
               }}
               ref={evasionCarouselRef}
             >
