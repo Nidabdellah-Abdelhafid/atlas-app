@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { ChevronLeft, ChevronRight, MoveDownIcon, Search } from 'lucide-react';
 
 function Home() {
   // Add this near the top of your component
   const [currentSlide, setCurrentSlide] = useState(1);
   const [activeTab, setActiveTab] = useState('Club All-In');
-  
+  const [currentEvasionSlide, setCurrentEvasionSlide] = useState(0);
+  const evasionCarouselRef = useRef(null);
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -294,8 +296,27 @@ function Home() {
     });
   };
 
+ 
 
-  // Replace your carousel section with this:
+// Add these functions before the return statement
+const nextEvasionSlide = () => {
+  if (evasionCarouselRef.current) {
+    const items = evasionCarouselRef.current.children;
+    const nextIndex = (currentEvasionSlide + 1) % items.length;
+    setCurrentEvasionSlide(nextIndex);
+    items[nextIndex].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+};
+
+const prevEvasionSlide = () => {
+  if (evasionCarouselRef.current) {
+    const items = evasionCarouselRef.current.children;
+    const prevIndex = (currentEvasionSlide - 1 + items.length) % items.length;
+    setCurrentEvasionSlide(prevIndex);
+    items[prevIndex].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+};
+
   return (
     <div >
     <div className="relative min-h-screen">
@@ -483,7 +504,7 @@ function Home() {
 
       </div>
 
-            {/* Vedette Section */}
+     {/* Vedette Section */}
       <div className="bg-[#F9F5F9] py-10 mx-16">
         <div className="container mx-auto px-4 md:px-8">
           <h2 className="text-5xl mb-2">En Vedette</h2>
@@ -574,11 +595,11 @@ function Home() {
           </div>
         </div>
       </div>
-    {/* Tendance Section */}
-    <div className="py-20 px-16 bg-white">
+     {/* Tendance Section */}
+    <div className="py-14 px-20 bg-white">
         <div className="container mx-auto px-4 md:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-5xl mb-4">TENDANCE du moment</h2>
+            <h2 className="text-5xl mb-4  hover:text-[#8C6EA8] transition-colors">TENDANCE du moment</h2>
             <p className="text-gray-600">
               Les tendances voyages du moment,<br />
               pensées pour sublimer chaque envie d'évasion.
@@ -695,6 +716,147 @@ function Home() {
             <button className="bg-[#8C6EA8] text-white px-8 py-3 hover:bg-opacity-90 transition-colors">
               Voir toutes les tendances {'>'}
             </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Évasions Section */} 
+      <div className="py-6 px-16">
+        <div className="container px-4 md:px-16">
+          <div className="text-center mb-12">
+            <h2 className="text-5xl mb-4 hover:text-[#8C6EA8] transition-colors">Évasions Inattendues</h2>
+            <p className="text-gray-600">
+              Découvrez des lieux hors des sentiers battus, où chaque détour révèle une nouvelle merveille.
+            </p>
+          </div>
+
+          <div className="relative">
+            <div className="carousel carousel-center max-w-full mx-auto space-x-4" ref={evasionCarouselRef}>
+            {[0, 1, 2,3].map((index) => (
+                <div 
+                  key={index}
+                  className={`carousel-item w-[410px] group ${
+                    currentEvasionSlide === index 
+                      ? 'scale-95 opacity-100 z-10' 
+                      : 'scale-95 opacity-90'
+                  } transition-all duration-500`}
+                >
+                  <div className="relative h-[520px] rounded-lg overflow-hidden transition-transform duration-500 group-hover:scale-[1.02]">
+                    <img 
+                      src={`${process.env.PUBLIC_URL}/assets/images/${
+                        index === 0 ? 'paris' : index === 1 ? 'rome' : 'tokyo'
+                      }.png`}
+                      alt={index === 0 ? 'Paris' : index === 1 ? 'Rome' : 'Tokyo'} 
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 rounded-lg"
+                    />
+                    {/* Black overlay for inactive slides */}
+                    <div className={`absolute inset-0 bg-black transition-opacity rounded-lg duration-500 ${
+                      currentEvasionSlide === index ? 'opacity-0' : 'opacity-20'
+                    }`} />
+                    <div className={`absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent transition-opacity duration-300 group-hover:from-black/80`} />
+                    <div className="absolute bottom-0 left-0 p-8 text-white transform transition-transform duration-300 group-hover:translate-y-[-8px]">
+                      <span className="text-sm mb-2 block opacity-90 group-hover:opacity-100">
+                        {index === 0 ? 'Paris' : index === 1 ? 'Rome' : 'Tokyo'}
+                      </span>
+                      <h3 className="text-2xl mb-4 transform transition-all duration-300 group-hover:text-[1.7rem]">
+                        Sauvage, vibrante<br />et indomptable
+                      </h3>
+                      <p className="text-sm text-white/80 mb-4 transition-opacity duration-300 group-hover:text-white">
+                        L'Afrique du Sud est un pays diversifié, connu pour ses paysages spectaculaires, sa faune sauvage et son histoire de lutte contre l'apartheid.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Navigation Arrows */}
+          <div className='max-w-[80vw] flex justify-end items-center gap-4 mt-4'>
+            <button 
+              onClick={prevEvasionSlide}
+              className="bg-white rounded-full p-2 shadow-lg hover:bg-gray-100 hover:scale-110 transition-all duration-300"
+            >
+              <ChevronLeft size={24} className="text-gray-800 hover:text-[#8C6EA8] transition-colors" />
+            </button>
+            <button 
+              onClick={nextEvasionSlide}
+              className="bg-white rounded-full p-2 shadow-lg hover:bg-gray-100 hover:scale-110 transition-all duration-300"
+            >
+              <ChevronRight size={24} className="text-gray-800 hover:text-[#8C6EA8] transition-colors" />
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Actus Section */} 
+      <div className="py-10 px-28 bg-white">
+        <div className="container mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-5xl mb-4 hover:text-[#8C6EA8] transition-colors">Actus Atlas</h2>
+            <p className="text-gray-600">
+              Articles, Blogs, Podcast, E-Mag
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 ">
+            <div className="group cursor-pointer bg-[#F8F4F8] p-4 rounded-[40px]">
+              <div className="relative h-[400px] rounded-[34px] overflow-hidden mb-6">
+                <img 
+                  src={`${process.env.PUBLIC_URL}/assets/images/brazil.png`}
+                  alt="Brazil" 
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+              </div>
+              <div>
+                <h3 className="text-2xl mb-2">3 habitudes typiquement<br />brésiliennes</h3>
+                <div className="w-full">
+                  <p className="text-gray-600 mb-4 ">
+                    Lorsqu’il a déménagé au Brésil, notre correspondant Olivier a été quelque peu dérouté par le mode de vie des habitants. Quelques mois lui ont été nécessaires pour s’accoutumer aux retards fréquents ou au goût prononcé des Brésiliens pour la chaleur humaine et la proximité sociale. Autant d’habitudes qu’il conseille aux voyageurs d’adopter s’ils souhaitent se fondre dans le décor au cours de leur itinéraire au Brésil.
+                  </p> 
+                </div>
+                
+                <div className="flex justify-between items-center my-4 mt-8">
+                <div className='flex flex-col'>
+                  <span className="text-gray-500">Par Olivier</span>
+                  <span className="text-gray-500">29 mars 2023</span>
+                </div>
+                <button className="text-gray-500 hover:text-[#8C6EA8] transition-colors underline">
+                  Lire l'article {'>'}
+                </button>
+                </div>
+                
+              </div>
+            </div>
+
+            <div className="group cursor-pointer bg-[#F8F4F8] p-4 rounded-[40px]">
+              <div className="relative h-[400px] rounded-[34px] overflow-hidden mb-6">
+                <img 
+                  src={`${process.env.PUBLIC_URL}/assets/images/cuba.png`}
+                  alt="Cuba" 
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+              </div>
+              <div>
+                <h3 className="text-2xl mb-2">Cuba dans le rétro</h3>
+                <div className="w-full">
+                  <p className="text-gray-600 mb-4 ">
+                    À Cuba, les Cadillac rutilantes, les Chevrolet ragaillardies et les Buick rapiécées sillonnent les rues comme si on n’avait pas changé de siècle.
+                    Mais pourquoi y a-t-il autant de vieilles voitures américaines sur l’île ? Comment peuvent-elles encore être en état de rouler ? Sont-elles en train d’être remplacées par des modèles flambants neufs ? Embarquez avec nous pour un voyage à Cuba et dans le temps ; fenêtres ouvertes et salsa à fond dans les enceintes.  
+                  </p>
+                </div>
+                
+                <div className="flex justify-between items-center my-4 mt-8">
+                <div className='flex flex-col'>
+                  <span className="text-gray-500">La Rédaction</span>
+                  <span className="text-gray-500">13 janvier 2023</span>
+                </div>
+                <button className="text-gray-500 hover:text-[#8C6EA8] transition-colors underline">
+                  Lire l'article {'>'}
+                </button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
