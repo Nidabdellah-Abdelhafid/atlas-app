@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { ChevronLeft, ChevronRight, MoveDownIcon, Search } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 function Home() {
   // Add this near the top of your component
@@ -713,9 +714,9 @@ const prevEvasionSlide = () => {
           </div>
 
           <div className="text-center mt-12">
-            <button className="bg-[#8C6EA8] text-white px-8 py-3 hover:bg-opacity-90 transition-colors">
+            <Link to={'/destinationsTendances'} className="bg-[#8C6EA8] text-white px-8 py-3 hover:bg-opacity-90 transition-colors">
               Voir toutes les tendances {'>'}
-            </button>
+            </Link>
           </div>
         </div>
       </div>
