@@ -8,6 +8,13 @@ function Home() {
   const [activeTab, setActiveTab] = useState('Club All-In');
   const [currentEvasionSlide, setCurrentEvasionSlide] = useState(0);
   const evasionCarouselRef = useRef(null);
+  const carouselStyles = {
+    scrollbarWidth: 'none',
+    '-ms-overflow-style': 'none',
+    '&::-webkit-scrollbar': {
+      display: 'none'
+    }
+  };
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -280,22 +287,32 @@ function Home() {
   }, []);
 
   const nextSlide = () => {
-    const nextIndex = (currentSlide + 1) % slides[activeTab].length;
-    setCurrentSlide(nextIndex);
+  if (carouselRef.current) {
+    const scrollWidth = carouselRef.current.scrollWidth;
+    const itemWidth = scrollWidth / slides[activeTab].length;
+    const newScrollPosition = ((currentSlide + 1) % slides[activeTab].length) * itemWidth;
+    
     carouselRef.current.scrollTo({
-      left: carouselRef.current.children[nextIndex].offsetLeft,
+      left: newScrollPosition,
       behavior: 'smooth'
     });
-  };
-  
-  const prevSlide = () => {
-    const prevIndex = (currentSlide - 1 + slides[activeTab].length) % slides[activeTab].length;
-    setCurrentSlide(prevIndex);
+    setCurrentSlide((currentSlide + 1) % slides[activeTab].length);
+  }
+};
+
+const prevSlide = () => {
+  if (carouselRef.current) {
+    const scrollWidth = carouselRef.current.scrollWidth;
+    const itemWidth = scrollWidth / slides[activeTab].length;
+    const newScrollPosition = ((currentSlide - 1 + slides[activeTab].length) % slides[activeTab].length) * itemWidth;
+    
     carouselRef.current.scrollTo({
-      left: carouselRef.current.children[prevIndex].offsetLeft,
+      left: newScrollPosition,
       behavior: 'smooth'
     });
-  };
+    setCurrentSlide((currentSlide - 1 + slides[activeTab].length) % slides[activeTab].length);
+  }
+};
 
  
 
@@ -732,11 +749,14 @@ const prevEvasionSlide = () => {
           </div>
 
           <div className="relative">
-            <div className="carousel carousel-center max-w-full mx-auto space-x-4" ref={evasionCarouselRef}>
-            {[0, 1, 2,3].map((index) => (
+            <div   className="flex overflow-x-auto snap-x snap-mandatory touch-pan-x scroll-smooth space-x-4" 
+              style={carouselStyles}
+              ref={evasionCarouselRef}
+            >
+              {[0, 1, 2, 3].map((index) => (
                 <div 
                   key={index}
-                  className={`carousel-item w-[410px] group ${
+                  className={`flex-none w-[410px] snap-center group ${
                     currentEvasionSlide === index 
                       ? 'scale-95 opacity-100 z-10' 
                       : 'scale-95 opacity-90'
