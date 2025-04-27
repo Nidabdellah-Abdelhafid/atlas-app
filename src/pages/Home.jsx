@@ -464,13 +464,18 @@ const prevEvasionSlide = () => {
 
         {/* Slider Section */}
         <div className="relative px-10">
-            <div className="carousel carousel-center max-w-[90vw] mx-auto space-x-4"
+            <div className="flex overflow-x-auto snap-x snap-mandatory touch-pan-x scroll-smooth max-w-[90vw] mx-auto space-x-4"
+            style={{
+              ...carouselStyles,
+              touchAction: 'none',
+              pointerEvents: 'none'
+            }}
             ref={carouselRef}
             >
               {slides[activeTab].map((slide, index) => (
                 <div 
                     key={slide.id} 
-                    className="carousel-item relative w-[70vw] h-[500px]"
+                    className="flex-none snap-center relative w-[70vw] h-[500px]"
                 >
                 <div className={`absolute inset-0 bg-black transition-opacity duration-300 ${index === currentSlide ? 'opacity-0' : 'opacity-50'}`} />
                   <img 
@@ -750,7 +755,11 @@ const prevEvasionSlide = () => {
 
           <div className="relative">
             <div   className="flex overflow-x-auto snap-x snap-mandatory touch-pan-x scroll-smooth space-x-4" 
-              style={carouselStyles}
+              style={{
+                ...carouselStyles,
+                touchAction: 'none',
+                pointerEvents: 'none'
+              }}
               ref={evasionCarouselRef}
             >
               {[0, 1, 2, 3].map((index) => (
