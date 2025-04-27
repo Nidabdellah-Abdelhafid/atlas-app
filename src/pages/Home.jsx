@@ -380,7 +380,7 @@ const prevEvasionSlide = () => {
                 <div 
                     className="absolute inset-0 bg-contain bg-start bg-no-repeat"
                     style={{
-                    backgroundImage: `url(${process.env.PUBLIC_URL}/assets/images/semi-C.png)`,
+                    backgroundImage: `url(${process.env.PUBLIC_URL}/assets/images/semicer.png)`,
                     // filter: 'brightness(0.7)'
                     }}
                 />
