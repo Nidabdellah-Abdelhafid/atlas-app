@@ -13,7 +13,12 @@ function Home() {
     '-ms-overflow-style': 'none',
     '&::-webkit-scrollbar': {
       display: 'none'
-    }
+    },
+    scrollBehavior: 'smooth',
+    userSelect: 'none',
+    touchAction: 'none',
+    pointerEvents: 'auto',
+    scrollSnapType: 'x mandatory'
   };
 
   useEffect(() => {
@@ -348,27 +353,27 @@ const prevEvasionSlide = () => {
       />
 
       {/* Content */}
-      <div className="relative z-10 flex justify-end min-h-screen  flex-col px-4 max-w-6xl mx-auto">
-        <h1 className="text-white text-7xl font-bold mb-2">
+      <div className="relative z-10 flex justify-end min-h-screen flex-col px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
+        <h1 className="text-white text-4xl sm:text-5xl lg:text-7xl font-bold mb-2">
           Des voyages signature
         </h1>
-        <h2 className="text-white text-6xl font-700 mb-12 mt-2">
+        <h2 className="text-white text-3xl sm:text-4xl lg:text-6xl font-700 mb-8 lg:mb-12 mt-2">
           depuis 1964
         </h2>
 
         {/* Search Inputs */}
-        <div className="flex gap-4 max-w-4xl">
+        <div className="flex flex-col sm:flex-row gap-4 max-w-4xl">
           <div className="flex-1 relative">
             <input
               type="text"
               placeholder="Où souhaitez-vous partir ?"
-              className="w-full py-3 px-4 pr-12  bg-white/90 backdrop-blur"
+              className="w-full py-3 px-4 pr-12 bg-white/90 backdrop-blur"
             />
             <div className='absolute right-4 top-1/2 -translate-y-1/2 bg-gray-700 rounded-full p-1'>
-            <Search className="text-white" size={20} />
+              <Search className="text-white" size={20} />
             </div>
           </div>
-          <button className="bg-white/5 backdrop-blur-sm py-3 px-6 border border-1 border-white text-white w-96 text-start">
+          <button className="bg-white/5 backdrop-blur-sm py-3 px-6 border border-1 border-white text-white w-full sm:w-96 text-start">
             Proposez-moi une destination {'>'}
           </button>
         </div>
@@ -389,11 +394,11 @@ const prevEvasionSlide = () => {
       </div>
         
       {/* 60 Years Section */}
-      <div className="bg-white">
-        <div className="container mx-auto ">
-          <div className="grid md:grid-cols-2 gap-20">
-            <div className='mx-24 '>
-            <div className="relative space-y-2 py-20 my-10">
+      <div className="bg-white ">
+        <div className="w-full">
+          <div className="grid md:grid-cols-2 gap-8 lg:gap-20">
+            <div className='mx-8 sm:mx-8 lg:mx-24  flex justify-center items-center'>
+              <div className="relative space-y-2 py-10 lg:py-20 my-8 sm:my-20 lg:my-10">
                 <div 
                     className="absolute inset-0 bg-contain bg-start bg-no-repeat"
                     style={{
@@ -402,23 +407,19 @@ const prevEvasionSlide = () => {
                     }}
                 />
                 <div className='relative'>
-                    <div className='flex flex-row gap-4 items-center'>
-                        <div className="text-[90px] leading-[0.9] tracking-tight">
-                    60 ANS
-                </div>
-                <div className="text-3xl tracking-wider">
-                    D'ÉVASION
-                    <br />
-                    DANS
-                </div>
+                  <div className='flex flex-row gap-4 items-center'>
+                    <div className="text-5xl sm:text-5xl lg:text-[90px] leading-[0.9] tracking-tight">
+                      60 ANS
                     </div>
-                
-                <div className="text-[160px] leading-[1] font-meduim">
+                    <div className="text-xl sm:text-2xl lg:text-3xl tracking-wider">
+                      D'ÉVASION<br />DANS
+                    </div>
+                  </div>
+                  <div className="text-7xl sm:text-8xl lg:text-[150px] leading-[1] font-medium">
                     le Luxe
+                  </div>
                 </div>
-                </div>
-                
-            </div>
+              </div>
             </div>
             
             <div className="bg-[#F9F5F9] flex flex-col justify-center py-24 px-4 md:px-16">
@@ -435,15 +436,15 @@ const prevEvasionSlide = () => {
         </div>
       </div>
       {/* envies Section */}
-        <div className="py-20 bg-white">
-        <div className="container mx-auto px-4 md:px-8">
+      <div className="py-10 sm:py-20 bg-white">
+        <div className="container mx-auto px-4 sm:px-8">
           <div className="text-center mb-12">
             <h3 className="text-gray-500 mb-2">DÉCOUVREZ</h3>
             <h2 className="text-3xl">LE MONDE SELON VOS ENVIES</h2>
           </div>
 
           {/* Categories */}
-          <div className="flex justify-center gap-8 mb-16 text-xl">
+          <div className="flex flex-wrap justify-center gap-4 sm:gap-8 mb-8 sm:mb-16 text-lg sm:text-xl">
             <div className='flex items-center justify-center'>
                 <div className='h-0.5 w-14 bg-gray-500'></div>
             </div>
@@ -463,35 +464,34 @@ const prevEvasionSlide = () => {
             </div>
 
         {/* Slider Section */}
-        <div className="relative px-10">
-            <div className="flex overflow-x-auto snap-x snap-mandatory touch-pan-x scroll-smooth max-w-[90vw] mx-auto space-x-4"
+        <div className="relative px-4">
+            <div className="flex overflow-x-hidden snap-x snap-mandatory scroll-smooth max-w-[95vw] sm:max-w-[95vw] mx-auto space-x-4"
             style={{
-              ...carouselStyles,
-              touchAction: 'none'
+              ...carouselStyles
             }}
             ref={carouselRef}
             >
               {slides[activeTab].map((slide, index) => (
                 <div 
                     key={slide.id} 
-                    className="flex-none snap-center relative w-[70vw] h-[500px]"
+                    className="flex-none snap-center relative w-[90vw] sm:w-[80vw] md:w-[70vw] h-[400px] sm:h-[500px]"
                 >
-                <div className={`absolute inset-0 bg-black transition-opacity duration-300 ${index === currentSlide ? 'opacity-0' : 'opacity-50'}`} />
+                  <div className={`absolute inset-0 bg-black transition-opacity duration-300 ${index === currentSlide ? 'opacity-0' : 'opacity-50'}`} />
                   <img 
                     src={`${process.env.PUBLIC_URL}${slide.image}`}
                     alt={slide.title} 
                     className="w-full h-full object-cover"
                   />
-                  <div className="absolute bottom-0 left-0 p-8 text-white  w-full">
-                    <h3 className="text-4xl font-light mb-4">{slide.title}</h3>
-                    <p className="mb-4 max-w-xl text-white/90">
+                  <div className="absolute bottom-0 left-0 p-4 sm:p-6 lg:p-8 text-white w-full">
+                    <h3 className="text-2xl sm:text-3xl lg:text-4xl font-light mb-2 sm:mb-3 lg:mb-4">{slide.title}</h3>
+                    <p className="mb-3 sm:mb-4 max-w-xl text-white/90 text-sm sm:text-base hidden sm:block">
                       {slide.description}
                     </p>
-                    <div className="flex justify-between items-end">
-                      <button className="border border-white px-6 py-2 hover:bg-white hover:text-black transition-colors">
+                    <div className="flex flex-col sm:flex-row justify-between items-center gap-3 sm:gap-0">
+                      <button className="w-full sm:w-auto border border-white px-4 sm:px-6 py-1.5 sm:py-2 text-sm sm:text-base hover:bg-white hover:text-black transition-colors">
                         Découvrir {'>'}
                       </button>
-                      <div className="text-sm text-white/80 bg-white/20 px-6 py-2">
+                      <div className="text-xs sm:text-sm text-white/80 bg-white/20 px-4 sm:px-6 py-1.5 sm:py-2 w-full sm:w-auto text-center sm:text-left">
                         {slide.location}
                       </div>
                     </div>
@@ -502,14 +502,14 @@ const prevEvasionSlide = () => {
             
             {/* Navigation Arrows */}
             <button 
-                onClick={prevSlide}
-                className="absolute left-10 top-1/2 -translate-y-1/2 p-4 rounded-full shadow-lg z-10 transition-colors"
+              onClick={prevSlide}
+              className="absolute left-2 sm:left-10 top-1/2 -translate-y-1/2 p-2 sm:p-4 rounded-full shadow-lg z-10 transition-colors"
             >
-                <ChevronLeft size={100} className='text-white hover:text-[#8C6EA8] transition-colors duration-300'/>
+              <ChevronLeft size={100} className='text-white hover:text-[#8C6EA8] transition-colors duration-300'/>
             </button>
             <button 
                 onClick={nextSlide}
-                className="absolute right-10 top-1/2 -translate-y-1/2 p-4 rounded-full shadow-lg z-10 transition-colors"
+                className="absolute right-2 sm:right-10 top-1/2 -translate-y-1/2 p-2 sm:p-4 rounded-full shadow-lg z-10 transition-colors"
             >
                 <ChevronRight size={100} className='text-white hover:text-[#8C6EA8] transition-colors duration-300'/>
             </button>
@@ -527,211 +527,216 @@ const prevEvasionSlide = () => {
       </div>
 
      {/* Vedette Section */}
-      <div className="bg-[#F9F5F9] py-10 mx-16">
-        <div className="container mx-auto px-4 md:px-8">
-          <h2 className="text-5xl mb-2">En Vedette</h2>
-          <p className="text-gray-600 mb-12">
-            Nos nouvelles inspirations de voyages,<br />
-            soigneusement conçues et entièrement adaptées à vos envies.
-          </p>
+     <div className="bg-[#F9F5F9] py-10 px-4 sm:px-8 lg:px-8 lg:mx-16">
+     <div className="container mx-auto px-4 md:px-8">
+        <h2 className="text-5xl mb-2">En Vedette</h2>
+        <p className="text-gray-600 mb-12">
+          Nos nouvelles inspirations de voyages,<br />
+          soigneusement conçues et entièrement adaptées à vos envies.
+        </p>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-10 mb-10">
-            <div className="relative group cursor-pointer rounded-lg">
-              <img 
-                src={`${process.env.PUBLIC_URL}/assets/images/greece.png`}
-                alt="Greece" 
-                className="w-full h-full object-cover rounded-lg"
-              />
-              <div className="absolute bottom-0 left-0 right-0 p-6 ">
-                <h3 className="text-white text-2xl">Greece</h3>
-              </div>
-              <div className="absolute bottom-0 right-0 p-6 ">
-                <ChevronRight className="text-white bg-black rounded-full " size={24} />
-              </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-10 mb-10">
+          <div className="relative group cursor-pointer rounded-lg">
+            <img 
+              src={`${process.env.PUBLIC_URL}/assets/images/greece.png`}
+              alt="Greece" 
+              className="w-full h-full object-cover rounded-lg"
+            />
+            <div className="absolute bottom-0 left-0 right-0 p-6 ">
+              <h3 className="text-white text-2xl">Greece</h3>
             </div>
-
-            <div className="relative group cursor-pointer rounded-lg">
-              <img 
-                src={`${process.env.PUBLIC_URL}/assets/images/dubai.png`}
-                alt="Dubai" 
-                className="w-full h-full object-cover rounded-lg"
-              />
-              <div className="absolute bottom-0 left-0 right-0 p-6 ">
-                <h3 className="text-white text-2xl">Dubai</h3>
-              </div>
-              <div className="absolute bottom-0 right-0 p-6 ">
-                <ChevronRight className="text-white bg-black rounded-full " size={24} />
-              </div>
-              
-            </div>
-
-            <div className="relative group cursor-pointer rounded-lg">
-              <img 
-                src={`${process.env.PUBLIC_URL}/assets/images/argentine.png`}
-                alt="Argentine" 
-                className="w-full h-full object-cover rounded-lg"
-              />
-              <div className="absolute bottom-0 left-0 right-0 p-6 ">
-                <h3 className="text-white text-2xl">Argentine</h3>
-              </div>
-              <div className="absolute bottom-0 right-0 p-6 ">
-                <ChevronRight className="text-white bg-black rounded-full " size={24} />
-              </div>
+            <div className="absolute bottom-0 right-0 p-6 ">
+              <ChevronRight className="text-white bg-black rounded-full " size={24} />
             </div>
           </div>
 
-          <div className="grid grid-cols-12 gap-10">
-            <div className="relative group cursor-pointer rounded-lg h-[500px] col-span-4">
-              <img 
-                src={`${process.env.PUBLIC_URL}/assets/images/japon.png`}
-                alt="Japon" 
-                className="w-full h-full object-cover rounded-lg"
-              />
-              <div className="absolute bottom-0 left-0 right-0 p-6 ">
-                <h3 className="text-white text-2xl">Japon</h3>
-              </div>
-              <div className="absolute bottom-6 right-6">
-                <ChevronRight className="text-white bg-black/50 rounded-full p-1" size={32} />
-              </div>
+          <div className="relative group cursor-pointer rounded-lg">
+            <img 
+              src={`${process.env.PUBLIC_URL}/assets/images/dubai.png`}
+              alt="Dubai" 
+              className="w-full h-full object-cover rounded-lg"
+            />
+            <div className="absolute bottom-0 left-0 right-0 p-6 ">
+              <h3 className="text-white text-2xl">Dubai</h3>
             </div>
-
-            <div className="relative group cursor-pointer rounded-lg h-[500px] col-span-8">
-              <img 
-                src={`${process.env.PUBLIC_URL}/assets/images/thailande.png`}
-                alt="Thailande" 
-                className="w-full h-full object-cover rounded-lg"
-              />
-              <div className="absolute bottom-0 left-0 right-0 p-6">
-                <h3 className="text-white text-2xl">Thailande</h3>
-              </div>
-              <div className="absolute bottom-6 right-6">
-                <ChevronRight className="text-white bg-black/50 rounded-full p-1" size={32} />
-              </div>
+            <div className="absolute bottom-0 right-0 p-6 ">
+              <ChevronRight className="text-white bg-black rounded-full " size={24} />
             </div>
+            
           </div>
 
-          <div className="text-right mt-4">
-            <button className="text-gray-600 hover:text-black transition-colors">
-              Voir plus {'>'}
-            </button>
+          <div className="relative group cursor-pointer rounded-lg">
+            <img 
+              src={`${process.env.PUBLIC_URL}/assets/images/argentine.png`}
+              alt="Argentine" 
+              className="w-full h-full object-cover rounded-lg"
+            />
+            <div className="absolute bottom-0 left-0 right-0 p-6 ">
+              <h3 className="text-white text-2xl">Argentine</h3>
+            </div>
+            <div className="absolute bottom-0 right-0 p-6 ">
+              <ChevronRight className="text-white bg-black rounded-full " size={24} />
+            </div>
           </div>
         </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-12 gap-6 sm:gap-10">
+            <div className="relative group cursor-pointer rounded-lg  sm:col-span-4">
+              <img 
+              src={`${process.env.PUBLIC_URL}/assets/images/japon.png`}
+              alt="Japon" 
+              className="w-full h-full object-cover rounded-lg"
+            />
+            <div className="absolute bottom-0 left-0 right-0 p-6 ">
+              <h3 className="text-white text-2xl">Japon</h3>
+            </div>
+            <div className="absolute bottom-6 right-6">
+              <ChevronRight className="text-white bg-black/50 rounded-full p-1" size={32} />
+            </div>
+          </div>
+
+          <div className="relative group cursor-pointer rounded-lg h-[400px] sm:h-[550px] sm:col-span-8">
+            <img 
+              src={`${process.env.PUBLIC_URL}/assets/images/thailande.png`}
+              alt="Thailande" 
+              className="w-full h-full object-cover rounded-lg"
+            />
+            <div className="absolute bottom-0 left-0 right-0 p-6">
+              <h3 className="text-white text-2xl">Thailande</h3>
+            </div>
+            <div className="absolute bottom-6 right-6">
+              <ChevronRight className="text-white bg-black/50 rounded-full p-1" size={32} />
+            </div>
+          
+          
+          </div>
+
+
+        </div>
+
+        <div className="text-right mt-4">
+          <button className="text-gray-600 hover:text-black transition-colors">
+            Voir plus {'>'}
+          </button>
+        </div>
       </div>
+    </div>
+
+
      {/* Tendance Section */}
-    <div className="py-14 px-20 bg-white">
-        <div className="container mx-auto px-4 md:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-5xl mb-4  hover:text-[#8C6EA8] transition-colors">TENDANCE du moment</h2>
-            <p className="text-gray-600">
-              Les tendances voyages du moment,<br />
+     <div className="py-8 sm:py-10 lg:py-14 px-4 sm:px-8 lg:px-20 bg-white">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-8 sm:mb-12">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl mb-3 sm:mb-4 hover:text-[#8C6EA8] transition-colors">TENDANCE du moment</h2>
+            <p className="text-gray-600 text-sm sm:text-base">
+              Les tendances voyages du moment,<br className="hidden sm:block" />
               pensées pour sublimer chaque envie d'évasion.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
-            <div className="space-y-4">
-              <div className="relative h-[400px] rounded-lg overflow-hidden">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 mb-4 sm:mb-6 lg:mb-8">
+          <div className="space-y-3 sm:space-y-4">
+              <div className="relative h-[300px] sm:h-[350px] lg:h-[400px] rounded-lg overflow-hidden">
                 <img 
                   src={`${process.env.PUBLIC_URL}/assets/images/tanzanie.png`}
                   alt="Tanzanie" 
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
                 />
               </div>
               <div>
-                <div className="flex justify-between items-center mb-2">
-                  <span className="text-gray-500">Tanzanie</span>
-                  <span className="text-gray-500">En savoir plus {'>'}</span>
+                <div className="flex justify-between items-center mb-1 sm:mb-2">
+                  <span className="text-gray-500 text-sm sm:text-base">Tanzanie</span>
+                  <span className="text-gray-500 text-sm sm:text-base hover:text-[#8C6EA8] transition-colors">En savoir plus {'>'}</span>
                 </div>
-                <h3 className="text-2xl">Sauvage, vibrante<br />et indomptable</h3>
+                <h3 className="text-xl sm:text-2xl">Sauvage, vibrante<br />et indomptable</h3>
               </div>
             </div>
 
-            <div className="space-y-4">
-              <div className="relative h-[400px] rounded-lg overflow-hidden">
+            <div className="space-y-3 sm:space-y-4">
+              <div className="relative h-[300px] sm:h-[350px] lg:h-[400px] rounded-lg overflow-hidden">
                 <img 
                   src={`${process.env.PUBLIC_URL}/assets/images/bali.png`}
                   alt="Bali" 
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
                 />
               </div>
               <div>
-                <div className="flex justify-between items-center mb-2">
-                  <span className="text-gray-500">Bali</span>
-                  <span className="text-gray-500">En savoir plus {'>'}</span>
+                <div className="flex justify-between items-center mb-1 sm:mb-2">
+                  <span className="text-gray-500 text-sm sm:text-base">Bali</span>
+                  <span className="text-gray-500 text-sm sm:text-base hover:text-[#8C6EA8] transition-colors">En savoir plus {'>'}</span>
                 </div>
-                <h3 className="text-2xl">Vibration tropicale<br />et âmes libres</h3>
+                <h3 className="text-xl sm:text-2xl">Vibration tropicale<br />et âmes libres</h3>
               </div>
             </div>
 
-            <div className="space-y-4">
-              <div className="relative h-[400px] rounded-lg overflow-hidden">
+            <div className="space-y-3 sm:space-y-4">
+              <div className="relative h-[300px] sm:h-[350px] lg:h-[400px] rounded-lg overflow-hidden">
                 <img 
                   src={`${process.env.PUBLIC_URL}/assets/images/iceland.png`}
                   alt="Islande" 
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
                 />
               </div>
               <div>
-                <div className="flex justify-between items-center mb-2">
-                  <span className="text-gray-500">Islande</span>
-                  <span className="text-gray-500">En savoir plus {'>'}</span>
+                <div className="flex justify-between items-center mb-1 sm:mb-2">
+                  <span className="text-gray-500 text-sm sm:text-base">Islande</span>
+                  <span className="text-gray-500 text-sm sm:text-base hover:text-[#8C6EA8] transition-colors">En savoir plus {'>'}</span>
                 </div>
-                <h3 className="text-2xl">Terres mystiques<br />et horizons infinis</h3>
+                <h3 className="text-xl sm:text-2xl">Terres mystiques<br />et horizons infinis</h3>
               </div>
             </div>
-          </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="space-y-4">
-              <div className="relative h-[400px] rounded-lg overflow-hidden">
+            <div className="space-y-3 sm:space-y-4">
+              <div className="relative h-[300px] sm:h-[350px] lg:h-[400px] rounded-lg overflow-hidden">
                 <img 
                   src={`${process.env.PUBLIC_URL}/assets/images/newyork.png`}
                   alt="New York" 
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
                 />
               </div>
               <div>
-                <div className="flex justify-between items-center mb-2">
-                  <span className="text-gray-500">New York</span>
-                  <span className="text-gray-500">En savoir plus {'>'}</span>
+                <div className="flex justify-between items-center mb-1 sm:mb-2">
+                  <span className="text-gray-500 text-sm sm:text-base">New York</span>
+                  <span className="text-gray-500 text-sm sm:text-base hover:text-[#8C6EA8] transition-colors">En savoir plus {'>'}</span>
                 </div>
-                <h3 className="text-2xl">Shopping Art<br />& Nightlife</h3>
+                <h3 className="text-xl sm:text-2xl">Shopping Art<br />& Nightlife</h3>
               </div>
             </div>
 
-            <div className="space-y-4">
-              <div className="relative h-[400px] rounded-lg overflow-hidden">
+            <div className="space-y-3 sm:space-y-4">
+              <div className="relative h-[300px] sm:h-[350px] lg:h-[400px] rounded-lg overflow-hidden">
                 <img 
                   src={`${process.env.PUBLIC_URL}/assets/images/mexique.png`}
                   alt="Mexique" 
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
                 />
               </div>
               <div>
-                <div className="flex justify-between items-center mb-2">
-                  <span className="text-gray-500">Mexique</span>
-                  <span className="text-gray-500">En savoir plus {'>'}</span>
+                <div className="flex justify-between items-center mb-1 sm:mb-2">
+                  <span className="text-gray-500 text-sm sm:text-base">Mexique</span>
+                  <span className="text-gray-500 text-sm sm:text-base hover:text-[#8C6EA8] transition-colors">En savoir plus {'>'}</span>
                 </div>
-                <h3 className="text-2xl">Bienvenue<br />chez les Mayas !</h3>
+                <h3 className="text-xl sm:text-2xl">Bienvenue<br />chez les Mayas !</h3>
               </div>
             </div>
 
-            <div className="space-y-4">
-              <div className="relative h-[400px] rounded-lg overflow-hidden">
+            <div className="space-y-3 sm:space-y-4">
+              <div className="relative h-[300px] sm:h-[350px] lg:h-[400px] rounded-lg overflow-hidden">
                 <img 
                   src={`${process.env.PUBLIC_URL}/assets/images/seychelles.png`}
                   alt="Seychelles" 
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
                 />
               </div>
               <div>
-                <div className="flex justify-between items-center mb-2">
-                  <span className="text-gray-500">Seychelles</span>
-                  <span className="text-gray-500">En savoir plus {'>'}</span>
+                <div className="flex justify-between items-center mb-1 sm:mb-2">
+                  <span className="text-gray-500 text-sm sm:text-base">Seychelles</span>
+                  <span className="text-gray-500 text-sm sm:text-base hover:text-[#8C6EA8] transition-colors">En savoir plus {'>'}</span>
                 </div>
-                <h3 className="text-2xl">luxe et plages<br />de rêve</h3>
+                <h3 className="text-xl sm:text-2xl">luxe et plages<br />de rêve</h3>
               </div>
             </div>
+
           </div>
 
           <div className="text-center mt-12">
@@ -743,33 +748,30 @@ const prevEvasionSlide = () => {
       </div>
 
       {/* Évasions Section */} 
-      <div className="py-6 px-16">
-        <div className="container px-4 md:px-16">
-          <div className="text-center mb-12">
-            <h2 className="text-5xl mb-4 hover:text-[#8C6EA8] transition-colors">Évasions Inattendues</h2>
-            <p className="text-gray-600">
-              Découvrez des lieux hors des sentiers battus, où chaque détour révèle une nouvelle merveille.
+      <div className="py-4 sm:py-6 lg:py-8 px-4 sm:px-8 lg:px-16">
+        <div className="container px-4 sm:px-8 lg:px-16">
+          <div className="text-center mb-8 sm:mb-12">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl mb-3 sm:mb-4 hover:text-[#8C6EA8] transition-colors">Évasions Inattendues</h2>
+            <p className="text-gray-600 text-sm sm:text-base">
+              Découvrez des lieux hors des sentiers battus,<br className="hidden sm:block" /> où chaque détour révèle une nouvelle merveille.
             </p>
           </div>
 
           <div className="relative">
-            <div   className="flex overflow-x-auto snap-x snap-mandatory touch-pan-x scroll-smooth space-x-4" 
-              style={{
-                ...carouselStyles,
-                touchAction: 'none'
-              }}
+            <div className="flex overflow-x-hidden snap-x snap-mandatory scroll-smooth max-w-[95vw] sm:max-w-[90vw] mx-auto space-x-2 sm:space-x-4"
+              style={carouselStyles}
               ref={evasionCarouselRef}
             >
               {[0, 1, 2, 3].map((index) => (
                 <div 
                   key={index}
-                  className={`flex-none w-[410px] snap-center group ${
+                  className={`flex-none w-[280px] sm:w-[350px] lg:w-[410px] snap-center group ${
                     currentEvasionSlide === index 
                       ? 'scale-95 opacity-100 z-10' 
                       : 'scale-95 opacity-90'
                   } transition-all duration-500`}
                 >
-                  <div className="relative h-[520px] rounded-lg overflow-hidden transition-transform duration-500 group-hover:scale-[1.02]">
+                  <div className="relative h-[400px] sm:h-[460px] lg:h-[520px] rounded-lg overflow-hidden transition-transform duration-500 group-hover:scale-[1.02]">
                     <img 
                       src={`${process.env.PUBLIC_URL}/assets/images/${
                         index === 0 ? 'paris' : index === 1 ? 'rome' : 'tokyo'
@@ -777,19 +779,18 @@ const prevEvasionSlide = () => {
                       alt={index === 0 ? 'Paris' : index === 1 ? 'Rome' : 'Tokyo'} 
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 rounded-lg"
                     />
-                    {/* Black overlay for inactive slides */}
                     <div className={`absolute inset-0 bg-black transition-opacity rounded-lg duration-500 ${
                       currentEvasionSlide === index ? 'opacity-0' : 'opacity-20'
                     }`} />
                     <div className={`absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent transition-opacity duration-300 group-hover:from-black/80`} />
-                    <div className="absolute bottom-0 left-0 p-8 text-white transform transition-transform duration-300 group-hover:translate-y-[-8px]">
-                      <span className="text-sm mb-2 block opacity-90 group-hover:opacity-100">
+                    <div className="absolute bottom-0 left-0 p-4 sm:p-6 lg:p-8 text-white transform transition-transform duration-300 group-hover:translate-y-[-8px]">
+                      <span className="text-xs sm:text-sm mb-1 sm:mb-2 block opacity-90 group-hover:opacity-100">
                         {index === 0 ? 'Paris' : index === 1 ? 'Rome' : 'Tokyo'}
                       </span>
-                      <h3 className="text-2xl mb-4 transform transition-all duration-300 group-hover:text-[1.7rem]">
+                      <h3 className="text-xl sm:text-2xl mb-2 sm:mb-4 transform transition-all duration-300 group-hover:text-[1.7rem]">
                         Sauvage, vibrante<br />et indomptable
                       </h3>
-                      <p className="text-sm text-white/80 mb-4 transition-opacity duration-300 group-hover:text-white">
+                      <p className="text-xs sm:text-sm text-white/80 mb-2 sm:mb-4 transition-opacity duration-300 group-hover:text-white hidden sm:block">
                         L'Afrique du Sud est un pays diversifié, connu pour ses paysages spectaculaires, sa faune sauvage et son histoire de lutte contre l'apartheid.
                       </p>
                     </div>
@@ -800,25 +801,25 @@ const prevEvasionSlide = () => {
           </div>
 
           {/* Navigation Arrows */}
-          <div className='max-w-[80vw] flex justify-end items-center gap-4 mt-4'>
+          <div className='max-w-[90vw] sm:max-w-[85vw] lg:max-w-[80vw] flex justify-end items-center gap-2 sm:gap-4 mt-4'>
             <button 
               onClick={prevEvasionSlide}
-              className="bg-white rounded-full p-2 shadow-lg hover:bg-gray-100 hover:scale-110 transition-all duration-300"
+              className="bg-white rounded-full p-1.5 sm:p-2 shadow-lg hover:bg-gray-100 hover:scale-110 transition-all duration-300"
             >
-              <ChevronLeft size={24} className="text-gray-800 hover:text-[#8C6EA8] transition-colors" />
+              <ChevronLeft size={20} className="text-gray-800 hover:text-[#8C6EA8] transition-colors sm:size-24" />
             </button>
             <button 
               onClick={nextEvasionSlide}
-              className="bg-white rounded-full p-2 shadow-lg hover:bg-gray-100 hover:scale-110 transition-all duration-300"
+              className="bg-white rounded-full p-1.5 sm:p-2 shadow-lg hover:bg-gray-100 hover:scale-110 transition-all duration-300"
             >
-              <ChevronRight size={24} className="text-gray-800 hover:text-[#8C6EA8] transition-colors" />
+              <ChevronRight size={20} className="text-gray-800 hover:text-[#8C6EA8] transition-colors sm:size-24" />
             </button>
           </div>
         </div>
       </div>
 
       {/* Actus Section */} 
-      <div className="py-10 px-28 bg-white">
+      <div className="py-10 px-4 sm:px-8 lg:px-28 bg-white">
         <div className="container mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-5xl mb-4 hover:text-[#8C6EA8] transition-colors">Actus Atlas</h2>
@@ -827,9 +828,9 @@ const prevEvasionSlide = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 ">
-            <div className="group cursor-pointer bg-[#F8F4F8] p-4 rounded-[40px]">
-              <div className="relative h-[400px] rounded-[34px] overflow-hidden mb-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div className="group cursor-pointer bg-[#F8F4F8] p-4 rounded-[20px] sm:rounded-[40px]">
+              <div className="relative h-[300px] sm:h-[400px] rounded-[20px] sm:rounded-[34px] overflow-hidden mb-6">
                 <img 
                   src={`${process.env.PUBLIC_URL}/assets/images/brazil.png`}
                   alt="Brazil" 
@@ -857,8 +858,8 @@ const prevEvasionSlide = () => {
               </div>
             </div>
 
-            <div className="group cursor-pointer bg-[#F8F4F8] p-4 rounded-[40px]">
-              <div className="relative h-[400px] rounded-[34px] overflow-hidden mb-6">
+            <div className="group cursor-pointer bg-[#F8F4F8] p-4 rounded-[20px] sm:rounded-[40px]">
+              <div className="relative h-[300px] sm:h-[400px] rounded-[20px] sm:rounded-[34px] overflow-hidden mb-6">
                 <img 
                   src={`${process.env.PUBLIC_URL}/assets/images/cuba.png`}
                   alt="Cuba" 
