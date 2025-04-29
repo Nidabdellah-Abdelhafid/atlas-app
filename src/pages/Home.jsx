@@ -462,7 +462,7 @@ const prevEvasionSlide = () => {
 
         {/* Slider Section */}
         <div className="relative px-4">
-            <div className="flex overflow-x-hidden snap-x snap-mandatory scroll-smooth max-w-[90vw] sm:max-w-[95vw] lg:max-w-[100vw] mx-auto space-x-4 carousel-container"
+            <div className="flex overflow-x-hidden snap-x snap-mandatory scroll-smooth max-w-[90vw] sm:max-w-[95vw] lg:max-w-[95vw] mx-auto space-x-4 carousel-container"
             style={carouselStyles}
             ref={carouselRef}
             >
@@ -522,8 +522,8 @@ const prevEvasionSlide = () => {
       </div>
 
      {/* Vedette Section */}
-     <div className="bg-[#F9F5F9] py-10 px-4 sm:px-8 lg:px-8 lg:mx-16">
-     <div className="container mx-auto px-4 md:px-8">
+     <div className="flex items-center justify-center py-10 px-4 sm:px-8 lg:px-8 lg:mx-16">
+     <div className="bg-[#F9F5F9] container mx-auto p-4 sm:p-6 lg:p-16">
         <h2 className="text-5xl mb-2">En Vedette</h2>
         <p className="text-gray-600 mb-12">
           Nos nouvelles inspirations de voyages,<br />
