@@ -482,7 +482,8 @@ const prevEvasionSlide = () => {
                     <p className="mb-3 sm:mb-4 max-w-xl text-white/90 text-sm sm:text-base">
                       {slide.description}
                     </p>
-                    <div className="flex flex-col sm:flex-row justify-between items-center gap-3 sm:gap-4">
+                    <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
+                    
                       <button className="w-full sm:w-auto border border-white px-4 sm:px-6 py-1.5 sm:py-2 text-sm sm:text-base hover:bg-white hover:text-black transition-colors">
                         Découvrir {'>'}
                       </button>
