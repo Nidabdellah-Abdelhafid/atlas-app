@@ -10,10 +10,7 @@ function Home() {
   const evasionCarouselRef = useRef(null);
   const carouselStyles = {
     scrollbarWidth: 'none',
-    '-ms-overflow-style': 'none',
-    '&::-webkit-scrollbar': {
-      display: 'none'
-    },
+    msOverflowStyle: 'none',
     scrollBehavior: 'smooth',
     userSelect: 'none',
     touchAction: 'none',
@@ -465,16 +462,14 @@ const prevEvasionSlide = () => {
 
         {/* Slider Section */}
         <div className="relative px-4">
-            <div className="flex overflow-x-hidden snap-x snap-mandatory scroll-smooth max-w-[95vw] sm:max-w-[95vw] mx-auto space-x-4"
-            style={{
-              ...carouselStyles
-            }}
+            <div className="flex overflow-x-hidden snap-x snap-mandatory scroll-smooth max-w-[90vw] sm:max-w-[95vw] lg:max-w-[100vw] mx-auto space-x-4 carousel-container"
+            style={carouselStyles}
             ref={carouselRef}
             >
               {slides[activeTab].map((slide, index) => (
                 <div 
                     key={slide.id} 
-                    className="flex-none snap-center relative w-[90vw] sm:w-[80vw] md:w-[70vw] h-[400px] sm:h-[500px]"
+                    className="flex-none snap-center relative max-w-[90vw] sm:max-w-[95vw] lg:max-w-[100vw] h-[400px] sm:h-[500px]"
                 >
                   <div className={`absolute inset-0 bg-black transition-opacity duration-300 ${index === currentSlide ? 'opacity-0' : 'opacity-50'}`} />
                   <img 
@@ -503,13 +498,13 @@ const prevEvasionSlide = () => {
             {/* Navigation Arrows */}
             <button 
               onClick={prevSlide}
-              className="absolute left-2 sm:left-10 top-1/2 -translate-y-1/2 p-2 sm:p-4 rounded-full shadow-lg z-10 transition-colors"
+              className="absolute left-2 sm:left-10 top-1/2 -translate-y-1/2 p-2 sm:p-4 z-10"
             >
               <ChevronLeft size={100} className='text-white hover:text-[#8C6EA8] transition-colors duration-300'/>
             </button>
             <button 
                 onClick={nextSlide}
-                className="absolute right-2 sm:right-10 top-1/2 -translate-y-1/2 p-2 sm:p-4 rounded-full shadow-lg z-10 transition-colors"
+                className="absolute right-2 sm:right-10 top-1/2 -translate-y-1/2 p-2 sm:p-4 z-10 "
             >
                 <ChevronRight size={100} className='text-white hover:text-[#8C6EA8] transition-colors duration-300'/>
             </button>
@@ -595,7 +590,7 @@ const prevEvasionSlide = () => {
             </div>
           </div>
 
-          <div className="relative group cursor-pointer rounded-lg h-[400px] sm:h-[550px] sm:col-span-8">
+          <div className="relative group cursor-pointer rounded-lg h-[484px] sm:h-[550px] lg:h-[622px] sm:col-span-8">
             <img 
               src={`${process.env.PUBLIC_URL}/assets/images/thailande.png`}
               alt="Thailande" 
@@ -748,8 +743,8 @@ const prevEvasionSlide = () => {
       </div>
 
       {/* Évasions Section */} 
-      <div className="py-4 sm:py-6 lg:py-8 px-4 sm:px-8 lg:px-16">
-        <div className="container px-4 sm:px-8 lg:px-16">
+      <div className="py-8 sm:py-10 lg:py-14 px-4 sm:px-8 lg:px-20 bg-white">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-8 sm:mb-12">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl mb-3 sm:mb-4 hover:text-[#8C6EA8] transition-colors">Évasions Inattendues</h2>
             <p className="text-gray-600 text-sm sm:text-base">
@@ -758,20 +753,20 @@ const prevEvasionSlide = () => {
           </div>
 
           <div className="relative">
-            <div className="flex overflow-x-hidden snap-x snap-mandatory scroll-smooth max-w-[95vw] sm:max-w-[90vw] mx-auto space-x-2 sm:space-x-4"
+            <div className="flex overflow-x-hidden snap-x snap-mandatory scroll-smooth max-w-[90vw] sm:max-w-[85vw] lg:max-w-[90vw] mx-auto space-x-2 sm:space-x-2 carousel-container"
               style={carouselStyles}
               ref={evasionCarouselRef}
             >
-              {[0, 1, 2, 3].map((index) => (
+              {[0, 1, 2, 3,4].map((index) => (
                 <div 
                   key={index}
-                  className={`flex-none w-[280px] sm:w-[350px] lg:w-[410px] snap-center group ${
+                  className={`flex-none w-[280px] sm:w-[350px] lg:w-[420px] snap-center group rounded-lg p-4 ${
                     currentEvasionSlide === index 
                       ? 'scale-95 opacity-100 z-10' 
                       : 'scale-95 opacity-90'
                   } transition-all duration-500`}
                 >
-                  <div className="relative h-[400px] sm:h-[460px] lg:h-[520px] rounded-lg overflow-hidden transition-transform duration-500 group-hover:scale-[1.02]">
+                  <div className="relative h-[400px] sm:h-[460px] lg:h-[510px] rounded-lg overflow-hidden transition-transform duration-500 group-hover:scale-[1.02]">
                     <img 
                       src={`${process.env.PUBLIC_URL}/assets/images/${
                         index === 0 ? 'paris' : index === 1 ? 'rome' : 'tokyo'

@@ -40,3 +40,7 @@ code {
 .slick-next {
   right: 25px;
 }
+
+.carousel-container::-webkit-scrollbar {
+  display: none;
+}
