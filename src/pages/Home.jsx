@@ -462,14 +462,14 @@ const prevEvasionSlide = () => {
 
         {/* Slider Section */}
         <div className="relative px-4">
-            <div className="flex overflow-x-hidden snap-x snap-mandatory scroll-smooth max-w-[90vw] sm:max-w-[95vw] lg:max-w-[95vw] mx-auto space-x-4 carousel-container"
+            <div className="flex overflow-x-hidden snap-x snap-mandatory scroll-smooth max-w-[90vw] sm:max-w-[95vw] lg:max-w-[90vw] mx-auto space-x-4 carousel-container"
             style={carouselStyles}
             ref={carouselRef}
             >
               {slides[activeTab].map((slide, index) => (
                 <div 
                     key={slide.id} 
-                    className="flex-none snap-center relative max-w-[90vw] sm:max-w-[95vw] lg:max-w-[100vw] h-[400px] sm:h-[500px]"
+                    className="flex-none snap-center relative max-w-[90vw] sm:max-w-[95vw] lg:max-w-[80vw] h-[400px] sm:h-[500px]"
                 >
                   <div className={`absolute inset-0 bg-black transition-opacity duration-300 ${index === currentSlide ? 'opacity-0' : 'opacity-50'}`} />
                   <img 
@@ -479,10 +479,10 @@ const prevEvasionSlide = () => {
                   />
                   <div className="absolute bottom-0 left-0 p-4 sm:p-6 lg:p-8 text-white w-full">
                     <h3 className="text-2xl sm:text-3xl lg:text-4xl font-light mb-2 sm:mb-3 lg:mb-4">{slide.title}</h3>
-                    <p className="mb-3 sm:mb-4 max-w-xl text-white/90 text-sm sm:text-base hidden sm:block">
+                    <p className="mb-3 sm:mb-4 max-w-xl text-white/90 text-sm sm:text-base">
                       {slide.description}
                     </p>
-                    <div className="flex flex-col sm:flex-row justify-between items-center gap-3 sm:gap-0">
+                    <div className="flex flex-col sm:flex-row justify-between items-center gap-3 sm:gap-4">
                       <button className="w-full sm:w-auto border border-white px-4 sm:px-6 py-1.5 sm:py-2 text-sm sm:text-base hover:bg-white hover:text-black transition-colors">
                         Découvrir {'>'}
                       </button>
