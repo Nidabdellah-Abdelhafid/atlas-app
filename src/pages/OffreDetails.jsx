@@ -90,6 +90,28 @@ function OffreDetails() {
         setCurrentSlide((currentSlide - 1 + images.length) % images.length);
     }
     };
+
+    const otherOffers = [
+      {
+        title: "Afrique du Sud",
+        subtitle: "Proche de la nature",
+        description: "Bienvenue en Afrique australe ! L'Afrique australe, trésor du continent, offre une expérience de voyage unique et envoûtante, avec des destinations inoubliables comme Le Cap, le parc national de Chobe et les chutes Victoria. Le Cap fascine avec ses paysages époustouflants et sa culture vibrante.",
+        duration: "13 jours",
+        price: "39 000Dhs",
+        image: "/assets/images/anotherOff1.png",
+        includes: ["vols Eco Std", "Hotels", "Transfert"]
+      },
+      {
+        title: "Tanzanie",
+        subtitle: "Au paradis sauvage",
+        description: "Bienvenue en Afrique australe ! L'Afrique australe, trésor du continent, offre une expérience de voyage unique et envoûtante, avec des destinations inoubliables comme Le Cap, le parc national de Chobe et les chutes Victoria. Le Cap fascine avec ses paysages époustouflants et sa culture vibrante.",
+        duration: "13 jours",
+        price: "39 000Dhs",
+        image: "/assets/images/anotherOff2.png",
+        includes: ["vols Eco Std", "Hotels", "Transfert"]
+      }
+    ];
+    
   return (
     <div className="bg-[#FFFCF7]">
       <div className="relative min-h-screen">
@@ -345,7 +367,83 @@ function OffreDetails() {
         </div>
         </div>
 
+       {/* Devis Section */}         
+        <div className="relative h-[300px] sm:h-[400px] lg:h-[600px] sm:container mx-6 sm:mx-auto px-6 sm:px-6 lg:px-20 py-10 sm:py-12 lg:py-16">
+          {/* Background Image */}
+          <div 
+            className="absolute inset-0 bg-cover bg-center rounded-lg overflow-hidden"
+            style={{
+              backgroundImage: `url(${process.env.PUBLIC_URL}/assets/images/SudAfrica2.png)`,
+              filter: 'brightness(0.5)'
+            }}
+          />
+          
+          {/* Content */}
+          <div className="relative z-10 flex flex-col items-center sm:items-start justify-center h-full text-white p-4 sm:p-8 lg:p-16">
+            <h2 className="text-3xl sm:text-4xl lg:text-6xl font-medium mb-4 text-center sm:text-left max-w-2xl">
+              Visitez l'afrique de sud<br />
+              <span className="font-medium">AVEC ATLAS VOYAGES</span>
+            </h2>
+            
+            <button className="mt-4 sm:mt-6 lg:mt-8 border-2 border-white px-6 sm:px-8 lg:px-10 py-2 sm:py-2.5 lg:py-3 text-sm sm:text-base hover:bg-white hover:text-black transition-colors">
+              Demander un devis {'>'}
+            </button>
+          </div>
+        </div> 
 
+
+       {/* Another Offres Section */}
+      <div className="container mx-auto px-6 sm:px-6 lg:px-20 py-10 sm:py-12 lg:py-16">
+      
+      
+        <h2 className="text-2xl sm:text-3xl lg:text-4xl font-medium text-center mb-3 sm:mb-4">Autres évasions</h2>
+        <p className="text-center text-gray-600 text-sm sm:text-base mb-8 sm:mb-10 lg:mb-12 max-w-3xl mx-auto px-4">
+          Parce que chaque voyageur a ses propres envies et attentes,
+          chaque aventure doit être unique et personnalisée pour offrir une expérience inoubliable.
+        </p>
+        
+        <div className="space-y-6 sm:space-y-8">
+          {otherOffers.map((offer, index) => (
+            <div key={index} className="relative h-full overflow-hidden rounded-lg">
+              <div 
+                className="absolute inset-0 bg-cover bg-center"
+                style={{
+                  backgroundImage: `url(${process.env.PUBLIC_URL}${offer.image})`,
+                  filter: 'brightness(0.7)'
+                }}
+              />
+              <div className="relative z-10 h-full flex flex-col justify-center items-start sm:items-end p-6 sm:p-8 lg:p-16 text-white">
+                <div className="w-full sm:max-w-xl">
+                  <h3 className="text-2xl sm:text-3xl lg:text-5xl font-medium mb-2">{offer.title}</h3>
+                  <h4 className="text-xl sm:text-2xl lg:text-4xl mb-2 sm:mb-6">{offer.subtitle}</h4>
+                  <p className="text-sm sm:text-base mb-6 sm:mb-8 max-w-xl">{offer.description}</p>
+                  
+                  <div className="flex flex-col sm:flex-row items-start justify-between w-full gap-4 sm:gap-8 mb-2 sm:mb-8">
+                    <div className="flex flex-col items-start justify-center gap-1 sm:gap-2">
+                      <p className="text-lg sm:text-xl">{offer.duration}</p>
+                      <p className="text-xl sm:text-2xl font-bold">Tarif à partir de : {offer.price}</p>
+                    </div>
+                    
+                    <div className="space-y-1 sm:space-y-2">
+                      <p className="text-sm sm:text-base">Inclus: Total pour 1 voyageur</p>
+                      <ul className="text-xs sm:text-sm space-y-0.5 sm:space-y-1">
+                        {offer.includes.map((item, i) => (
+                          <li key={i}>{item}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                  
+                  <button className="w-full sm:w-auto border-2 border-white px-6 sm:px-8 py-2 sm:py-3 text-sm sm:text-base hover:bg-white hover:text-black transition-colors">
+                    Voir l'offre {'>'}
+                  </button>
+                </div>
+               </div>
+            </div>
+          ))}
+        </div>
+        </div>      
+     
   </div>
   );
 }
