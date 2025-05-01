@@ -469,7 +469,7 @@ function OffreDetails() {
         </div>   
 
       {/* Another Offres in another content Section */}   
-      <div className="container mx-auto px-6 sm:px-6 lg:px-28 py-10 sm:py-6 lg:py-2 mb-20">
+      <div className="container mx-auto px-6 sm:px-6 lg:px-28 py-10 sm:py-6 lg:py-2 ">
         <h2 className="text-2xl sm:text-3xl lg:text-4xl font-medium text-center mb-3 sm:mb-4">
           Des idées de voyages selon vos envies
         </h2>
@@ -478,7 +478,7 @@ function OffreDetails() {
           chaque aventure doit être unique et personnalisée pour offrir une expérience inoubliable.
         </p>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-20">
           {gridOffers.map((offer, index) => (
             <div key={index} className="relative group overflow-hidden rounded-lg cursor-pointer">
               <div className="aspect-w-4 aspect-h-5">
