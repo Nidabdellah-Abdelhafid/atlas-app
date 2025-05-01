@@ -147,23 +147,23 @@ function OffreDetails() {
 
         {/* Content */}
         <div className="relative z-10 flex flex-col items-center justify-end min-h-screen text-center text-white p-4 sm:p-6 lg:p-8">
-            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-bold mb-2 sm:mb-3 lg:mb-4">
+            <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold mb-2 sm:mb-3 lg:mb-4">
             Loin des foules
             </h1>
-            <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl mb-4 sm:mb-6 lg:mb-8">
+            <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl mb-2 sm:mb-3 lg:mb-4">
             Afrique du Sud
             </h2>
             
-            <p className="max-w-sm sm:max-w-xl lg:max-w-2xl text-xs sm:text-sm lg:text-lg mb-6 sm:mb-8 lg:mb-12 text-white/90 px-4 sm:px-0">
+            <p className="max-w-sm sm:max-w-xl lg:max-w-2xl text-xs sm:text-sm lg:text-lg mb-3 sm:mb-4 lg:mb-6 text-white/90 px-4 sm:px-0">
             Bienvenue en Afrique australe !<br />
             L'Afrique australe, trésor du continent, offre une expérience de voyage unique<br className="hidden sm:block" />
             et envoûtante, avec des destinations inoubliables comme Le Cap !
             </p>
 
-            <div className="bg-black/60 w-full sm:w-auto p-4 sm:p-6 lg:p-8 backdrop-blur-sm">
-            <div className="space-y-2 sm:space-y-3 lg:space-y-4 mb-4 sm:mb-6 lg:mb-8">
+            <div className="bg-black/60 w-full sm:w-auto p-2 sm:p-3 lg:p-4 backdrop-blur-sm">
+            <div className="space-y-2 sm:space-y-3 lg:space-y-4 mb-4 sm:mb-6 lg:mb-8 border-b pb-4">
                 <p className="text-base sm:text-lg">Tarif à partir de</p>
-                <h3 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-medium">
+                <h3 className="text-3xl sm:text-4xl lg:text-5xl font-medium">
                 32 000Dhs
                 </h3>
                 <p className="text-xs sm:text-sm lg:text-base">
