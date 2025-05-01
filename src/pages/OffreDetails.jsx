@@ -248,7 +248,7 @@ function OffreDetails() {
                 <button
                   key={day}
                   onClick={() => {setActiveDay(day);setShowProgram(false)}}
-                  className={`flex-1 px-6 lg:px-16 py-5 text-xl whitespace-nowrap border border-1 transition-colors ${
+                  className={`flex-1 px-6 lg:px-16 py-4 text-xl whitespace-nowrap border border-1 transition-colors ${
                     day === activeDay 
                     ? 'bg-[#ACACAC] text-black' 
                     : 'bg-transparent hover:bg-[#ACACAC]'
