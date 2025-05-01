@@ -199,22 +199,24 @@ function OffreDetails() {
         {/* Planing /program Section */}
         <div className="mt-16">
           {/* Days Navigation tab*/}
-        <div className="flex overflow-x-auto mb-12 no-scrollbar">
-        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((day) => (
-            <button
-            key={day}
-            onClick={() => setActiveDay(day)}
-            className={`px-6 lg:px-20 py-6 text-xl whitespace-nowrap border border-1 transition-colors ${
-                day === activeDay 
-                ? 'bg-[#ACACAC] text-black' 
-                : 'bg-transparent hover:bg-[#ACACAC]'
-            }`}
-            >
-            Jour {day}
-            </button>
-        ))}
-        </div>
-        {/* tab Content */}
+          <div className="flex overflow-x-auto mb-12 scrollbar-hide" style={{ msOverflowStyle: 'none', scrollbarWidth: 'none' }}>
+            <div className="flex w-full">
+              {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((day) => (
+                <button
+                  key={day}
+                  onClick={() => {setActiveDay(day);setShowProgram(false)}}
+                  className={`flex-1 px-6 lg:px-16 py-5 text-xl whitespace-nowrap border border-1 transition-colors ${
+                    day === activeDay 
+                    ? 'bg-[#ACACAC] text-black' 
+                    : 'bg-transparent hover:bg-[#ACACAC]'
+                  }`}
+                >
+                  Jour {day}
+                </button>
+              ))}
+            </div>
+          </div>
+          {/* tab Content */}
             <div className="flex flex-col justify-center items-center">
             {/* Program Content */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mx-auto px-6 sm:px-8 lg:px-20 py-12">
@@ -333,7 +335,7 @@ function OffreDetails() {
             
           </div>
           {/* Map */}
-            <div className="mt-6 p-6">
+            <div className="p-4">
                 <img 
                   src={`${process.env.PUBLIC_URL}/assets/images/south-africa-map.png`}
                   alt="South Africa Map" 
