@@ -210,7 +210,7 @@ function OffreDetails() {
                 <div className="flex flex-col items-center ">
                   <div className="flex flex-col items-center gap-3 mb-2">
                     <img src={`${process.env.PUBLIC_URL}/assets/images/iconflight.png`} 
-                    alt="Duration" className="w-8 h-8" />
+                    alt="Duration" className="w-10 h-10" />
                     <h3 className="text-2xl font-bold text-gray-800">Durée du vol</h3>
                   </div>
                   <p className="text-3xl font-bold">18h</p>
@@ -220,7 +220,7 @@ function OffreDetails() {
                 <div className="flex flex-col items-center">
                   <div className="flex flex-col items-center gap-3 mb-2">
                     <img src={`${process.env.PUBLIC_URL}/assets/images/iconstime.png`} 
-                    alt="Time" className="w-8 h-8" />
+                    alt="Time" className="w-10 h-10" />
                     <h3 className="text-2xl font-bold text-gray-800">Heure locale</h3>
                   </div>
                   <p className="text-3xl font-bold">UTC</p>
