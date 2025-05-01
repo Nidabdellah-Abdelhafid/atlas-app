@@ -111,6 +111,27 @@ function OffreDetails() {
         includes: ["vols Eco Std", "Hotels", "Transfert"]
       }
     ];
+
+    const gridOffers = [
+      {
+        title: "Paris",
+        subtitle: "Sauvage, vibrante et indomptable",
+        description: "L'Afrique du Sud est un pays aux paysages spectaculaires, où la faune sauvage et les traditions côtoient une modernité par la diversité.",
+        image: "/assets/images/paris.png"
+      },
+      {
+        title: "Rome",
+        subtitle: "Sauvage, vibrante et indomptable",
+        description: "L'Afrique du Sud est un pays aux paysages spectaculaires, où la faune sauvage et les traditions côtoient une modernité par la diversité.",
+        image: "/assets/images/rome.png"
+      },
+      {
+        title: "Tokyo",
+        subtitle: "Sauvage, vibrante et indomptable",
+        description: "L'Afrique du Sud est un pays aux paysages spectaculaires, où la faune sauvage et les traditions côtoient une modernité par la diversité.",
+        image: "/assets/images/tokyo.png"
+      }
+    ];
     
   return (
     <div className="bg-[#FFFCF7]">
@@ -368,8 +389,9 @@ function OffreDetails() {
         </div>
 
        {/* Devis Section */}         
-        <div className="relative h-[300px] sm:h-[400px] lg:h-[600px] sm:container mx-6 sm:mx-auto px-6 sm:px-6 lg:px-20 py-10 sm:py-12 lg:py-16">
+        <div className="  sm:container mx-6 sm:mx-auto px-6 sm:px-6 lg:px-28 py-10 sm:py-12 lg:py-8">
           {/* Background Image */}
+          <div className='relative px-6 h-[300px] sm:h-[400px] lg:h-[550px]'>
           <div 
             className="absolute inset-0 bg-cover bg-center rounded-lg overflow-hidden"
             style={{
@@ -389,11 +411,13 @@ function OffreDetails() {
               Demander un devis {'>'}
             </button>
           </div>
+          </div>
+          
         </div> 
 
 
        {/* Another Offres Section */}
-      <div className="container mx-auto px-6 sm:px-6 lg:px-20 py-10 sm:py-12 lg:py-16">
+      <div className="container mx-auto px-6 sm:px-6 lg:px-28 py-10 sm:py-12 lg:py-16">
       
       
         <h2 className="text-2xl sm:text-3xl lg:text-4xl font-medium text-center mb-3 sm:mb-4">Autres évasions</h2>
@@ -442,8 +466,40 @@ function OffreDetails() {
             </div>
           ))}
         </div>
-        </div>      
-     
+        </div>   
+
+      {/* Another Offres in another content Section */}   
+      <div className="container mx-auto px-6 sm:px-6 lg:px-28 py-10 sm:py-6 lg:py-2 mb-20">
+        <h2 className="text-2xl sm:text-3xl lg:text-4xl font-medium text-center mb-3 sm:mb-4">
+          Des idées de voyages selon vos envies
+        </h2>
+        <p className="text-center text-gray-600 text-sm sm:text-base mb-8 sm:mb-10 lg:mb-12 max-w-3xl mx-auto px-4">
+          Parce que chaque voyageur a ses propres envies et attentes,
+          chaque aventure doit être unique et personnalisée pour offrir une expérience inoubliable.
+        </p>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {gridOffers.map((offer, index) => (
+            <div key={index} className="relative group overflow-hidden rounded-lg cursor-pointer">
+              <div className="aspect-w-4 aspect-h-5">
+                <img 
+                  src={`${process.env.PUBLIC_URL}${offer.image}`}
+                  alt={offer.title}
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-black/20 transition-opacity group-hover:bg-black/30" />
+                <div className="absolute inset-x-0 bottom-0 p-6 text-white">
+                  <p className="text-sm mb-2">{offer.title}</p>
+                  <h3 className="text-xl font-medium mb-2">{offer.subtitle}</h3>
+                  <p className="text-sm ">
+                    {offer.description}
+                  </p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
   </div>
   );
 }
