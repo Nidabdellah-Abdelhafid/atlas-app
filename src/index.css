@@ -48,3 +48,59 @@ code {
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
+
+@font-face {
+  font-family: 'Ginger';
+  src: url('./../public/assets/fonts/GingerBrand.ttf') format('truetype');
+}
+
+.font-ginger {
+  font-family: 'Ginger', sans-serif;
+}
+
+
+@font-face {
+  font-family: 'Manrope';
+  src: url('./../public/assets/fonts/Manrope-Thin.otf') format('truetype');
+  font-weight: 100;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Manrope';
+  src: url('./../public/assets/fonts/Manrope-Light.otf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Manrope';
+  src: url('./../public/assets/fonts/Manrope-Regular.otf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Manrope';
+  src: url('./../public/assets/fonts/Manrope-Medium.otf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Manrope';
+  src: url('./../public/assets/fonts/Manrope-SemiBold.otf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Manrope';
+  src: url('./../public/assets/fonts/Manrope-Bold.otf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+}
+
+.font-manrope {
+  font-family: 'Manrope', sans-serif;
+}

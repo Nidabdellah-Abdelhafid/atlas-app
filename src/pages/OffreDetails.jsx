@@ -420,7 +420,7 @@ function OffreDetails() {
       <div className="container mx-auto px-6 sm:px-6 lg:px-28 py-10 sm:py-12 lg:py-16">
       
       
-        <h2 className="text-2xl sm:text-3xl lg:text-4xl font-medium text-center mb-3 sm:mb-4">Autres évasions</h2>
+        <h2 className="text-2xl sm:text-3xl lg:text-4xl font-medium text-center mb-3 sm:mb-4 hover:text-[#8C6EA8] transition-colors">Autres évasions</h2>
         <p className="text-center text-gray-600 text-sm sm:text-base mb-8 sm:mb-10 lg:mb-12 max-w-3xl mx-auto px-4">
           Parce que chaque voyageur a ses propres envies et attentes,
           chaque aventure doit être unique et personnalisée pour offrir une expérience inoubliable.
@@ -470,7 +470,7 @@ function OffreDetails() {
 
       {/* Another Offres in another content Section */}   
       <div className="container mx-auto px-6 sm:px-6 lg:px-28 py-10 sm:py-6 lg:py-2 ">
-        <h2 className="text-2xl sm:text-3xl lg:text-4xl font-medium text-center mb-3 sm:mb-4">
+        <h2 className="text-2xl sm:text-3xl lg:text-4xl font-medium text-center mb-3 sm:mb-4 hover:text-[#8C6EA8] transition-colors">
           Des idées de voyages selon vos envies
         </h2>
         <p className="text-center text-gray-600 text-sm sm:text-base mb-8 sm:mb-10 lg:mb-12 max-w-3xl mx-auto px-4">

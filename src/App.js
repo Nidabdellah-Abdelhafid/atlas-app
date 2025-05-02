@@ -6,6 +6,7 @@ import OffreDetails from './pages/OffreDetails';
 // import Footer from './components/footer/Footer';
 import Header from './components/header/Header';
 import { useEffect } from 'react';
+import BlogDetails from './pages/BlogDetails';
 
 function App() {
   useEffect(() => {
@@ -20,6 +21,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/destinationsTendances" element={<DestinationsTendances />} />
             <Route path="/offreDetails" element={<OffreDetails />} />
+            <Route path="/blogDetails" element={<BlogDetails />} />
           </Routes>
       </div>
       {/* <Footer /> */}
