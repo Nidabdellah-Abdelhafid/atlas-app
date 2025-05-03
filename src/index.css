@@ -50,12 +50,12 @@ code {
 }
 
 @font-face {
-  font-family: 'Ginger';
-  src: url('./../public/assets/fonts/GingerBrand.ttf') format('truetype');
+  font-family: 'Griffiths';
+  src: url('./../public/assets/fonts/griffiths-regular.ttf') format('truetype');
 }
 
-.font-ginger {
-  font-family: 'Ginger', sans-serif;
+.font-griffiths {
+  font-family: 'Griffiths', sans-serif;
 }
 
 

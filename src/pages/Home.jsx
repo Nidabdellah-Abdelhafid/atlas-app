@@ -351,10 +351,10 @@ const prevEvasionSlide = () => {
 
       {/* Content */}
       <div className="relative z-10 flex justify-end min-h-screen flex-col px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
-        <h1 className="font-ginger text-white text-4xl sm:text-5xl lg:text-7xl font-bold mb-2">
+        <h1 className="font-griffiths text-white text-4xl sm:text-5xl lg:text-7xl font-bold mb-2">
           Des voyages signature
         </h1>
-        <h2 className="font-ginger text-white text-3xl sm:text-4xl lg:text-6xl font-700 mb-8 lg:mb-12 mt-2">
+        <h2 className="font-griffiths text-white text-3xl sm:text-4xl lg:text-6xl font-700 mb-8 lg:mb-12 mt-2">
           depuis 1964
         </h2>
 
@@ -412,7 +412,7 @@ const prevEvasionSlide = () => {
                       D'ÉVASION<br />DANS
                     </div>
                   </div>
-                  <div className="font-ginger text-7xl sm:text-8xl lg:text-[150px] leading-[1] font-medium">
+                  <div className="font-griffiths text-7xl sm:text-8xl lg:text-[150px] leading-[1] font-medium">
                     le Luxe
                   </div>
                 </div>
@@ -449,7 +449,7 @@ const prevEvasionSlide = () => {
                 <button
                 key={category}
                 onClick={() => setActiveTab(category)}
-                className={`font-ginger text-2xl ${
+                className={`font-griffiths text-2xl ${
                     activeTab === category
                     ? "text-black border-b-2 border-black"
                     : "text-gray-400 hover:text-black transition-colors"
@@ -478,7 +478,7 @@ const prevEvasionSlide = () => {
                     className="w-full h-full object-cover"
                   />
                   <div className="absolute bottom-0 left-0 p-4 sm:p-6 lg:p-8 text-white w-full">
-                    <h3 className="font-ginger text-2xl sm:text-3xl lg:text-4xl font-light mb-2 sm:mb-3 lg:mb-4">{slide.title}</h3>
+                    <h3 className="font-griffiths text-2xl sm:text-3xl lg:text-4xl font-light mb-2 sm:mb-3 lg:mb-4">{slide.title}</h3>
                     <p className="font-manrope font-normal mb-3 sm:mb-4 max-w-xl text-white/90 text-sm sm:text-base">
                       {slide.description}
                     </p>
@@ -525,7 +525,7 @@ const prevEvasionSlide = () => {
      {/* Vedette Section */}
      <div className="flex items-center justify-center py-10 px-4 sm:px-8 lg:px-8 lg:mx-16">
      <div className="bg-[#F9F5F9] container mx-auto p-4 sm:p-6 lg:p-16">
-        <h2 className="font-ginger text-5xl mb-2">En Vedette</h2>
+        <h2 className="font-griffiths text-5xl mb-2">En Vedette</h2>
         <p className="font-manrope font-light text-gray-600 mb-12">
           Nos nouvelles inspirations de voyages,<br />
           soigneusement conçues et entièrement adaptées à vos envies.
@@ -623,7 +623,7 @@ const prevEvasionSlide = () => {
      <div className="py-8 sm:py-10 lg:py-14 px-4 sm:px-8 lg:px-20 bg-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-8 sm:mb-12">
-            <h2 className="font-ginger text-3xl sm:text-4xl lg:text-5xl mb-3 sm:mb-4 hover:text-[#8C6EA8] transition-colors">TENDANCE du moment</h2>
+            <h2 className="font-griffiths text-3xl sm:text-4xl lg:text-5xl mb-3 sm:mb-4 hover:text-[#8C6EA8] transition-colors">TENDANCE du moment</h2>
             <p className="font-manrope font-light text-gray-600 text-sm sm:text-base">
               Les tendances voyages du moment,<br className="hidden sm:block" />
               pensées pour sublimer chaque envie d'évasion.
@@ -644,7 +644,7 @@ const prevEvasionSlide = () => {
                   <span className="font-manrope font-light text-gray-500 text-sm sm:text-base">Tanzanie</span>
                   <span className="font-manrope font-light text-gray-500 text-sm sm:text-base hover:text-[#8C6EA8] transition-colors">En savoir plus {'>'}</span>
                 </div>
-                <h3 className="font-ginger font-medium text-xl sm:text-2xl">Sauvage, vibrante<br />et indomptable</h3>
+                <h3 className="font-griffiths font-medium text-xl sm:text-2xl">Sauvage, vibrante<br />et indomptable</h3>
               </div>
             </div>
 
@@ -661,7 +661,7 @@ const prevEvasionSlide = () => {
                   <span className="font-manrope font-light text-gray-500 text-sm sm:text-base">Bali</span>
                   <span className="font-manrope font-light text-gray-500 text-sm sm:text-base hover:text-[#8C6EA8] transition-colors">En savoir plus {'>'}</span>
                 </div>
-                <h3 className="font-ginger font-medium text-xl sm:text-2xl">Vibration tropicale<br />et âmes libres</h3>
+                <h3 className="font-griffiths font-medium text-xl sm:text-2xl">Vibration tropicale<br />et âmes libres</h3>
               </div>
             </div>
 
@@ -678,7 +678,7 @@ const prevEvasionSlide = () => {
                   <span className="font-manrope font-light text-gray-500 text-sm sm:text-base">Islande</span>
                   <span className="font-manrope font-light text-gray-500 text-sm sm:text-base hover:text-[#8C6EA8] transition-colors">En savoir plus {'>'}</span>
                 </div>
-                <h3 className="font-ginger font-medium text-xl sm:text-2xl">Terres mystiques<br />et horizons infinis</h3>
+                <h3 className="font-griffiths font-medium text-xl sm:text-2xl">Terres mystiques<br />et horizons infinis</h3>
               </div>
             </div>
 
@@ -695,7 +695,7 @@ const prevEvasionSlide = () => {
                   <span className="font-manrope font-light text-gray-500 text-sm sm:text-base">New York</span>
                   <span className="font-manrope font-light text-gray-500 text-sm sm:text-base hover:text-[#8C6EA8] transition-colors">En savoir plus {'>'}</span>
                 </div>
-                <h3 className="font-ginger font-medium text-xl sm:text-2xl">Shopping Art<br />& Nightlife</h3>
+                <h3 className="font-griffiths font-medium text-xl sm:text-2xl">Shopping Art<br />& Nightlife</h3>
               </div>
             </div>
 
@@ -712,7 +712,7 @@ const prevEvasionSlide = () => {
                   <span className="font-manrope font-light text-gray-500 text-sm sm:text-base">Mexique</span>
                   <span className="font-manrope font-light text-gray-500 text-sm sm:text-base hover:text-[#8C6EA8] transition-colors">En savoir plus {'>'}</span>
                 </div>
-                <h3 className="font-ginger font-medium text-xl sm:text-2xl">Bienvenue<br />chez les Mayas !</h3>
+                <h3 className="font-griffiths font-medium text-xl sm:text-2xl">Bienvenue<br />chez les Mayas !</h3>
               </div>
             </div>
 
@@ -729,7 +729,7 @@ const prevEvasionSlide = () => {
                   <span className="font-manrope font-light text-gray-500 text-sm sm:text-base">Seychelles</span>
                   <span className="font-manrope font-light text-gray-500 text-sm sm:text-base hover:text-[#8C6EA8] transition-colors">En savoir plus {'>'}</span>
                 </div>
-                <h3 className="font-ginger font-medium text-xl sm:text-2xl">luxe et plages<br />de rêve</h3>
+                <h3 className="font-griffiths font-medium text-xl sm:text-2xl">luxe et plages<br />de rêve</h3>
               </div>
             </div>
 
@@ -747,7 +747,7 @@ const prevEvasionSlide = () => {
       <div className="py-8 sm:py-10 lg:py-14 px-4 sm:px-8 lg:px-20 bg-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-8 sm:mb-12">
-            <h2 className="font-ginger text-3xl sm:text-4xl lg:text-5xl mb-3 sm:mb-4 hover:text-[#8C6EA8] transition-colors">Évasions Inattendues</h2>
+            <h2 className="font-griffiths text-3xl sm:text-4xl lg:text-5xl mb-3 sm:mb-4 hover:text-[#8C6EA8] transition-colors">Évasions Inattendues</h2>
             <p className="font-manrope font-light text-gray-600 text-sm sm:text-base">
               Découvrez des lieux hors des sentiers battus,<br className="hidden sm:block" /> où chaque détour révèle une nouvelle merveille.
             </p>
@@ -783,7 +783,7 @@ const prevEvasionSlide = () => {
                       <span className="font-light text-xs sm:text-sm mb-1 sm:mb-2 block opacity-90 group-hover:opacity-100">
                         {index === 0 ? 'Paris' : index === 1 ? 'Rome' : 'Tokyo'}
                       </span>
-                      <h3 className="font-ginger text-xl sm:text-2xl mb-2 sm:mb-4 transform transition-all duration-300 group-hover:text-[1.7rem]">
+                      <h3 className="font-griffiths text-xl sm:text-2xl mb-2 sm:mb-4 transform transition-all duration-300 group-hover:text-[1.7rem]">
                         Sauvage, vibrante<br />et indomptable
                       </h3>
                       <p className="font-manrope font-medium text-xs sm:text-sm text-white/80 mb-2 sm:mb-4 transition-opacity duration-300 group-hover:text-white hidden sm:block">
@@ -818,7 +818,7 @@ const prevEvasionSlide = () => {
       <div className="py-10 px-4 sm:px-8 lg:px-28 bg-white">
         <div className="container mx-auto">
           <div className="text-center mb-12">
-            <h2 className="font-ginger text-5xl mb-4 hover:text-[#8C6EA8] transition-colors">Actus Atlas</h2>
+            <h2 className="font-griffiths text-5xl mb-4 hover:text-[#8C6EA8] transition-colors">Actus Atlas</h2>
             <p className="font-manrope font-light text-gray-600">
               Articles, Blogs, Podcast, E-Mag
             </p>
@@ -834,7 +834,7 @@ const prevEvasionSlide = () => {
                 />
               </div>
               <div>
-                <h3 className="font-ginger text-2xl mb-2">3 habitudes typiquement<br />brésiliennes</h3>
+                <h3 className="font-griffiths text-2xl mb-2">3 habitudes typiquement<br />brésiliennes</h3>
                 <div className="w-full">
                   <p className="font-manrope font-medium text-gray-600 mb-4 ">
                     Lorsqu’il a déménagé au Brésil, notre correspondant Olivier a été quelque peu dérouté par le mode de vie des habitants. Quelques mois lui ont été nécessaires pour s’accoutumer aux retards fréquents ou au goût prononcé des Brésiliens pour la chaleur humaine et la proximité sociale. Autant d’habitudes qu’il conseille aux voyageurs d’adopter s’ils souhaitent se fondre dans le décor au cours de leur itinéraire au Brésil.
@@ -863,7 +863,7 @@ const prevEvasionSlide = () => {
                 />
               </div>
               <div>
-                <h3 className="font-ginger text-2xl mb-2">Cuba dans le rétro</h3>
+                <h3 className="font-griffiths text-2xl mb-2">Cuba dans le rétro</h3>
                 <div className="w-full">
                   <p className="font-manrope font-medium text-gray-600 mb-4 ">
                     À Cuba, les Cadillac rutilantes, les Chevrolet ragaillardies et les Buick rapiécées sillonnent les rues comme si on n’avait pas changé de siècle.

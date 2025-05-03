@@ -436,10 +436,17 @@ function OffreDetails() {
                   filter: 'brightness(0.7)'
                 }}
               />
+              <div 
+                  className="absolute inset-0"
+                  style={{
+                    background: 'linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0.6) 100%)'
+                
+                  }}
+                />
               <div className="relative z-10 h-full flex flex-col justify-center items-start sm:items-end p-6 sm:p-8 lg:p-16 text-white">
                 <div className="w-full sm:max-w-xl">
-                  <h3 className="text-2xl sm:text-3xl lg:text-5xl font-medium mb-2">{offer.title}</h3>
-                  <h4 className="text-xl sm:text-2xl lg:text-4xl mb-2 sm:mb-6">{offer.subtitle}</h4>
+                  <h3 className="font-griffiths text-2xl sm:text-3xl lg:text-7xl font-medium mb-2">{offer.title}</h3>
+                  <h4 className="font-griffiths text-xl sm:text-2xl lg:text-7xl mb-2 sm:mb-6">{offer.subtitle}</h4>
                   <p className="text-sm sm:text-base mb-6 sm:mb-8 max-w-xl">{offer.description}</p>
                   
                   <div className="flex flex-col sm:flex-row items-start justify-between w-full gap-4 sm:gap-8 mb-2 sm:mb-8">

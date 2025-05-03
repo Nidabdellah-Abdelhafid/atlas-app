@@ -6,7 +6,7 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        ginger: ['Ginger', 'sans-serif'],
+        griffiths: ['Griffiths', 'sans-serif'],
         manrope: ['Manrope', 'sans-serif'],
       },
     },

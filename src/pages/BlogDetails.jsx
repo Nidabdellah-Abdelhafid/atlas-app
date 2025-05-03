@@ -121,7 +121,7 @@ function BlogDetails() {
         </div>
 
         {/* Offre Details */}
-        <div className="container bg-[#F5F5F5] mx-auto px-4 sm:px-6 lg:px-36 py-16">
+        <div className="bg-[#F5F5F5] px-4 sm:px-6 lg:px-36 py-16">
         <div className="relative h-[500px] rounded-xl overflow-hidden">
             {/* Background Image */}
             <div 
