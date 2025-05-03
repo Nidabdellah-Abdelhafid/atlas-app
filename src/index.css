@@ -54,10 +54,18 @@ code {
   src: url('./../public/assets/fonts/griffiths-regular.ttf') format('truetype');
 }
 
+@font-face {
+  font-family: 'Gilroy';
+  src: url('./../public/assets/fonts/Gilroy-Regular.ttf') format('truetype');
+}
+
 .font-griffiths {
   font-family: 'Griffiths', sans-serif;
 }
 
+.font-gilroy {
+  font-family: 'Gilroy', sans-serif;
+}
 
 @font-face {
   font-family: 'Manrope';

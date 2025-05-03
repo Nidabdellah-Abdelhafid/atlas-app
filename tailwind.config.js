@@ -8,6 +8,7 @@ module.exports = {
       fontFamily: {
         griffiths: ['Griffiths', 'sans-serif'],
         manrope: ['Manrope', 'sans-serif'],
+        gilroy: ['Gilroy', 'sans-serif'],
       },
     },
   },

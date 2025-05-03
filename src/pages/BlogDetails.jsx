@@ -19,19 +19,19 @@ function BlogDetails() {
             {/* Content */}
             <div className="relative z-10 flex flex-col items-center justify-center min-h-screen text-white">
                 
-                <h1 className="text-5xl sm:text-6xl lg:text-8xl font-medium text-center">
+                <h1 className="font-griffiths text-5xl sm:text-6xl lg:text-8xl font-bold text-center">
                 Blog Brésil
                 </h1>
             </div>
         </div>
 
         {/* Blog Details */}
-        <div className="container mx-auto px-4 sm:px-6 lg:px-20 py-16">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-20 py-12">
             <div className="max-w-4xl mx-auto text-center">
-                <h2 className="text-3xl sm:text-5xl font-500 mb-6">
+                <h2 className="font-griffiths text-3xl sm:text-7xl font-500 mb-6">
                 3 habitudes typiquement<br />brésiliennes
                 </h2>
-                <p className="text-gray-600 text-sm sm:text-base mb-16">
+                <p className="font-manrope font-light  text-gray-600 text-sm sm:text-base mb-16">
                 Lorsqu'il a déménagé au Brésil, notre correspondant Olivier a été quelque peu déçu par le monde du café. Mais il a rapidement trouvé son bonheur dans des découvertes qui l'ont marqué : la fréquence du goût prononcé des Brésiliens pour le château humaine et la proximité sociale. Autant d'habitudes qu'il conseille à chaque voyageur de prendre dans sa besace avant de partir au cours de leur itinéraire au Brésil.
                 </p>
             </div>
@@ -46,11 +46,11 @@ function BlogDetails() {
                     />
                     <div className="flex flex-col lg:flex-row gap-8 lg:gap-16">
                     <div className="lg:w-1/3">
-                        <h3 className="text-2xl sm:text-3xl font-medium">
+                        <h3 className="font-gilroy font-medium text-2xl sm:text-7xl">
                         Prendre son temps
                         </h3>
                     </div>
-                    <div className="lg:w-2/3 space-y-6 text-gray-700 text-base sm:text-lg">
+                    <div className="font-manrope font-light lg:w-2/3 space-y-6 text-gray-700 text-base sm:text-lg">
                     <p>
                         En retard ? Vous avez dit en retard ? Au Brésil, j'ai rapidement appris que la notion du temps est différente. Peut-être encore plus à Rio de Janeiro. Que ce soit dans la vie privée ou dans la vie professionnelle, le retard est toléré. Celui-ci est même devenu naturel.
                         </p>
@@ -73,11 +73,11 @@ function BlogDetails() {
                     />
                     <div className="flex flex-col lg:flex-row gap-8 lg:gap-16">
                     <div className="lg:w-1/3">
-                        <h3 className="text-2xl sm:text-3xl font-medium">
+                        <h3 className="font-gilroy font-medium text-2xl sm:text-7xl">
                         Manger à toute heure de la journée
                         </h3>
                     </div>
-                    <div className="lg:w-2/3 space-y-6 text-gray-700 text-base sm:text-lg">
+                    <div className="font-manrope font-light lg:w-2/3 space-y-6 text-gray-700 text-base sm:text-lg">
                     <p>
                         Les Brésiliens sont le plus souvent très gourmands. Les trois repas de la journée sont copieux et servis chauds. Entre ceux-ci, il n'est pas rare de se laisser tenter par un petit salgado, un petit en-cas salé. Le dessert qui suit le déjeuner est sacré pour la majorité des Brésiliens. Idem pour le café tout au long de la journée ou les barbecues qui peuvent durer plus de 24 heures.
                         </p>
@@ -100,11 +100,11 @@ function BlogDetails() {
                     />
                     <div className="flex flex-col lg:flex-row gap-8 lg:gap-16">
                     <div className="lg:w-1/3">
-                        <h3 className="text-2xl sm:text-3xl font-medium">
+                        <h3 className="font-gilroy font-medium text-2xl sm:text-7xl">
                         Ne pas craindre la promiscuité
                         </h3>
                     </div>
-                    <div className="lg:w-2/3 space-y-6 text-gray-700 text-base sm:text-lg">
+                    <div className="font-manrope font-light lg:w-2/3 space-y-6 text-gray-700 text-base sm:text-lg">
                     <p>
                         Les Brésiliens sont le plus souvent très gourmands. Les trois repas de la journée sont copieux et servis chauds. Entre ceux-ci, il n'est pas rare de se laisser tenter par un petit salgado, un petit en-cas salé. Le dessert qui suit le déjeuner est sacré pour la majorité des Brésiliens. Idem pour le café tout au long de la journée ou les barbecues qui peuvent durer plus de 24 heures.
                         </p>
@@ -135,10 +135,10 @@ function BlogDetails() {
             {/* Content */}
             <div className="relative z-10 flex flex-col items-center justify-between h-full text-white text-center py-20">
             <div>
-                <p className="text-xl sm:text-5xl mb-4">Nos idées de voyage</p>
-                <h2 className="text-4xl sm:text-5xl lg:text-6xl font-medium mb-8">Le Brésil</h2>
+                <p className="font-manrope font-medium text-xl sm:text-5xl mb-4">Nos idées de voyage</p>
+                <h2 className="font-griffiths text-4xl sm:text-5xl lg:text-9xl font-medium mb-8">Le Brésil</h2>
             </div>
-            <button className="border-2 border-white px-14 py-2 hover:bg-white hover:text-black transition-colors">
+            <button className="font-manrope font-medium border-2 border-white px-14 py-2 hover:bg-white hover:text-black transition-colors">
                 Découvrir {'>'}
             </button>
             </div>
@@ -147,7 +147,7 @@ function BlogDetails() {
         
         {/* Other Blogs */}
         <div className="container mx-auto px-4 sm:px-6 lg:px-36 py-16">
-        <h2 className="text-3xl sm:text-4xl font-medium text-center mb-12">
+        <h2 className="font-griffiths text-3xl sm:text-6xl font-medium text-center mb-12">
             Vous aimerez aussi
         </h2>
 
@@ -160,12 +160,14 @@ function BlogDetails() {
                 className="w-full h-[300px] object-cover rounded-lg"
             />
             <div className="space-y-2">
-                <p className="text-sm text-gray-500">Méditerranée</p>
-                <h3 className="text-2xl font-medium">Où faire le carnaval en Grèce ?</h3>
-                <p className="text-gray-600 text-sm">
-                Comme le mardi gras catholique, le lundi pur (Kathari Deftera) marque le début du carême orthodoxe pour les Grecs et la fin des festivités du carnaval, une période synonyme de folie collective et d'accès à tous genres, qui connaît un grand succès en Grèce. Voici 5 lieux où se joindre à la fête.
+                <p className="font-manrope font-light text-sm text-gray-500">Méditerranée</p>
+                <h3 className="font-griffiths text-3xl font-bold">Où faire le carnaval en Grèce ?</h3>
+                <p className="font-manrope font-normal text-gray-600 text-sm">
+                Comme le mardi gras catholique, le lundi pur (Kathari Deftera) marque le début du carême orthodoxe 
+                pour les Grecs et la fin des festivités du carnaval, une période synonyme de folie collective et
+                 d'accès à tous genres, qui connaît un grand succès en Grèce. Voici 5 lieux où se joindre à la fête.
                 </p>
-                <button className="text-sm hover:underline">
+                <button className="font-manrope font-light text-sm hover:underline">
                 Voir l'article {'>'}
                 </button>
             </div>
@@ -179,12 +181,14 @@ function BlogDetails() {
                 className="w-full h-[300px] object-cover rounded-lg"
             />
             <div className="space-y-2">
-                <p className="text-sm text-gray-500">Scandinavie</p>
-                <h3 className="text-2xl font-medium">3 cascades d'Islande méconnues</h3>
-                <p className="text-gray-600 text-sm">
-                Les cascades du Sud attirent de nombreuses personnes à un moment ou un autre de leur voyage en Islande. Rien de plus normal, ce sont de superbes manifestations de la puissance des éléments. L'inconvénient, en particulier pendant l'été, c'est que la fréquentation des principales cascades peut être très élevée. Pour éviter les embouteillages, Fred
+                <p className="font-manrope font-light text-sm text-gray-500">Scandinavie</p>
+                <h3 className="font-griffiths text-3xl font-bold">3 cascades d'Islande méconnues</h3>
+                <p className="font-manrope font-normal text-gray-600 text-sm">
+                Les cascades du Sud attirent de nombreuses personnes à un moment ou un autre de leur voyage en Islande.
+                 Rien de plus normal, ce sont de superbes manifestations de la puissance des éléments. L'inconvénient, 
+                 en particulier pendant l'été, c'est que la fréquentation des principales cascades peut être très élevée.
                 </p>
-                <button className="text-sm hover:underline">
+                <button className="font-manrope font-light text-sm hover:underline">
                 Voir l'article {'>'}
                 </button>
             </div>
