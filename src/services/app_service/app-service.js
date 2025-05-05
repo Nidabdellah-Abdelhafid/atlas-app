@@ -1,10 +1,11 @@
 import axios from 'axios';
 
-const BASE_URL = process.env.REACT_APP_API_URL;
+const BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8080';
 
 export class AppService {
   constructor(endpoint) {
     this.url = `${BASE_URL}${endpoint}`;
+    // console.log('Service URL:', this.url);
   }
 
   async getAll() {

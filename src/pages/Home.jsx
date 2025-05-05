@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { ChevronLeft, ChevronRight, MoveDownIcon, Search } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { fetchPays} from '../services/fetchers/dataFetchers';
 
 function Home() {
   // Add this near the top of your component
@@ -8,6 +9,11 @@ function Home() {
   const [activeTab, setActiveTab] = useState('Club All-In');
   const [currentEvasionSlide, setCurrentEvasionSlide] = useState(0);
   const evasionCarouselRef = useRef(null);
+  const [pays, setPays] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [suggestions, setSuggestions] = useState([]);
+  const [isSearchFocused, setIsSearchFocused] = useState(false);
+  const searchRef = useRef(null);
   const carouselStyles = {
     scrollbarWidth: 'none',
     msOverflowStyle: 'none',
@@ -18,9 +24,36 @@ function Home() {
     scrollSnapType: 'x mandatory'
   };
 
+  const loadData = async () => {
+    try {
+      const paysData = await fetchPays();
+      console.log(paysData)
+      setPays(paysData);
+      // Handle the data
+    } catch (error) {
+      // Handle errors
+      console.error('Error fetching pays:', error);
+
+    }
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (searchRef.current && !searchRef.current.contains(event.target)) {
+        setIsSearchFocused(false);
+      }
+    };
+  
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
   useEffect(() => {
     window.scrollTo(0, 0);
+    loadData();
   }, []);
+
+  
 
   const slides = {
     'Club All-In': [
@@ -360,16 +393,57 @@ const prevEvasionSlide = () => {
 
         {/* Search Inputs */}
         <div className="flex flex-col sm:flex-row gap-4 max-w-4xl">
-          <div className="flex-1 relative">
-            <input
-              type="text"
-              placeholder="Où souhaitez-vous partir ?"
-              className="font-manrope font-normal w-full py-3 px-4 pr-12 bg-white/90 backdrop-blur"
-            />
-            <div className='absolute right-4 top-1/2 -translate-y-1/2 bg-gray-700 rounded-full p-1'>
-              <Search className="text-white" size={20} />
-            </div>
+        <div className="flex-1 relative" ref={searchRef}>
+        <div className="relative">
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => {
+              setSearchQuery(e.target.value);
+              if (e.target.value) {
+                const filtered = pays.filter(country =>
+                  country.label.toLowerCase().includes(e.target.value.toLowerCase())
+                );
+                setSuggestions(filtered);
+              } else {
+                setSuggestions([]);
+              }
+            }}
+            onFocus={() => setIsSearchFocused(true)}
+            placeholder="Où souhaitez-vous partir ?"
+            className="font-manrope font-normal w-full py-3 px-4 pr-12 bg-white/90 backdrop-blur focus:outline-none focus:ring-2 focus:ring-[#8C6EA8]/50 transition-all duration-300"
+          />
+          <div className='absolute right-4 top-1/2 -translate-y-1/2 bg-gray-700 hover:bg-[#8C6EA8] rounded-full p-1.5 cursor-pointer transition-colors duration-300'>
+            <Search className="text-white" size={18} />
           </div>
+        </div>
+  
+          {/* Suggestions dropdown */}
+          {isSearchFocused && suggestions.length > 0 && (
+            <div className="absolute mt-2 w-full bg-white rounded-lg shadow-lg border border-gray-200 max-h-60 overflow-y-auto z-50">
+              {suggestions.map((country) => (
+                <div
+                  key={country.id}
+                  className="px-4 py-2 cursor-pointer hover:bg-gray-50 flex items-center gap-3 border-b border-gray-100 last:border-b-0"
+                  onClick={() => {
+                    setSearchQuery(country.label);
+                    setSuggestions([]);
+                    setIsSearchFocused(false);
+                  }}
+                >
+                  {country.image && (
+                    <img 
+                      src={`${country.image}`} 
+                      alt={country.label}
+                      className="w-20 h-20 object-cover rounded"
+                    />
+                  )}
+                  <span className="font-manrope text-gray-800">{country.label}</span>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
           <button className="font-manrope font-normal bg-white/5 backdrop-blur-sm py-3 px-6 border border-1 border-white text-white w-full sm:w-96 text-start">
             Proposez-moi une destination {'>'}
           </button>
