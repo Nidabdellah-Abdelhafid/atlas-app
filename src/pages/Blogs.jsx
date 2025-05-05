@@ -1,8 +1,11 @@
+import React, { useEffect } from 'react'
 import { ChevronRight } from 'lucide-react';
-import React from 'react'
 
 function Blogs() {
-
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+  
     const blogPosts = [
         {
           id: 1,

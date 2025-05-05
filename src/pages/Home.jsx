@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { ChevronLeft, ChevronRight, MoveDownIcon, Search } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { fetchPays} from '../services/fetchers/dataFetchers';
+import { fetchOffres, fetchPays} from '../services/fetchers/dataFetchers';
 
 function Home() {
   // Add this near the top of your component
@@ -10,6 +10,7 @@ function Home() {
   const [currentEvasionSlide, setCurrentEvasionSlide] = useState(0);
   const evasionCarouselRef = useRef(null);
   const [pays, setPays] = useState([]);
+  const [offres, setOffres] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [suggestions, setSuggestions] = useState([]);
   const [isSearchFocused, setIsSearchFocused] = useState(false);
@@ -23,16 +24,30 @@ function Home() {
     pointerEvents: 'auto',
     scrollSnapType: 'x mandatory'
   };
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    loadPaysData();
+    loadOffresData();
+  }, []);
 
-  const loadData = async () => {
+  const loadPaysData = async () => {
     try {
       const paysData = await fetchPays();
-      console.log(paysData)
+      // console.log(paysData)
       setPays(paysData);
-      // Handle the data
     } catch (error) {
-      // Handle errors
       console.error('Error fetching pays:', error);
+
+    }
+  };
+
+  const loadOffresData = async () => {
+    try {
+      const offresData = await fetchOffres();
+      console.log(offresData)
+      setOffres(offresData);
+    } catch (error) {
+      console.error('Error fetching offres:', error);
 
     }
   };
@@ -48,10 +63,7 @@ function Home() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-    loadData();
-  }, []);
+  
 
   
 
@@ -311,43 +323,52 @@ function Home() {
   };
 
   const carouselRef = React.useRef(null);
-
+  const [isCarouselReady, setIsCarouselReady] = useState(false);
   useEffect(() => {
-    if (carouselRef.current) {
+    const initializeCarousel = () => {
+      if (carouselRef.current && carouselRef.current.children.length > 0) {
+        const slideWidth = carouselRef.current.offsetWidth;
+        const totalSlides = slides[activeTab].length;
+        const middleSlide = Math.floor(totalSlides / 2);
+        
+        carouselRef.current.scrollLeft = slideWidth * middleSlide;
+        setCurrentSlide(middleSlide);
+        setIsCarouselReady(true);
+      }
+    };
+  
+    // Initialize after DOM is ready
+    const timer = setTimeout(initializeCarousel, 100);
+    return () => clearTimeout(timer);
+  }, [activeTab]);
+  
+  // Update the nextSlide function
+  const nextSlide = () => {
+    if (carouselRef.current && isCarouselReady) {
+      const slideWidth = carouselRef.current.offsetWidth;
+      const nextSlideIndex = (currentSlide + 1) % slides[activeTab].length;
+      
       carouselRef.current.scrollTo({
-        left: carouselRef.current.children[1].offsetLeft,
+        left: slideWidth * nextSlideIndex,
         behavior: 'smooth'
       });
+      setCurrentSlide(nextSlideIndex);
     }
-  }, []);
-
-  const nextSlide = () => {
-  if (carouselRef.current) {
-    const scrollWidth = carouselRef.current.scrollWidth;
-    const itemWidth = scrollWidth / slides[activeTab].length;
-    const newScrollPosition = ((currentSlide + 1) % slides[activeTab].length) * itemWidth;
-    
-    carouselRef.current.scrollTo({
-      left: newScrollPosition,
-      behavior: 'smooth'
-    });
-    setCurrentSlide((currentSlide + 1) % slides[activeTab].length);
-  }
-};
-
-const prevSlide = () => {
-  if (carouselRef.current) {
-    const scrollWidth = carouselRef.current.scrollWidth;
-    const itemWidth = scrollWidth / slides[activeTab].length;
-    const newScrollPosition = ((currentSlide - 1 + slides[activeTab].length) % slides[activeTab].length) * itemWidth;
-    
-    carouselRef.current.scrollTo({
-      left: newScrollPosition,
-      behavior: 'smooth'
-    });
-    setCurrentSlide((currentSlide - 1 + slides[activeTab].length) % slides[activeTab].length);
-  }
-};
+  };
+  
+  // Update the prevSlide function
+  const prevSlide = () => {
+    if (carouselRef.current && isCarouselReady) {
+      const slideWidth = carouselRef.current.offsetWidth;
+      const prevSlideIndex = (currentSlide - 1 + slides[activeTab].length) % slides[activeTab].length;
+      
+      carouselRef.current.scrollTo({
+        left: slideWidth * prevSlideIndex,
+        behavior: 'smooth'
+      });
+      setCurrentSlide(prevSlideIndex);
+    }
+  };
 
  
 
