@@ -631,7 +631,7 @@ const prevEvasionSlide = () => {
             <img 
               src={`${process.env.PUBLIC_URL}/assets/images/greece.png`}
               alt="Greece" 
-              className="w-full h-full object-cover rounded-lg"
+              className="w-full h-full object-cover rounded-lg transition-transform duration-300 hover:scale-105"
             />
             <div className="absolute bottom-0 left-0 right-0 p-6 ">
               <h3 className="font-manrope font-medium text-white text-2xl">Greece</h3>
@@ -645,7 +645,7 @@ const prevEvasionSlide = () => {
             <img 
               src={`${process.env.PUBLIC_URL}/assets/images/dubai.png`}
               alt="Dubai" 
-              className="w-full h-full object-cover rounded-lg"
+              className="w-full h-full object-cover rounded-lg transition-transform duration-300 hover:scale-105"
             />
             <div className="absolute bottom-0 left-0 right-0 p-6 ">
               <h3 className="font-manrope font-medium text-white text-2xl">Dubai</h3>
@@ -660,7 +660,7 @@ const prevEvasionSlide = () => {
             <img 
               src={`${process.env.PUBLIC_URL}/assets/images/argentine.png`}
               alt="Argentine" 
-              className="w-full h-full object-cover rounded-lg"
+              className="w-full h-full object-cover rounded-lg transition-transform duration-300 hover:scale-105"
             />
             <div className="absolute bottom-0 left-0 right-0 p-6 ">
               <h3 className="font-manrope font-medium text-white text-2xl">Argentine</h3>
@@ -676,7 +676,7 @@ const prevEvasionSlide = () => {
               <img 
               src={`${process.env.PUBLIC_URL}/assets/images/japon.png`}
               alt="Japon" 
-              className="w-full h-full object-cover rounded-lg"
+              className="w-full h-full object-cover rounded-lg transition-transform duration-300 hover:scale-105"
             />
             <div className="absolute bottom-0 left-0 right-0 p-6 ">
               <h3 className="font-manrope font-medium text-white text-2xl">Japon</h3>
@@ -690,7 +690,7 @@ const prevEvasionSlide = () => {
             <img 
               src={`${process.env.PUBLIC_URL}/assets/images/thailande.png`}
               alt="Thailande" 
-              className="w-full h-full object-cover rounded-lg"
+              className="w-full h-full object-cover rounded-lg transition-transform duration-300 hover:scale-105"
             />
             <div className="absolute bottom-0 left-0 right-0 p-6">
               <h3 className="font-manrope font-medium text-white text-2xl">Thailande</h3>
