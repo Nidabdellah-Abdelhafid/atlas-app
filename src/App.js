@@ -8,6 +8,7 @@ import Header from './components/header/Header';
 import { useEffect } from 'react';
 import BlogDetails from './pages/BlogDetails';
 import Blogs from './pages/Blogs';
+import DestinationDetails from './pages/DestinationDetails';
 
 function App() {
   useEffect(() => {
@@ -21,6 +22,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/destinationsTendances" element={<DestinationsTendances />} />
+            <Route path="/destinationDetails" element={<DestinationDetails />} />
             <Route path="/offreDetails" element={<OffreDetails />} />
             <Route path="/blogDetails" element={<BlogDetails />} />
             <Route path="/blogs" element={<Blogs />} />

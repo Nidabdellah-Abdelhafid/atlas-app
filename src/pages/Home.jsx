@@ -7,6 +7,8 @@ function Home() {
   // Add this near the top of your component
   const [currentSlide, setCurrentSlide] = useState(1);
   const [activeTab, setActiveTab] = useState('Club All-In');
+  const [activeTheme, setActiveTheme] = useState('Club All-In');
+  const [filteredOffres, setFilteredOffres] = useState([]);
   const [currentEvasionSlide, setCurrentEvasionSlide] = useState(0);
   const evasionCarouselRef = useRef(null);
   const [pays, setPays] = useState([]);
@@ -44,8 +46,9 @@ function Home() {
   const loadOffresData = async () => {
     try {
       const offresData = await fetchOffres();
-      console.log(offresData)
+      console.log("offres : ", offresData);
       setOffres(offresData);
+      setFilteredOffres(offresData);
     } catch (error) {
       console.error('Error fetching offres:', error);
 
@@ -65,9 +68,28 @@ function Home() {
 
   
 
-  
+  const groupOffresByTheme = () => {
+    const grouped = {};
+    offres.forEach(offre => {
+      offre.themes.forEach(theme => {
+        if (!grouped[theme.label]) {
+          grouped[theme.label] = [];
+        }
+        grouped[theme.label].push({
+          id: offre.id,
+          image: offre.image,
+          title: offre.label,
+          description: offre.description,
+          location: offre.pays.label,
+          category: theme.label,
+          price: offre.price
+        });
+      });
+    });
+    return grouped;
+  };
 
-  const slides = {
+  const s = {
     'Club All-In': [
       {
         id: 1,
@@ -323,52 +345,53 @@ function Home() {
   };
 
   const carouselRef = React.useRef(null);
-  const [isCarouselReady, setIsCarouselReady] = useState(false);
-  useEffect(() => {
-    const initializeCarousel = () => {
-      if (carouselRef.current && carouselRef.current.children.length > 0) {
-        const slideWidth = carouselRef.current.offsetWidth;
-        const totalSlides = slides[activeTab].length;
-        const middleSlide = Math.floor(totalSlides / 2);
-        
-        carouselRef.current.scrollLeft = slideWidth * middleSlide;
-        setCurrentSlide(middleSlide);
-        setIsCarouselReady(true);
-      }
-    };
-  
-    // Initialize after DOM is ready
-    const timer = setTimeout(initializeCarousel, 100);
-    return () => clearTimeout(timer);
-  }, [activeTab]);
-  
-  // Update the nextSlide function
-  const nextSlide = () => {
-    if (carouselRef.current && isCarouselReady) {
+const [isCarouselReady, setIsCarouselReady] = useState(false);
+
+useEffect(() => {
+  const initializeCarousel = () => {
+    if (carouselRef.current && carouselRef.current.children.length > 0) {
       const slideWidth = carouselRef.current.offsetWidth;
-      const nextSlideIndex = (currentSlide + 1) % slides[activeTab].length;
+      // Set to index 1 (second slide)
+      const activeSlide = 1;
       
-      carouselRef.current.scrollTo({
-        left: slideWidth * nextSlideIndex,
-        behavior: 'smooth'
-      });
-      setCurrentSlide(nextSlideIndex);
+      carouselRef.current.scrollLeft = slideWidth * activeSlide;
+      setCurrentSlide(activeSlide);
+      setIsCarouselReady(true);
     }
   };
-  
-  // Update the prevSlide function
-  const prevSlide = () => {
-    if (carouselRef.current && isCarouselReady) {
-      const slideWidth = carouselRef.current.offsetWidth;
-      const prevSlideIndex = (currentSlide - 1 + slides[activeTab].length) % slides[activeTab].length;
-      
-      carouselRef.current.scrollTo({
-        left: slideWidth * prevSlideIndex,
-        behavior: 'smooth'
-      });
-      setCurrentSlide(prevSlideIndex);
-    }
-  };
+
+  // Initialize after DOM is ready
+  const timer = setTimeout(initializeCarousel, 100);
+  return () => clearTimeout(timer);
+}, [activeTab, filteredOffres]);
+
+// Update the nextSlide function
+const nextSlide = () => {
+  if (carouselRef.current && isCarouselReady) {
+    const slideWidth = carouselRef.current.offsetWidth;
+    const nextSlideIndex = (currentSlide + 1) % filteredOffres.length;
+    
+    carouselRef.current.scrollTo({
+      left: slideWidth * nextSlideIndex,
+      behavior: 'smooth'
+    });
+    setCurrentSlide(nextSlideIndex);
+  }
+};
+
+// Update the prevSlide function
+const prevSlide = () => {
+  if (carouselRef.current && isCarouselReady) {
+    const slideWidth = carouselRef.current.offsetWidth;
+    const prevSlideIndex = (currentSlide - 1 + filteredOffres.length) % filteredOffres.length;
+    
+    carouselRef.current.scrollTo({
+      left: slideWidth * prevSlideIndex,
+      behavior: 'smooth'
+    });
+    setCurrentSlide(prevSlideIndex);
+  }
+};
 
  
 
@@ -540,19 +563,25 @@ const prevEvasionSlide = () => {
             <div className='flex items-center justify-center'>
                 <div className='h-0.5 w-14 bg-gray-500'></div>
             </div>
-            {Object.keys(slides).map((category) => (
+            {["Club All-In", "Famille", "Croisière", "Ski", "Honeymoon", "Plage"].map((theme) => (
                 <button
-                key={category}
-                onClick={() => setActiveTab(category)}
-                className={`font-griffiths text-2xl ${
-                    activeTab === category
-                    ? "text-black border-b-2 border-black"
-                    : "text-gray-400 hover:text-black transition-colors"
-                }`}
+                  key={theme}
+                  onClick={() => {
+                    setActiveTab(theme);
+                    setFilteredOffres(theme === 'Club All-In' 
+                      ? offres 
+                      : offres.filter(offre => offre.themes.some(t => t.label === theme))
+                    );
+                  }}
+                  className={`font-griffiths text-2xl ${
+                    activeTab === theme
+                      ? "text-black border-b-2 border-black"
+                      : "text-gray-400 hover:text-black transition-colors"
+                  }`}
                 >
-                {category}
+                  {theme}
                 </button>
-            ))}
+              ))}
             </div>
 
         {/* Slider Section */}
@@ -561,29 +590,28 @@ const prevEvasionSlide = () => {
             style={carouselStyles}
             ref={carouselRef}
             >
-              {slides[activeTab].map((slide, index) => (
+              {filteredOffres.map((offre, index) => (
                 <div 
-                    key={slide.id} 
-                    className="flex-none snap-center relative max-w-[90vw] sm:max-w-[95vw] lg:max-w-[80vw] h-[400px] sm:h-[500px]"
+                  key={offre.id} 
+                  className="flex-none snap-center relative max-w-[90vw] sm:max-w-[95vw] lg:max-w-[80vw] h-[400px] sm:h-[500px]"
                 >
                   <div className={`absolute inset-0 bg-black transition-opacity duration-300 ${index === currentSlide ? 'opacity-0' : 'opacity-50'}`} />
                   <img 
-                    src={`${process.env.PUBLIC_URL}${slide.image}`}
-                    alt={slide.title} 
+                    src={offre.image}
+                    alt={offre.label} 
                     className="w-full h-full object-cover"
                   />
                   <div className="absolute bottom-0 left-0 p-4 sm:p-6 lg:p-8 text-white w-full">
-                    <h3 className="font-griffiths text-2xl sm:text-3xl lg:text-4xl font-light mb-2 sm:mb-3 lg:mb-4">{slide.title}</h3>
+                    <h3 className="font-griffiths text-2xl sm:text-3xl lg:text-4xl font-light mb-2 sm:mb-3 lg:mb-4">{offre.label}</h3>
                     <p className="font-manrope font-normal mb-3 sm:mb-4 max-w-xl text-white/90 text-sm sm:text-base">
-                      {slide.description}
+                      {offre.description}
                     </p>
                     <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
-                    
                       <button className="font-manrope font-medium w-full sm:w-auto border border-white px-4 sm:px-6 py-1.5 sm:py-2 text-sm sm:text-base hover:bg-white hover:text-black transition-colors">
                         Découvrir {'>'}
                       </button>
                       <div className="font-manrope font-light text-xs sm:text-sm text-white/80 bg-white/20 px-4 sm:px-6 py-1.5 sm:py-2 w-full sm:w-auto text-center sm:text-left">
-                        {slide.location}
+                        {offre.pays.label}
                       </div>
                     </div>
                   </div>
