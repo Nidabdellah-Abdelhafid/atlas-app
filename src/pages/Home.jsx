@@ -1,22 +1,24 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { ChevronLeft, ChevronRight, MoveDownIcon, Search } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { fetchOffres, fetchPays} from '../services/fetchers/dataFetchers';
+import { fetchBlogs, fetchOffres, fetchPays} from '../services/fetchers/dataFetchers';
 
 function Home() {
   // Add this near the top of your component
   const [currentSlide, setCurrentSlide] = useState(1);
   const [activeTab, setActiveTab] = useState('Club All-In');
-  const [activeTheme, setActiveTheme] = useState('Club All-In');
-  const [filteredOffres, setFilteredOffres] = useState([]);
+  const [filteredOffresByTheme, setFilteredOffresByTheme] = useState([]);
+  const [filteredOffresByBadge, setFilteredOffresByBadge] = useState([]);
   const [currentEvasionSlide, setCurrentEvasionSlide] = useState(0);
   const evasionCarouselRef = useRef(null);
   const [pays, setPays] = useState([]);
   const [offres, setOffres] = useState([]);
+  const [blogs, setBlogs] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [suggestions, setSuggestions] = useState([]);
   const [isSearchFocused, setIsSearchFocused] = useState(false);
   const searchRef = useRef(null);
+  const [isLoading, setIsLoading] = useState(true);
   const carouselStyles = {
     scrollbarWidth: 'none',
     msOverflowStyle: 'none',
@@ -30,6 +32,7 @@ function Home() {
     window.scrollTo(0, 0);
     loadPaysData();
     loadOffresData();
+    loadBlogsData();
   }, []);
 
   const loadPaysData = async () => {
@@ -45,15 +48,41 @@ function Home() {
 
   const loadOffresData = async () => {
     try {
+      setIsLoading(true);
       const offresData = await fetchOffres();
-      console.log("offres : ", offresData);
+      // console.log("offres : ", offresData);
       setOffres(offresData);
-      setFilteredOffres(offresData);
+      setFilteredOffresByTheme(offresData);
+      setFilteredOffresByBadge(offresData.filter(offre => 
+        offre.badges.some(badge => badge.label === "TENDANCE")
+      ));
+      
     } catch (error) {
       console.error('Error fetching offres:', error);
 
+    } finally {
+      setIsLoading(false);
     }
   };
+
+  const loadBlogsData = async () => {
+    try {
+      setIsLoading(true);
+      const blogsData = await fetchBlogs();
+      // console.log("blogs : ", blogsData);
+      setBlogs(blogsData);
+      
+    } catch (error) {
+      console.error('Error fetching offres:', error);
+
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const displayedOffres = filteredOffresByBadge.slice(0, 3);
+  // const displayedPays = pays.slice(0, 3);
+  const displayedBlogs = blogs.slice(0, 2);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -66,353 +95,76 @@ function Home() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  
-
-  const groupOffresByTheme = () => {
-    const grouped = {};
-    offres.forEach(offre => {
-      offre.themes.forEach(theme => {
-        if (!grouped[theme.label]) {
-          grouped[theme.label] = [];
-        }
-        grouped[theme.label].push({
-          id: offre.id,
-          image: offre.image,
-          title: offre.label,
-          description: offre.description,
-          location: offre.pays.label,
-          category: theme.label,
-          price: offre.price
-        });
-      });
-    });
-    return grouped;
-  };
-
-  const s = {
-    'Club All-In': [
-      {
-        id: 1,
-        image: '/assets/images/afrique-sud.png',
-        title: 'Club Atlas Marrakech',
-        description: "Un palace marocain alliant tradition et modernité, avec spa, golf et services personnalisés.",
-        location: 'Marrakech, Maroc',
-        category: 'Club All-In'
-      },
-      {
-        id: 2,
-        image: '/assets/images/afrique-sud.png',
-        title: 'Club Atlas Maldives',
-        description: "Villas sur pilotis luxueuses avec majordome personnel et activités nautiques exclusives.",
-        location: 'Malé, Maldives',
-        category: 'Club All-In'
-      },
-      {
-        id: 3,
-        image: '/assets/images/afrique-sud.png',
-        title: 'Club Atlas Bali',
-        description: "Un sanctuaire de luxe au cœur de la jungle balinaise, mêlant spa holistique et gastronomie raffinée.",
-        location: 'Ubud, Bali',
-        category: 'Club All-In'
-      },
-      {
-        id: 19,
-        image: '/assets/images/afrique-sud.png',
-        title: 'Club Atlas Dubai',
-        description: "Une oasis urbaine de luxe avec vue sur Burj Khalifa, spa de classe mondiale et expériences exclusives.",
-        location: 'Dubai, UAE',
-        category: 'Club All-In'
-      },
-      {
-        id: 20,
-        image: '/assets/images/afrique-sud.png',
-        title: 'Club Atlas Mauritius',
-        description: "Resort privé sur une plage immaculée, offrant golf, spa et cuisine gastronomique.",
-        location: 'Belle Mare, Mauritius',
-        category: 'Club All-In'
-      }
-    ],
-    'Famille': [
-      {
-        id: 4,
-        image: '/assets/images/afrique-sud.png',
-        title: 'Safari Tanzanie',
-        description: "Une aventure familiale inoubliable à travers le Serengeti, avec hébergements luxueux et guides experts.",
-        location: 'Serengeti, Tanzanie',
-        category: 'Famille'
-      },
-      {
-        id: 5,
-        image: '/assets/images/afrique-sud.png',
-        title: 'Disney World Deluxe',
-        description: "Séjour premium avec accès VIP aux attractions, suite familiale et service de conciergerie personnalisé.",
-        location: 'Orlando, USA',
-        category: 'Famille'
-      },
-      {
-        id: 6,
-        image: '/assets/images/afrique-sud.png',
-        title: 'Costa Rica Adventure',
-        description: "Découverte de la jungle, volcans et plages en famille avec activités adaptées à tous les âges.",
-        location: 'Arenal, Costa Rica',
-        category: 'Famille'
-      },
-      {
-        id: 24,
-        image: '/assets/images/afrique-sud.png',
-        title: 'Laponie Magique',
-        description: "Rencontre avec le Père Noël, chiens de traîneau et aurores boréales en famille.",
-        location: 'Rovaniemi, Finlande',
-        category: 'Famille'
-      },
-      {
-        id: 25,
-        image: '/assets/images/afrique-sud.png',
-        title: 'Australia Adventure',
-        description: "Découverte de la Grande Barrière de Corail et de la faune australienne.",
-        location: 'Queensland, Australie',
-        category: 'Famille'
-      }
-    ],
-    'Croisière': [
-      {
-        id: 7,
-        image: '/assets/images/afrique-sud.png',
-        title: 'Fjords Norvégiens',
-        description: "Croisière de luxe à travers les majestueux fjords, avec escales exclusives et excursions privées.",
-        location: 'Bergen, Norvège',
-        category: 'Croisière'
-      },
-      {
-        id: 8,
-        image: '/assets/images/afrique-sud.png',
-        title: 'Îles Grecques',
-        description: "Navigation de luxe entre les plus belles îles grecques, avec expériences gastronomiques et culturelles.",
-        location: 'Cyclades, Grèce',
-        category: 'Croisière'
-      },
-      {
-        id: 9,
-        image: '/assets/images/afrique-sud.png',
-        title: 'Caraïbes Élite',
-        description: "Yacht privé avec équipage, exploration des îles paradisiaques et activités nautiques exclusives.",
-        location: 'Antilles',
-        category: 'Croisière'
-      },
-      {
-        id: 29,
-        image: '/assets/images/afrique-sud.png',
-        title: 'Alaska Luxury',
-        description: "Croisière d'exception à travers les glaciers avec excursions en hélicoptère.",
-        location: 'Alaska, USA',
-        category: 'Croisière'
-      },
-      {
-        id: 30,
-        image: '/assets/images/afrique-sud.png',
-        title: 'Mediterranean Elite',
-        description: "Voyage luxueux le long des côtes méditerranéennes avec escales exclusives.",
-        location: 'Méditerranée',
-        category: 'Croisière'
-      }
-    ],
-    'Ski': [
-      {
-        id: 10,
-        image: '/assets/images/afrique-sud.png',
-        title: 'Courchevel 1850',
-        description: "Chalet privé avec service 5 étoiles, accès direct aux pistes et instructeur personnel.",
-        location: 'Courchevel, France',
-        category: 'Ski'
-      },
-      {
-        id: 11,
-        image: '/assets/images/afrique-sud.png',
-        title: 'Zermatt Luxury',
-        description: "Séjour premium face au Cervin, avec héliski et restaurants étoilés.",
-        location: 'Zermatt, Suisse',
-        category: 'Ski'
-      },
-      {
-        id: 12,
-        image: '/assets/images/afrique-sud.png',
-        title: 'Aspen Elite',
-        description: "L'excellence du ski américain avec lodge privé et expériences exclusives.",
-        location: 'Aspen, USA',
-        category: 'Ski'
-      },
-      {
-        id: 34,
-        image: '/assets/images/afrique-sud.png',
-        title: 'Verbier Excellence',
-        description: "Domaine skiable prestigieux avec chalet privé et service 5 étoiles.",
-        location: 'Verbier, Suisse',
-        category: 'Ski'
-      },
-      {
-        id: 35,
-        image: '/assets/images/afrique-sud.png',
-        title: 'Val d\'Isère Prestige',
-        description: "Ski de haute altitude avec hébergement luxueux et après-ski raffiné.",
-        location: 'Val d\'Isère, France',
-        category: 'Ski'
-      }
-    ],
-    'Honeymoon': [
-      {
-        id: 13,
-        image: '/assets/images/afrique-sud.png',
-        title: 'Bora Bora Paradise',
-        description: "Villa sur pilotis avec piscine privée, spa en suite et service de majordome 24/7.",
-        location: 'Bora Bora',
-        category: 'Honeymoon'
-      },
-      {
-        id: 14,
-        image: '/assets/images/afrique-sud.png',
-        title: 'Amalfi Romance',
-        description: "Séjour romantique sur la côte amalfitaine avec expériences privées et dîners étoilés.",
-        location: 'Amalfi, Italie',
-        category: 'Honeymoon'
-      },
-      {
-        id: 15,
-        image: '/assets/images/afrique-sud.png',
-        title: 'Santorini Dream',
-        description: "Suite cave avec vue caldera, jacuzzi privé et services personnalisés.",
-        location: 'Santorini, Grèce',
-        category: 'Honeymoon'
-      },
-      {
-        id: 39,
-        image: '/assets/images/afrique-sud.png',
-        title: 'Maldives Dream',
-        description: "Villa sur l'eau avec piscine à débordement et expériences romantiques.",
-        location: 'Maldives',
-        category: 'Honeymoon'
-      },
-      {
-        id: 40,
-        image: '/assets/images/afrique-sud.png',
-        title: 'Venice Romance',
-        description: "Séjour romantique dans un palais vénitien avec services exclusifs.",
-        location: 'Venise, Italie',
-        category: 'Honeymoon'
-      }
-    ],
-    'Plage': [
-      {
-        id: 16,
-        image: '/assets/images/afrique-sud.png',
-        title: 'Seychelles Exclusive',
-        description: "Villa privée sur plage isolée avec service personnalisé et activités exclusives.",
-        location: 'Mahé, Seychelles',
-        category: 'Plage'
-      },
-      {
-        id: 17,
-        image: '/assets/images/afrique-sud.png',
-        title: 'Maldives Premium',
-        description: "Île privée avec villa sur-mesure et expériences uniques au cœur de l'océan Indien.",
-        location: 'Malé, Maldives',
-        category: 'Plage'
-      },
-      {
-        id: 18,
-        image: '/assets/images/afrique-sud.png',
-        title: 'Turks & Caicos',
-        description: "Resort exclusif avec plage privée et service de conciergerie dédié.",
-        location: 'Providenciales',
-        category: 'Plage'
-      },
-      {
-        id: 44,
-        image: '/assets/images/afrique-sud.png',
-        title: 'Zanzibar Luxury',
-        description: "Plages immaculées et villa privée avec service personnalisé.",
-        location: 'Zanzibar, Tanzanie',
-        category: 'Plage'
-      },
-      {
-        id: 45,
-        image: '/assets/images/afrique-sud.png',
-        title: 'Fiji Private Island',
-        description: "Île privée aux Fidji avec expériences exclusives et spa.",
-        location: 'Fidji',
-        category: 'Plage'
-      }
-    ]
-  };
 
   const carouselRef = React.useRef(null);
-const [isCarouselReady, setIsCarouselReady] = useState(false);
+  const [isCarouselReady, setIsCarouselReady] = useState(false);
 
-useEffect(() => {
-  const initializeCarousel = () => {
-    if (carouselRef.current && carouselRef.current.children.length > 0) {
+  useEffect(() => {
+    const initializeCarousel = () => {
+      if (carouselRef.current && carouselRef.current.children.length > 0) {
+        const slideWidth = carouselRef.current.offsetWidth;
+        // Set to index 1 (second slide)
+        const activeSlide = 1;
+        
+        carouselRef.current.scrollLeft = slideWidth * activeSlide;
+        setCurrentSlide(activeSlide);
+        setIsCarouselReady(true);
+      }
+    };
+
+    // Initialize after DOM is ready
+    const timer = setTimeout(initializeCarousel, 100);
+    return () => clearTimeout(timer);
+  }, [activeTab, filteredOffresByTheme]);
+
+  // Update the nextSlide function
+  const nextSlide = () => {
+    if (carouselRef.current && isCarouselReady) {
       const slideWidth = carouselRef.current.offsetWidth;
-      // Set to index 1 (second slide)
-      const activeSlide = 1;
+      const nextSlideIndex = (currentSlide + 1) % filteredOffresByTheme.length;
       
-      carouselRef.current.scrollLeft = slideWidth * activeSlide;
-      setCurrentSlide(activeSlide);
-      setIsCarouselReady(true);
+      carouselRef.current.scrollTo({
+        left: slideWidth * nextSlideIndex,
+        behavior: 'smooth'
+      });
+      setCurrentSlide(nextSlideIndex);
     }
   };
 
-  // Initialize after DOM is ready
-  const timer = setTimeout(initializeCarousel, 100);
-  return () => clearTimeout(timer);
-}, [activeTab, filteredOffres]);
+  // Update the prevSlide function
+  const prevSlide = () => {
+    if (carouselRef.current && isCarouselReady) {
+      const slideWidth = carouselRef.current.offsetWidth;
+      const prevSlideIndex = (currentSlide - 1 + filteredOffresByTheme.length) % filteredOffresByTheme.length;
+      
+      carouselRef.current.scrollTo({
+        left: slideWidth * prevSlideIndex,
+        behavior: 'smooth'
+      });
+      setCurrentSlide(prevSlideIndex);
+    }
+  };
 
-// Update the nextSlide function
-const nextSlide = () => {
-  if (carouselRef.current && isCarouselReady) {
-    const slideWidth = carouselRef.current.offsetWidth;
-    const nextSlideIndex = (currentSlide + 1) % filteredOffres.length;
-    
-    carouselRef.current.scrollTo({
-      left: slideWidth * nextSlideIndex,
-      behavior: 'smooth'
-    });
-    setCurrentSlide(nextSlideIndex);
-  }
-};
+  
 
-// Update the prevSlide function
-const prevSlide = () => {
-  if (carouselRef.current && isCarouselReady) {
-    const slideWidth = carouselRef.current.offsetWidth;
-    const prevSlideIndex = (currentSlide - 1 + filteredOffres.length) % filteredOffres.length;
-    
-    carouselRef.current.scrollTo({
-      left: slideWidth * prevSlideIndex,
-      behavior: 'smooth'
-    });
-    setCurrentSlide(prevSlideIndex);
-  }
-};
+  // Add these functions before the return statement
+  const nextEvasionSlide = () => {
+    if (evasionCarouselRef.current) {
+      const items = evasionCarouselRef.current.children;
+      const nextIndex = (currentEvasionSlide + 1) % items.length;
+      setCurrentEvasionSlide(nextIndex);
+      items[nextIndex].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+  };
 
- 
-
-// Add these functions before the return statement
-const nextEvasionSlide = () => {
-  if (evasionCarouselRef.current) {
-    const items = evasionCarouselRef.current.children;
-    const nextIndex = (currentEvasionSlide + 1) % items.length;
-    setCurrentEvasionSlide(nextIndex);
-    items[nextIndex].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-  }
-};
-
-const prevEvasionSlide = () => {
-  if (evasionCarouselRef.current) {
-    const items = evasionCarouselRef.current.children;
-    const prevIndex = (currentEvasionSlide - 1 + items.length) % items.length;
-    setCurrentEvasionSlide(prevIndex);
-    items[prevIndex].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-  }
-};
+  const prevEvasionSlide = () => {
+    if (evasionCarouselRef.current) {
+      const items = evasionCarouselRef.current.children;
+      const prevIndex = (currentEvasionSlide - 1 + items.length) % items.length;
+      setCurrentEvasionSlide(prevIndex);
+      items[prevIndex].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+  };
 
   return (
     <div >
@@ -550,6 +302,8 @@ const prevEvasionSlide = () => {
           </div>
         </div>
       </div>
+
+
       {/* envies Section */}
       <div className="py-10 sm:py-20 bg-white">
         <div className="container mx-auto px-4 sm:px-8">
@@ -568,7 +322,7 @@ const prevEvasionSlide = () => {
                   key={theme}
                   onClick={() => {
                     setActiveTab(theme);
-                    setFilteredOffres(theme === 'Club All-In' 
+                    setFilteredOffresByTheme(theme === 'Club All-In' 
                       ? offres 
                       : offres.filter(offre => offre.themes.some(t => t.label === theme))
                     );
@@ -590,7 +344,7 @@ const prevEvasionSlide = () => {
             style={carouselStyles}
             ref={carouselRef}
             >
-              {filteredOffres.map((offre, index) => (
+              {filteredOffresByTheme.map((offre, index) => (
                 <div 
                   key={offre.id} 
                   className="flex-none snap-center relative max-w-[90vw] sm:max-w-[95vw] lg:max-w-[80vw] h-[400px] sm:h-[500px]"
@@ -655,51 +409,50 @@ const prevEvasionSlide = () => {
         </p>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-10 mb-10">
-          <div className="relative group cursor-pointer rounded-lg">
-            <img 
-              src={`${process.env.PUBLIC_URL}/assets/images/greece.png`}
-              alt="Greece" 
-              className="w-full h-full object-cover rounded-lg transition-transform duration-300 hover:scale-105"
-            />
-            <div className="absolute bottom-0 left-0 right-0 p-6 ">
-              <h3 className="font-manrope font-medium text-white text-2xl">Greece</h3>
+          {pays.slice(0, pays.length > 3 ? 3 : pays.length).map((pays) => (
+            <div key={pays.id} className="relative group cursor-pointer rounded-lg">
+              <img 
+                src={pays.image}
+                alt={pays.label}
+                className="w-full h-[484px] object-cover rounded-lg transition-transform duration-300 hover:scale-105"
+              />
+              <div className="absolute bottom-0 left-0 right-0 p-6">
+                <h3 className="font-manrope font-medium text-white text-2xl">{pays.label}</h3>
+              </div>
+              <div className="absolute bottom-0 right-0 p-6">
+                <ChevronRight className="text-white bg-black rounded-full" size={24} />
+              </div>
             </div>
-            <div className="absolute bottom-0 right-0 p-6 ">
-              <ChevronRight className="text-white bg-black rounded-full " size={24} />
-            </div>
-          </div>
-
-          <div className="relative group cursor-pointer rounded-lg">
-            <img 
-              src={`${process.env.PUBLIC_URL}/assets/images/dubai.png`}
-              alt="Dubai" 
-              className="w-full h-full object-cover rounded-lg transition-transform duration-300 hover:scale-105"
-            />
-            <div className="absolute bottom-0 left-0 right-0 p-6 ">
-              <h3 className="font-manrope font-medium text-white text-2xl">Dubai</h3>
-            </div>
-            <div className="absolute bottom-0 right-0 p-6 ">
-              <ChevronRight className="text-white bg-black rounded-full " size={24} />
-            </div>
-            
-          </div>
-
-          <div className="relative group cursor-pointer rounded-lg">
-            <img 
-              src={`${process.env.PUBLIC_URL}/assets/images/argentine.png`}
-              alt="Argentine" 
-              className="w-full h-full object-cover rounded-lg transition-transform duration-300 hover:scale-105"
-            />
-            <div className="absolute bottom-0 left-0 right-0 p-6 ">
-              <h3 className="font-manrope font-medium text-white text-2xl">Argentine</h3>
-            </div>
-            <div className="absolute bottom-0 right-0 p-6 ">
-              <ChevronRight className="text-white bg-black rounded-full " size={24} />
-            </div>
-          </div>
+          ))}
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-12 gap-6 sm:gap-10">
+        {/* Second row for remaining items */}
+        {pays.length > 3 && (
+          <div className="grid grid-cols-1 sm:grid-cols-12 gap-6 sm:gap-10">
+            {pays.slice(3, pays.length > 4 ? 5 : 4).map((pays, index) => (
+              <div 
+                key={pays.id} 
+                className={`relative group cursor-pointer rounded-lg ${
+                  pays.length === 4 || index === 1 ? 'sm:col-span-8' : 'sm:col-span-4'
+                }`}
+              >
+                <img 
+                  src={pays.image}
+                  alt={pays.label}
+                  className="w-full h-[484px] object-cover rounded-lg transition-transform duration-300 hover:scale-105"
+                />
+                <div className="absolute bottom-0 left-0 right-0 p-6">
+                  <h3 className="font-manrope font-medium text-white text-2xl">{pays.label}</h3>
+                </div>
+                <div className="absolute bottom-0 right-0 p-6">
+                  <ChevronRight className="text-white bg-black rounded-full" size={24} />
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* <div className="grid grid-cols-1 sm:grid-cols-12 gap-6 sm:gap-10">
             <div className="relative group cursor-pointer rounded-lg  sm:col-span-4">
               <img 
               src={`${process.env.PUBLIC_URL}/assets/images/japon.png`}
@@ -731,7 +484,7 @@ const prevEvasionSlide = () => {
           </div>
 
 
-        </div>
+        </div> */}
 
         <div className="text-right mt-4">
           <button className="font-manrope font-medium text-gray-600 hover:text-black transition-colors">
@@ -754,108 +507,42 @@ const prevEvasionSlide = () => {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 mb-4 sm:mb-6 lg:mb-8">
-          <div className="space-y-3 sm:space-y-4">
+
+          {isLoading ? (
+          [...Array(6)].map((_, index) => (
+            <div key={index} className="space-y-3 sm:space-y-4 animate-pulse">
+              <div className="relative h-[300px] sm:h-[350px] lg:h-[400px] rounded-lg bg-gray-200"></div>
+              <div>
+                <div className="h-6 bg-gray-200 rounded w-3/4 mb-2"></div>
+                <div className="h-4 bg-gray-200 rounded w-full"></div>
+              </div>
+            </div>
+          ))
+        ) : (
+          displayedOffres.map((offre, index) => (
+          <div key={offre.id} 
+          className="space-y-3 sm:space-y-4">
               <div className="relative h-[300px] sm:h-[350px] lg:h-[400px] rounded-lg overflow-hidden">
                 <img 
-                  src={`${process.env.PUBLIC_URL}/assets/images/tanzanie.png`}
-                  alt="Tanzanie" 
+                  src={offre.pays.image}
+                    alt={offre.pays.label} 
                   className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
                 />
               </div>
               <div>
                 <div className="flex justify-between items-center mb-1 sm:mb-2">
-                  <span className="font-manrope font-light text-gray-500 text-sm sm:text-base">Tanzanie</span>
+                  <span className="font-manrope font-light text-gray-500 text-sm sm:text-base">
+                    {offre.pays.label}
+                    </span>
                   <span className="font-manrope font-light text-gray-500 text-sm sm:text-base hover:text-[#8C6EA8] transition-colors">En savoir plus {'>'}</span>
                 </div>
-                <h3 className="font-griffiths font-medium text-xl sm:text-2xl">Sauvage, vibrante<br />et indomptable</h3>
+                <h3 className="font-griffiths font-medium text-xl sm:text-2xl">
+                  {offre.label}
+                  </h3>
               </div>
             </div>
-
-            <div className="space-y-3 sm:space-y-4">
-              <div className="relative h-[300px] sm:h-[350px] lg:h-[400px] rounded-lg overflow-hidden">
-                <img 
-                  src={`${process.env.PUBLIC_URL}/assets/images/bali.png`}
-                  alt="Bali" 
-                  className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
-                />
-              </div>
-              <div>
-                <div className="flex justify-between items-center mb-1 sm:mb-2">
-                  <span className="font-manrope font-light text-gray-500 text-sm sm:text-base">Bali</span>
-                  <span className="font-manrope font-light text-gray-500 text-sm sm:text-base hover:text-[#8C6EA8] transition-colors">En savoir plus {'>'}</span>
-                </div>
-                <h3 className="font-griffiths font-medium text-xl sm:text-2xl">Vibration tropicale<br />et âmes libres</h3>
-              </div>
-            </div>
-
-            <div className="space-y-3 sm:space-y-4">
-              <div className="relative h-[300px] sm:h-[350px] lg:h-[400px] rounded-lg overflow-hidden">
-                <img 
-                  src={`${process.env.PUBLIC_URL}/assets/images/iceland.png`}
-                  alt="Islande" 
-                  className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
-                />
-              </div>
-              <div>
-                <div className="flex justify-between items-center mb-1 sm:mb-2">
-                  <span className="font-manrope font-light text-gray-500 text-sm sm:text-base">Islande</span>
-                  <span className="font-manrope font-light text-gray-500 text-sm sm:text-base hover:text-[#8C6EA8] transition-colors">En savoir plus {'>'}</span>
-                </div>
-                <h3 className="font-griffiths font-medium text-xl sm:text-2xl">Terres mystiques<br />et horizons infinis</h3>
-              </div>
-            </div>
-
-            <div className="space-y-3 sm:space-y-4">
-              <div className="relative h-[300px] sm:h-[350px] lg:h-[400px] rounded-lg overflow-hidden">
-                <img 
-                  src={`${process.env.PUBLIC_URL}/assets/images/newyork.png`}
-                  alt="New York" 
-                  className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
-                />
-              </div>
-              <div>
-                <div className="flex justify-between items-center mb-1 sm:mb-2">
-                  <span className="font-manrope font-light text-gray-500 text-sm sm:text-base">New York</span>
-                  <span className="font-manrope font-light text-gray-500 text-sm sm:text-base hover:text-[#8C6EA8] transition-colors">En savoir plus {'>'}</span>
-                </div>
-                <h3 className="font-griffiths font-medium text-xl sm:text-2xl">Shopping Art<br />& Nightlife</h3>
-              </div>
-            </div>
-
-            <div className="space-y-3 sm:space-y-4">
-              <div className="relative h-[300px] sm:h-[350px] lg:h-[400px] rounded-lg overflow-hidden">
-                <img 
-                  src={`${process.env.PUBLIC_URL}/assets/images/mexique.png`}
-                  alt="Mexique" 
-                  className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
-                />
-              </div>
-              <div>
-                <div className="flex justify-between items-center mb-1 sm:mb-2">
-                  <span className="font-manrope font-light text-gray-500 text-sm sm:text-base">Mexique</span>
-                  <span className="font-manrope font-light text-gray-500 text-sm sm:text-base hover:text-[#8C6EA8] transition-colors">En savoir plus {'>'}</span>
-                </div>
-                <h3 className="font-griffiths font-medium text-xl sm:text-2xl">Bienvenue<br />chez les Mayas !</h3>
-              </div>
-            </div>
-
-            <div className="space-y-3 sm:space-y-4">
-              <div className="relative h-[300px] sm:h-[350px] lg:h-[400px] rounded-lg overflow-hidden">
-                <img 
-                  src={`${process.env.PUBLIC_URL}/assets/images/seychelles.png`}
-                  alt="Seychelles" 
-                  className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
-                />
-              </div>
-              <div>
-                <div className="flex justify-between items-center mb-1 sm:mb-2">
-                  <span className="font-manrope font-light text-gray-500 text-sm sm:text-base">Seychelles</span>
-                  <span className="font-manrope font-light text-gray-500 text-sm sm:text-base hover:text-[#8C6EA8] transition-colors">En savoir plus {'>'}</span>
-                </div>
-                <h3 className="font-griffiths font-medium text-xl sm:text-2xl">luxe et plages<br />de rêve</h3>
-              </div>
-            </div>
-
+              ))
+            )}
           </div>
 
           <div className="text-center mt-12">
@@ -948,26 +635,50 @@ const prevEvasionSlide = () => {
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <div className="group cursor-pointer bg-[#F8F4F8] p-4 rounded-[20px] sm:rounded-[40px]">
+          {isLoading ? (
+            // Loading skeleton
+            [...Array(2)].map((_, index) => (
+              <div key={index} className="group bg-[#F8F4F8] p-4 rounded-[20px] sm:rounded-[40px] animate-pulse">
+                <div className="relative h-[300px] sm:h-[400px] rounded-[20px] sm:rounded-[34px] overflow-hidden mb-6 bg-gray-200"></div>
+                <div>
+                  <div className="h-8 bg-gray-200 rounded w-3/4 mb-2"></div>
+                  <div className="space-y-2 mb-8">
+                    <div className="h-4 bg-gray-200 rounded w-full"></div>
+                    <div className="h-4 bg-gray-200 rounded w-full"></div>
+                    <div className="h-4 bg-gray-200 rounded w-3/4"></div>
+                  </div>
+                  <div className="flex justify-between items-center mt-8">
+                    <div className="space-y-2">
+                      <div className="h-4 bg-gray-200 rounded w-32"></div>
+                      <div className="h-4 bg-gray-200 rounded w-24"></div>
+                    </div>
+                    <div className="h-4 bg-gray-200 rounded w-28"></div>
+                  </div>
+                </div>
+              </div>
+            ))
+          ) : (
+            displayedBlogs.map((blog) => (
+          <div key={blog.id} className="group cursor-pointer bg-[#F8F4F8] p-4 rounded-[20px] sm:rounded-[40px]">
               <div className="relative h-[300px] sm:h-[400px] rounded-[20px] sm:rounded-[34px] overflow-hidden mb-6">
                 <img 
-                  src={`${process.env.PUBLIC_URL}/assets/images/brazil.png`}
-                  alt="Brazil" 
+                  src={blog.imageUrl}
+                  alt={blog.title}
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
               </div>
               <div>
-                <h3 className="font-griffiths text-2xl mb-2">3 habitudes typiquement<br />brésiliennes</h3>
+                <h3 className="font-griffiths text-2xl mb-2">{blog.subTitle}</h3>
                 <div className="w-full">
-                  <p className="font-manrope font-medium text-gray-600 mb-4 ">
-                    Lorsqu’il a déménagé au Brésil, notre correspondant Olivier a été quelque peu dérouté par le mode de vie des habitants. Quelques mois lui ont été nécessaires pour s’accoutumer aux retards fréquents ou au goût prononcé des Brésiliens pour la chaleur humaine et la proximité sociale. Autant d’habitudes qu’il conseille aux voyageurs d’adopter s’ils souhaitent se fondre dans le décor au cours de leur itinéraire au Brésil.
-                  </p> 
+                  <p className="font-manrope font-light text-gray-600 mb-4 line-clamp-4">
+                    {blog.description}
+                    </p> 
                 </div>
                 
                 <div className="flex justify-between items-center my-4 mt-8">
                 <div className='flex flex-col'>
-                  <span className="font-manrope font-light text-gray-500">Par Olivier</span>
-                  <span className="font-manrope font-light text-gray-500">29 mars 2023</span>
+                  <span className="font-manrope font-light text-gray-500">Par Atlas Voyages</span>
+                  <span className="font-manrope font-light text-gray-500">{blog.createdAt}</span>
                 </div>
                 <button className="font-manrope font-light text-gray-500 hover:text-[#8C6EA8] transition-colors underline">
                   Lire l'article {'>'}
@@ -976,35 +687,9 @@ const prevEvasionSlide = () => {
                 
               </div>
             </div>
+              ))
+            )}
 
-            <div className="group cursor-pointer bg-[#F8F4F8] p-4 rounded-[20px] sm:rounded-[40px]">
-              <div className="relative h-[300px] sm:h-[400px] rounded-[20px] sm:rounded-[34px] overflow-hidden mb-6">
-                <img 
-                  src={`${process.env.PUBLIC_URL}/assets/images/cuba.png`}
-                  alt="Cuba" 
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                />
-              </div>
-              <div>
-                <h3 className="font-griffiths text-2xl mb-2">Cuba dans le rétro</h3>
-                <div className="w-full">
-                  <p className="font-manrope font-medium text-gray-600 mb-4 ">
-                    À Cuba, les Cadillac rutilantes, les Chevrolet ragaillardies et les Buick rapiécées sillonnent les rues comme si on n’avait pas changé de siècle.
-                    Mais pourquoi y a-t-il autant de vieilles voitures américaines sur l’île ? Comment peuvent-elles encore être en état de rouler ? Sont-elles en train d’être remplacées par des modèles flambants neufs ? Embarquez avec nous pour un voyage à Cuba et dans le temps ; fenêtres ouvertes et salsa à fond dans les enceintes.  
-                  </p>
-                </div>
-                
-                <div className="flex justify-between items-center my-4 mt-8">
-                <div className='flex flex-col'>
-                  <span className="font-manrope font-light text-gray-500">La Rédaction</span>
-                  <span className="font-manrope font-light text-gray-500">13 janvier 2023</span>
-                </div>
-                <button className="font-manrope font-light text-gray-500 hover:text-[#8C6EA8] transition-colors underline">
-                  Lire l'article {'>'}
-                </button>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </div>
