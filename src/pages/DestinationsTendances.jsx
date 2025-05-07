@@ -213,7 +213,7 @@ function DestinationsTendances() {
 
         <div className="text-center mt-12">
           <button className="bg-[#8C6EA8] text-white px-8 py-3 hover:bg-opacity-90 transition-colors">
-            Voir toutes les blogs {'>'}
+          Voir toutes nos suggestions {'>'}
           </button>
         </div>
       </div>
