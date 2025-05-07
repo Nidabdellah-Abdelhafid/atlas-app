@@ -1,9 +1,7 @@
 import React, { useEffect } from 'react'
+import { ChevronRight } from 'lucide-react';
 
 function DestinationsTendances() {
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
 
   // Sample destination data
   const destinations = [
@@ -73,139 +71,182 @@ function DestinationsTendances() {
     }
   ];
 
-  // Also update the hero section background image
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+  
+    const blogPosts = [
+        {
+          id: 1,
+          image: '/assets/images/blog1.png',
+          title: 'Escapade en Afrique du Sud - Loin des foules, proche de la nature',
+          description: 'Une escapade en Afrique australe. Découvrez notre sélection des plus beaux endroits à visiter, loin des sentiers battus.',
+        },
+        {
+          id: 2,
+          image: '/assets/images/blog2.png',
+          title: `au Lune d'ALULA - L'Arabie Saoudite en adresse exclusives`,
+          description: `Découvrez les merveilles cachées de l'Arabie Saoudite à travers nos adresses exclusives.`,
+        },
+        {
+          id: 3,
+          image: '/assets/images/blog3.png',
+          title: `Escapade en Norvège - Tour en finesse au fil d'adresses privilégiées`,
+          description: `Un voyage au cœur des fjords norvégiens, entre nature sauvage et confort absolu.`,
+        },
+        {
+          id: 4,
+          image: '/assets/images/blog4.png',
+          title: `Escapade en Asie - Une aventure en pleine nature`,
+          description: `Une escapade en Asie, une aventure en pleine nature.`,
+        },
+        {
+          id: 5,
+          image: '/assets/images/blog5.png',
+          title: `Escapade en Nouvelle-Zélande - Un voyage en pleine nature`,
+          description: `Une escapade en Nouvelle-Zélande, un voyage en pleine nature.`,
+     
+        },
+        {
+          id: 6,
+          image: '/assets/images/blog6.png',
+          title: `Escapade en Asie - Une aventure en pleine nature`,
+          description: `Une escapade en Asie, une aventure en pleine nature.`,
+        },
+      ];
   return (
-    <div className="min-h-screen">
+    <div>
       {/* Hero Section */}
-      <div 
-        className="relative w-full bg-cover bg-center flex items-center justify-center"
-        style={{ 
-          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('${process.env.PUBLIC_URL}/assets/images/destTen.png')`,
-          height: '100vh',
-          paddingTop: '80px' // Add padding to compensate for the header
-        }}
-      >
-        <div className="text-center text-white z-10">
-          <h2 className="text-2xl md:text-4xl font-light font-manrope">
-            Le bonheur en
-          </h2>
-          <h1 className="text-5xl sm:text-6xl md:text-8xl font-light mb-4 font-griffiths">
-            All inclusive
-          </h1>
+      <div className="relative h-screen">
+        {/* Background Image */}
+        <div 
+          className="absolute inset-0 bg-cover bg-center"
+          style={{
+            backgroundImage: `url(${process.env.PUBLIC_URL}/assets/images/destTen.png)`,
+            filter: 'brightness(0.5)'
+          }}
+        />
+        
+        {/* Content */}
+        <div className="relative z-10 flex flex-col items-center justify-center h-full text-white text-center">
+          <p className="font-manrope font-medium text-xl sm:text-3xl mb-4">Le bonheur en</p>
+          <h1 className="font-griffiths text-5xl sm:text-6xl lg:text-8xl font-bold">All inclusive</h1>
         </div>
       </div>
 
-      {/* All Inclusive Content Section */}
-      <div className="container mx-auto px-4 py-8 md:py-16">
-        <div className="flex flex-col md:flex-row items-start gap-6 md:gap-8">
-          <div className="w-full md:w-1/3">
-            <h2 className="text-3xl md:text-4xl font-light mb-2 md:mb-4 font-manrope">
-              Le luxe en 
-              <span className="hidden md:inline-block ml-11 w-20 h-1 bg-black align-middle"></span>
-              <span className="inline-block md:hidden ml-4 w-12 h-1 bg-black align-middle"></span>
-            </h2>
-            <h3 className="text-4xl sm:text-5xl md:text-6xl mb-6 md:mb-8 font-griffiths">
-              All Inclusive
-            </h3>
+      {/* Blog header */}
+      <div className="container mx-auto px-4 sm:px-6 lg:px-20 py-12">
+        <div className='px-4 sm:px-6 lg:px-14'>
+        <div className="w-full flex flex-col sm:flex-row justify-center items-center mb-2">
+            <div className='w-full sm:w-1/3'>
+          <h2 className="font-manrope font-medium text-4xl sm:text-3xl lg:text-4xl mt-4 sm:mb-4 ">
+            Le luxe en
+            <span className="inline-block w-20 h-1 bg-black ml-4 align-middle"></span>
+          </h2>
+          <div className='w-full'>
+            
+          <h3 className="font-griffiths text-5xl sm:text-5xl lg:text-8xl mb-6">
+            All Inclusive
+          </h3>
           </div>
-          
-          <div className="w-full md:w-2/3">
-            <p className="text-gray-600 text-sm md:text-md leading-relaxed mb-6 md:mb-8 font-manrope">
-              Découvrez le voyage en All Inclusive : détente totale, plaisir illimité. Plages de 
+          </div>
+          <div className='w-full sm:w-2/3 flex flex-col justify-between'>
+            <p className="font-manrope font-light text-gray-600 text-sm sm:text-base leading-relaxed mb-6 md:mb-8">
+            Découvrez le voyage en All Inclusive : détente totale, plaisir illimité. Plages de 
               rêve, repas exquis, activités passionnantes, TOUT est inclus. Laissez-vous 
               choyer dans un monde de luxe et de tranquillité. Embarquez pour des vacances 
               sans soucis durant lesquelles tous vos désirs seront comblés.
             </p>
-            
+            <div>
             <button className="bg-[#8C6EA8] text-white px-4 sm:px-6 py-2 sm:py-3 hover:bg-opacity-90 transition-colors flex items-center font-manrope text-sm sm:text-base">
               Créer votre voyage 
               <span className="ml-2 inline-flex items-center justify-center">
-                &gt;
+                <ChevronRight className="w-4 h-4" />
               </span>
             </button>
-          </div>
-        </div>
-      </div>
-
-      {/* Destinations Tendances Section */}
-      <div className="bg-gray-50 py-8 md:py-16">
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-center mb-2 md:mb-4 font-griffiths sans-serif">
-            Destinations Tendances
-          </h2>
-          <p className="text-base md:text-lg text-center mb-8 md:mb-12 font-manrope px-4">
-            Vous n'avez pas d'inspiration ? <br className="md:hidden" /> Voici nos recommandations pour un voyage de luxe réussi
-          </p>
-          
-          {/* Destination cards grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 md:gap-8 py-4 md:py-10 px-2 sm:px-4 md:px-8 lg:mx-16 xl:mx-32">
-            {destinations.map((destination) => (
-              <div key={destination.id} className="overflow-hidden max-w-xs mx-auto w-full rounded-lg">
-                <div className="relative">
-                  <img 
-                    src={destination.image} 
-                    alt={destination.title}
-                    className="w-full h-72 sm:h-80 md:h-96 lg:h-[420px] object-cover"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
-                  <div className="absolute bottom-0 left-0 right-0 p-3 md:p-4 flex justify-between items-center">
-                    <p className="text-white text-xs sm:text-sm font-medium">{destination.duration}</p>
-                    <a href={`/DestinationDetails`} className="text-white bg-black bg-opacity-50 rounded-full w-6 h-6 sm:w-8 sm:h-8 flex items-center justify-center hover:bg-opacity-70">
-                      &gt;
-                    </a>
-                  </div>
-                </div>
-                <div className="pt-3 md:pt-4">
-                  <h3 className="text-xl sm:text-2xl font-bold mb-1 md:mb-2 font-griffiths line-clamp-2">
-                    {destination.title}
-                  </h3>
-                  <p className="text-gray-700 text-xs sm:text-sm leading-relaxed font-manrope line-clamp-3">
-                    {destination.description}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-          
-          {/* View All Suggestions Button - Moved below the destinations */}
-          <div className="flex justify-center mt-6 md:mt-8">
-            <a href="/suggestions" className="bg-[#8C6EA8] text-white px-4 sm:px-6 py-2 sm:py-3 hover:bg-opacity-90 transition-colors flex items-center font-manrope text-sm sm:text-base">
-              Voir toutes nos suggestions
-              <span className="ml-2 inline-flex items-center justify-center">
-                &gt;
-              </span>
-            </a>
-          </div>
-        </div>
-      </div>
-
-      {/* Prepare Your Luxury Trip Section */}
-      <div className="py-10 md:py-20 flex justify-center">
-        <div 
-          className="relative bg-cover bg-center rounded-lg overflow-hidden w-full mx-2 sm:mx-4 max-w-6xl duration-300 hover:scale-105"
-          style={{ 
-            backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('${process.env.PUBLIC_URL}/assets/images/destTen4.png')`,
-          }}
-        >
-          <div className="container mx-auto px-4 sm:px-8 py-8 sm:py-12 md:py-16 text-white">
-            <div className="mx-auto" >
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-light mb-4 sm:mb-6 md:mb-8 font-griffiths">
-                Préparez votre voyage<br />
-                <span className="mt-1 md:mt-3 inline-block">de luxe avec Atlas Voyages</span>
-              </h2>
-              
-              <a href="/decouvrir" className="inline-block border border-white text-white px-4 sm:px-7 py-1 sm:py-1.5 hover:bg-white hover:text-gray-800 transition-colors flex items-center font-manrope text-sm sm:text-base" style={{ width: 'fit-content' }}>
-                Découvrir
-                <span className="ml-2 inline-flex items-center justify-center">
-                  &gt;
-                </span>
-              </a>
             </div>
+            
           </div>
+          </div>
+          
+
+          
+          </div>
+      </div>
+
+      {/* Our Blogs */}
+      <div className="py-8 sm:py-10 lg:pb-14 px-4 sm:px-8 lg:px-20 bg-white">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-8 sm:mb-12">
+            <h2 className="font-griffiths text-3xl sm:text-4xl lg:text-5xl mb-3 sm:mb-4 hover:text-[#8C6EA8] transition-colors">Destinations Tendances</h2>
+            <p className="font-manrope font-light text-gray-600 text-sm sm:text-base">
+            Vous n'avez pas d'inspiration ?<br className="hidden sm:block" />
+              Voici nos recommandations pour un voyage de luxe réussi
+            </p>
+          </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 mb-4 sm:mb-6 lg:mb-8">
+          {destinations.map((post) => (
+          <div key={post.id} className="space-y-3 sm:space-y-4">
+              <div className="relative h-[300px] sm:h-[350px] lg:h-[400px] rounded-lg overflow-hidden">
+                <img 
+                  src={`${process.env.PUBLIC_URL}${post.image}`}
+                  alt={post.title} 
+                  className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                />
+                <div className='absolute bottom-4 p-2 flex flex-row w-full justify-between items-center'>
+                  <p className='text-white font-manrope font-medium'>08 jours, de 16 500 à 21 000 Dhs</p>
+                  <a href="/destinationDetails" className="bg-white rounded-full p-1 cursor-pointer">
+                  <span className="text-black"><ChevronRight size={20}/></span>
+                  </a>
+                </div>
+                
+              </div>
+              <div>
+                <div className="flex justify-between items-center mb-1 sm:mb-2">
+                  <span className="font-griffiths font-semibold text-lg sm:text-2xl hover:text-[#8C6EA8] transition-colors">{post.title}</span>
+                </div>
+                <h3 className="font-manrope font-light text-sm sm:text-base">{post.description}</h3>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className="text-center mt-12">
+          <button className="bg-[#8C6EA8] text-white px-8 py-3 hover:bg-opacity-90 transition-colors">
+            Voir toutes les blogs {'>'}
+          </button>
         </div>
       </div>
+      </div>
+
+      {/* Devis Section */}         
+      <div className="  sm:container mx-6 sm:mx-auto px-6 sm:px-6 lg:px-28 py-10 sm:py-12 lg:py-8">
+          {/* Background Image */}
+          <div className='relative px-6 h-[300px] sm:h-[400px] lg:h-[550px] group'>
+          <div 
+            className="absolute inset-0 bg-cover bg-center rounded-lg overflow-hidden duration-300 group-hover:scale-105"
+            style={{
+              backgroundImage: `url(${process.env.PUBLIC_URL}/assets/images/blogAtlas.png)`,
+              filter: 'brightness(0.5)'
+            }}
+          />
+          
+          {/* Content */}
+          <div className="relative z-10 flex flex-col items-center sm:items-start justify-between h-full text-white p-4 sm:p-8 lg:p-16">
+            <h2 className="font-griffiths text-3xl sm:text-4xl lg:text-7xl font-medium mb-4 text-center sm:text-left max-w-[60vw]">
+              <span>Préparez votre voyage <br/>de luxe</span>
+              <span className="mt-2">  AVEC ATLAS VOYAGES</span>
+            </h2>
+            
+            <button className="font-manrope font-medium mt-4 sm:mt-6 lg:mt-8 border-2 border-white px-6 sm:px-8 lg:px-10 py-2 sm:py-2.5 lg:py-3 text-sm sm:text-base hover:bg-white hover:text-black transition-colors">
+              Demander un devis {'>'}
+            </button>
+          </div>
+          </div>
+          
+        </div> 
+
     </div>
   )
 }
-
 export default DestinationsTendances

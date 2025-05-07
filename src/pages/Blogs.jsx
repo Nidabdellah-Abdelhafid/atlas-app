@@ -76,13 +76,13 @@ function Blogs() {
           </h2>
           </div>
           <div className='w-full sm:w-2/3'>
-          <p className="font-manrope font-light text-gray-600 text-sm sm:text-base leading-relaxed">
-            Bienvenue sur notre Blog de voyage !<br />
-            Est fasciné, une de la mise plus des conseils pratiques et des idées d'itinéraires pour 
-            vos prochains voyages. Que ce soit des récits de places mythiques, des sites culturelles ou 
-            de circuits inédits, nos articles vous accompagnent à chaque étape de votre voyage.
-          </p>
-            </div>
+            <p className="font-manrope font-light text-gray-600 text-sm sm:text-base leading-relaxed">
+              Bienvenue sur notre Blog de voyage !<br />
+              Est fasciné, une de la mise plus des conseils pratiques et des idées d'itinéraires pour 
+              vos prochains voyages. Que ce soit des récits de places mythiques, des sites culturelles ou 
+              de circuits inédits, nos articles vous accompagnent à chaque étape de votre voyage.
+            </p>
+          </div>
           </div>
           <div className='w-full'>
             
@@ -107,9 +107,9 @@ function Blogs() {
                   alt={post.title} 
                   className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
                 />
-                <div className="absolute bottom-4 right-4 bg-white rounded-full p-2 cursor-pointer">
+                <a href="/blogDetails" className="absolute bottom-4 right-4 bg-white rounded-full p-2 cursor-pointer">
                   <span className="text-black"><ChevronRight size={20}/></span>
-                </div>
+                </a>
               </div>
               <div>
                 <div className="flex justify-between items-center mb-1 sm:mb-2">
@@ -131,7 +131,7 @@ function Blogs() {
       {/* Devis Section */}         
       <div className="  sm:container mx-6 sm:mx-auto px-6 sm:px-6 lg:px-28 py-10 sm:py-12 lg:py-8">
           {/* Background Image */}
-          <div className='relative px-6 h-[300px] sm:h-[400px] lg:h-[550px]'>
+          <div className='relative px-6 h-[300px] sm:h-[400px] lg:h-[550px] duration-300 hover:scale-105'>
           <div 
             className="absolute inset-0 bg-cover bg-center rounded-lg overflow-hidden"
             style={{

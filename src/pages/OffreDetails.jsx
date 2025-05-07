@@ -389,11 +389,11 @@ function OffreDetails() {
         </div>
 
        {/* Devis Section */}         
-        <div className="  sm:container mx-6 sm:mx-auto px-6 sm:px-6 lg:px-28 py-10 sm:py-12 lg:py-8">
+      <div className="  sm:container mx-6 sm:mx-auto px-6 sm:px-6 lg:px-28 py-10 sm:py-12 lg:py-20">
           {/* Background Image */}
-          <div className='relative px-6 h-[300px] sm:h-[400px] lg:h-[550px]'>
+          <div className='relative px-6 h-[300px] sm:h-[400px] lg:h-[550px] group'>
           <div 
-            className="absolute inset-0 bg-cover bg-center rounded-lg overflow-hidden"
+            className="absolute inset-0 bg-cover bg-center rounded-lg overflow-hidden duration-300 group-hover:scale-105"
             style={{
               backgroundImage: `url(${process.env.PUBLIC_URL}/assets/images/SudAfrica2.png)`,
               filter: 'brightness(0.5)'
@@ -428,7 +428,7 @@ function OffreDetails() {
         
         <div className="space-y-6 sm:space-y-8">
           {otherOffers.map((offer, index) => (
-            <div key={index} className="relative h-full overflow-hidden rounded-lg">
+            <div key={index} className="relative h-full overflow-hidden rounded-lg duration-300 hover:scale-105">
               <div 
                 className="absolute inset-0 bg-cover bg-center"
                 style={{
@@ -492,7 +492,7 @@ function OffreDetails() {
                 <img 
                   src={`${process.env.PUBLIC_URL}${offer.image}`}
                   alt={offer.title}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover duration-300 group-hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-black/20 transition-opacity group-hover:bg-black/30" />
                 <div className="absolute inset-x-0 bottom-0 p-6 text-white">
