@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { ChevronLeft, ChevronRight, MoveDownIcon, Search } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate} from 'react-router-dom';
 import { fetchBlogs, fetchOffres, fetchPays} from '../services/fetchers/dataFetchers';
 
 function Home() {
@@ -16,6 +16,8 @@ function Home() {
   const [blogs, setBlogs] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [suggestions, setSuggestions] = useState([]);
+  const navigate = useNavigate();
+  const [selectedCountry, setSelectedCountry] = useState(null);
   const [isSearchFocused, setIsSearchFocused] = useState(false);
   const searchRef = useRef(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -196,6 +198,7 @@ function Home() {
             value={searchQuery}
             onChange={(e) => {
               setSearchQuery(e.target.value);
+              setSelectedCountry(null);
               if (e.target.value) {
                 const filtered = pays.filter(country =>
                   country.label.toLowerCase().includes(e.target.value.toLowerCase())
@@ -209,10 +212,14 @@ function Home() {
             placeholder="Où souhaitez-vous partir ?"
             className="font-manrope font-normal w-full py-3 px-4 pr-12 bg-white/90 backdrop-blur focus:outline-none focus:ring-2 focus:ring-[#8C6EA8]/50 transition-all duration-300"
           />
-          <div className='absolute right-4 top-1/2 -translate-y-1/2 bg-gray-700 hover:bg-[#8C6EA8] rounded-full p-1.5 cursor-pointer transition-colors duration-300'>
+          <div 
+            onClick={() => selectedCountry && navigate(`/destinationDetails/${selectedCountry.id}`)}
+            className={`absolute right-4 top-1/2 -translate-y-1/2 ${selectedCountry ? 'bg-[#8C6EA8]' : 'bg-gray-700'} hover:bg-[#8C6EA8] rounded-full p-1.5 cursor-pointer transition-colors duration-300`}
+          >
             <Search className="text-white" size={18} />
           </div>
         </div>
+
   
           {/* Suggestions dropdown */}
           {isSearchFocused && suggestions.length > 0 && (
@@ -223,6 +230,7 @@ function Home() {
                   className="px-4 py-2 cursor-pointer hover:bg-gray-50 flex items-center gap-3 border-b border-gray-100 last:border-b-0"
                   onClick={() => {
                     setSearchQuery(country.label);
+                    setSelectedCountry(country);
                     setSuggestions([]);
                     setIsSearchFocused(false);
                   }}
@@ -361,9 +369,9 @@ function Home() {
                       {offre.description}
                     </p>
                     <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
-                      <button className="font-manrope font-medium w-full sm:w-auto border border-white px-4 sm:px-6 py-1.5 sm:py-2 text-sm sm:text-base hover:bg-white hover:text-black transition-colors">
+                      <Link to={`/destinationDetails/${offre?.pays.id}`} className="font-manrope font-medium w-full sm:w-auto border border-white px-4 sm:px-6 py-1.5 sm:py-2 text-sm sm:text-base hover:bg-white hover:text-black transition-colors">
                         Découvrir {'>'}
-                      </button>
+                      </Link>
                       <div className="font-manrope font-light text-xs sm:text-sm text-white/80 bg-white/20 px-4 sm:px-6 py-1.5 sm:py-2 w-full sm:w-auto text-center sm:text-left">
                         {offre.pays.label}
                       </div>
@@ -420,7 +428,9 @@ function Home() {
                 <h3 className="font-manrope font-medium text-white text-2xl">{pays.label}</h3>
               </div>
               <div className="absolute bottom-0 right-0 p-6">
+                <Link to={`/destinationDetails/${pays.id}`}>
                 <ChevronRight className="text-white bg-black rounded-full" size={24} />
+                </Link>
               </div>
             </div>
           ))}
@@ -445,7 +455,9 @@ function Home() {
                   <h3 className="font-manrope font-medium text-white text-2xl">{pays.label}</h3>
                 </div>
                 <div className="absolute bottom-0 right-0 p-6">
-                  <ChevronRight className="text-white bg-black rounded-full" size={24} />
+                  <Link to={`/destinationDetails/${pays.id}`}>
+                    <ChevronRight className="text-white bg-black rounded-full" size={24} />
+                  </Link>
                 </div>
               </div>
             ))}
@@ -519,7 +531,7 @@ function Home() {
             </div>
           ))
         ) : (
-          displayedOffres.map((offre, index) => (
+          displayedOffres?.map((offre, index) => (
           <div key={offre.id} 
           className="space-y-3 sm:space-y-4">
               <div className="relative h-[300px] sm:h-[350px] lg:h-[400px] rounded-lg overflow-hidden">
@@ -534,7 +546,11 @@ function Home() {
                   <span className="font-manrope font-light text-gray-500 text-sm sm:text-base">
                     {offre.pays.label}
                     </span>
-                  <span className="font-manrope font-light text-gray-500 text-sm sm:text-base hover:text-[#8C6EA8] transition-colors">En savoir plus {'>'}</span>
+                  <Link to={`/destinationDetails/${offre.pays.id}`} className="flex font-manrope font-light text-gray-500 text-sm sm:text-base hover:text-[#8C6EA8] transition-colors">
+                  En savoir plus 
+                  <ChevronRight className="" size={24} />
+                    </Link>
+                    
                 </div>
                 <h3 className="font-griffiths font-medium text-xl sm:text-2xl">
                   {offre.label}
@@ -658,7 +674,7 @@ function Home() {
               </div>
             ))
           ) : (
-            displayedBlogs.map((blog) => (
+            displayedBlogs?.map((blog) => (
           <div key={blog.id} className="group cursor-pointer bg-[#F8F4F8] p-4 rounded-[20px] sm:rounded-[40px]">
               <div className="relative h-[300px] sm:h-[400px] rounded-[20px] sm:rounded-[34px] overflow-hidden mb-6">
                 <img 
@@ -680,9 +696,11 @@ function Home() {
                   <span className="font-manrope font-light text-gray-500">Par Atlas Voyages</span>
                   <span className="font-manrope font-light text-gray-500">{blog.createdAt}</span>
                 </div>
-                <button className="font-manrope font-light text-gray-500 hover:text-[#8C6EA8] transition-colors underline">
-                  Lire l'article {'>'}
-                </button>
+                <Link to={`/blogDetails/${blog.id}`}  className="flex font-manrope font-light text-gray-500 hover:text-[#8C6EA8] transition-colors underline">
+                  Lire l'article                   
+                  <ChevronRight className="" size={24} />
+
+                </Link>
                 </div>
                 
               </div>

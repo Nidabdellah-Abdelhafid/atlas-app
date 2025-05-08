@@ -1,9 +1,33 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { fetchBlogs } from '../services/fetchers/dataFetchers';
 
-function BlogDetails() {
-    useEffect(() => {
-        window.scrollTo(0, 0);
-      }, []);
+function BlogDetails() {  
+    const { id } = useParams();
+    const [blog, setBlog] = useState(null);
+
+    const loadBlogsContentData = useCallback(async () => {
+        try {
+          const blogData = await fetchBlogs();
+          const selectedBlog = blogData.find(o => o.id === parseInt(id));
+          setBlog(selectedBlog);
+        } catch (error) {
+          console.error('Error fetching offres:', error);
+        }
+      }, [id]);
+  
+      useEffect(() => {
+          window.scrollTo(0, 0);
+          loadBlogsContentData();
+      }, [loadBlogsContentData]);
+
+  const isFeminineWord = (word) => {
+    if (!word) return false;
+    const lowercaseWord = word.toLowerCase();
+    const feminineEndings = ['tion', 'sion', 'té', 'ie', 'ure', 'ance', 'ence', 'ette', 'elle'];
+    return feminineEndings.some(ending => lowercaseWord.endsWith(ending));
+  };
+
   return (
     <div >
         <div className="relative min-h-screen"> 
@@ -11,7 +35,7 @@ function BlogDetails() {
             <div 
                 className="absolute inset-0 bg-cover bg-center"
                 style={{
-                backgroundImage: `url(${process.env.PUBLIC_URL}/assets/images/blog1.png)`,
+                backgroundImage: `url(${blog?.imageUrl})`,
                 filter: 'brightness(0.5)'
                 }}
             />
@@ -20,7 +44,7 @@ function BlogDetails() {
             <div className="relative z-10 flex flex-col items-center justify-center min-h-screen text-white">
                 
                 <h1 className="font-griffiths text-5xl sm:text-6xl lg:text-8xl font-bold text-center">
-                Blog Brésil
+                Blog {blog?.title}
                 </h1>
             </div>
         </div>
@@ -29,94 +53,44 @@ function BlogDetails() {
         <div className="container mx-auto px-4 sm:px-6 lg:px-20 py-12">
             <div className="max-w-4xl mx-auto text-center">
                 <h2 className="font-griffiths text-3xl sm:text-7xl font-500 mb-6">
-                3 habitudes typiquement<br />brésiliennes
+                {blog?.subTitle}
                 </h2>
                 <p className="font-manrope font-light  text-gray-600 text-sm sm:text-base mb-16">
-                Lorsqu'il a déménagé au Brésil, notre correspondant Olivier a été quelque peu déçu par le monde du café. Mais il a rapidement trouvé son bonheur dans des découvertes qui l'ont marqué : la fréquence du goût prononcé des Brésiliens pour le château humaine et la proximité sociale. Autant d'habitudes qu'il conseille à chaque voyageur de prendre dans sa besace avant de partir au cours de leur itinéraire au Brésil.
+                {blog?.description}
+                
                 </p>
             </div>
 
             <div className="space-y-20 px-2 sm:px-32">
-                {/* First Item */}
-                <div className="flex flex-col gap-8">
+                
+                {blog?.blogContents?.map((blogContent,index)=>(
+                
+                <div key={blogContent.id} className="flex flex-col gap-8">
                     <img 
-                    src={`${process.env.PUBLIC_URL}/assets/images/blog2.png`}
-                    alt="Rio de Janeiro"
+                    src={blogContent.imageUrl}
+                    alt={blogContent.title}
                     className="w-full h-[500px] object-cover"
                     />
                     <div className="flex flex-col lg:flex-row gap-8 lg:gap-16">
                     <div className="lg:w-1/3">
                         <h3 className="font-gilroy font-medium text-2xl sm:text-7xl">
-                        Prendre son temps
+                        {blogContent.title}
                         </h3>
                     </div>
                     <div className="font-manrope font-light lg:w-2/3 space-y-6 text-gray-700 text-base sm:text-lg">
-                    <p>
-                        En retard ? Vous avez dit en retard ? Au Brésil, j'ai rapidement appris que la notion du temps est différente. Peut-être encore plus à Rio de Janeiro. Que ce soit dans la vie privée ou dans la vie professionnelle, le retard est toléré. Celui-ci est même devenu naturel.
+                        <p>
+                        {blogContent.paragraph1}
                         </p>
                         <p>
-                        Il n'est pas rare d'arriver à une fête d'amis avec deux heures de retard. Personne ne vous fera la remarque qu'il est fort probable que vous ne serez pas le dernier à être en retard. Un petit conseil : si vos amis vous attendent à 14 h, partez de chez vous à 14 h ! Une expression brésilienne illustre parfaitement cet état d'esprit : « Personne ne veut arriver le premier à la fête, comme le riz à table ».
+                        {blogContent.paragraph2}
                         </p>
                         <p>
-                        L'important est que tout le monde soit bien arrivé et surtout, d'être ensemble. L'heure d'arrivée devient donc un concept flexible. Cet état d'esprit permet alors aux Brésiliens, et en particulier aux Cariocas, de garder une attitude zen dans plusieurs circonstances qui sembleraient stressantes en France : files d'attente, embouteillages, démarches bureaucratiques.
+                        {blogContent.paragraph3}
                         </p>
                     </div>
                     </div>
                 </div>
-
-                {/* Second Item */}
-                <div className="flex flex-col gap-8">
-                    <img 
-                    src={`${process.env.PUBLIC_URL}/assets/images/blog3.png`}
-                    alt="Restaurant"
-                    className="w-full h-[500px] object-cover"
-                    />
-                    <div className="flex flex-col lg:flex-row gap-8 lg:gap-16">
-                    <div className="lg:w-1/3">
-                        <h3 className="font-gilroy font-medium text-2xl sm:text-7xl">
-                        Manger à toute heure de la journée
-                        </h3>
-                    </div>
-                    <div className="font-manrope font-light lg:w-2/3 space-y-6 text-gray-700 text-base sm:text-lg">
-                    <p>
-                        Les Brésiliens sont le plus souvent très gourmands. Les trois repas de la journée sont copieux et servis chauds. Entre ceux-ci, il n'est pas rare de se laisser tenter par un petit salgado, un petit en-cas salé. Le dessert qui suit le déjeuner est sacré pour la majorité des Brésiliens. Idem pour le café tout au long de la journée ou les barbecues qui peuvent durer plus de 24 heures.
-                        </p>
-                        <p>
-                        Dans les grandes villes, les restaurants fonctionnent généralement du matin au soir et sans interruption. Si vous désirez manger au milieu de la nuit ou de l'après-midi, vous serez reçus, sans aucun problème.
-                        </p>
-                        <p>
-                        Les Brésiliens apprécient beaucoup les restaurants à kilo (au kilo). Pas de menu à la carte, mais d'immenses buffets aux multiples saveurs : salades, viandes et poissons, légumes et féculents, desserts. Chacun se sert en fonction de ses envies et de son appétit. Le tout est pesé et l'addition, calculée au poids total de la nourriture consommée.
-                        </p>
-                    </div>
-                    </div>
-                </div>
-
-                {/* Third Item */}
-                <div className="flex flex-col gap-8">
-                    <img 
-                    src={`${process.env.PUBLIC_URL}/assets/images/blog4.png`}
-                    alt="Street Music"
-                    className="w-full h-[500px] object-cover"
-                    />
-                    <div className="flex flex-col lg:flex-row gap-8 lg:gap-16">
-                    <div className="lg:w-1/3">
-                        <h3 className="font-gilroy font-medium text-2xl sm:text-7xl">
-                        Ne pas craindre la promiscuité
-                        </h3>
-                    </div>
-                    <div className="font-manrope font-light lg:w-2/3 space-y-6 text-gray-700 text-base sm:text-lg">
-                    <p>
-                        Les Brésiliens sont le plus souvent très gourmands. Les trois repas de la journée sont copieux et servis chauds. Entre ceux-ci, il n'est pas rare de se laisser tenter par un petit salgado, un petit en-cas salé. Le dessert qui suit le déjeuner est sacré pour la majorité des Brésiliens. Idem pour le café tout au long de la journée ou les barbecues qui peuvent durer plus de 24 heures.
-                        </p>
-                        <p>
-                        Dans les grandes villes, les restaurants fonctionnent généralement du matin au soir et sans interruption. Si vous désirez manger au milieu de la nuit ou de l'après-midi, vous serez reçus, sans aucun problème.
-                        </p>
-                        <p>
-                        Les Brésiliens apprécient beaucoup les restaurants à kilo (au kilo). Pas de menu à la carte, mais d'immenses buffets aux multiples saveurs : salades, viandes et poissons, légumes et féculents, desserts. Chacun se sert en fonction de ses envies et de son appétit. Le tout est pesé et l'addition, calculée au poids total de la nourriture consommée.
-                        </p>
-                        </div>
-                    </div>
-                </div>
+))}
                 </div>
         </div>
 
@@ -136,7 +110,20 @@ function BlogDetails() {
             <div className="relative z-10 flex flex-col items-center justify-between h-full text-white text-center py-20">
             <div>
                 <p className="font-manrope font-medium text-xl sm:text-5xl mb-4">Nos idées de voyage</p>
-                <h2 className="font-griffiths text-4xl sm:text-5xl lg:text-9xl font-medium mb-8">Le Brésil</h2>
+                <h2 className="font-griffiths text-4xl sm:text-5xl lg:text-9xl font-medium mb-8">
+                {blog?.title?.toLowerCase().startsWith('a') || 
+                    blog?.title?.toLowerCase().startsWith('e') || 
+                    blog?.title?.toLowerCase().startsWith('i') || 
+                    blog?.title?.toLowerCase().startsWith('o') || 
+                    blog?.title?.toLowerCase().startsWith('u') || 
+                    blog?.title?.toLowerCase().startsWith('y') 
+                        ? "L'"
+                        : isFeminineWord(blog?.title) 
+                        ? "La "
+                        : "Le "
+                    }
+                    {blog?.title}
+                </h2>
             </div>
             <button className="font-manrope font-medium border-2 border-white px-14 py-2 hover:bg-white hover:text-black transition-colors">
                 Découvrir {'>'}

@@ -1,32 +1,69 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { Link, useParams } from 'react-router-dom';
+import { fetchOffres, fetchPays, fetchPhotos } from '../services/fetchers/dataFetchers';
 
 function DestinationDetails() {
+  const { id } = useParams();
+  const [pays, setPays] = useState(null);
+  const [photos, setPhotos] = useState(null);
+  const [offres, setOffres] = useState(null);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
-  
-  // Add state for offer galleries
   const [currentOffer1Slide, setCurrentOffer1Slide] = useState(0);
-  const [currentOffer2Slide, setCurrentOffer2Slide] = useState(0);
   
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-
-  const slides = [
-    {
-      id: 1,
-      image: '/assets/images/dest1.png'
-    },
-    {
-      id: 2,
-      image: '/assets/images/dest3.png'
-    },
-    {
-      id: 3,
-      image: '/assets/images/dest2.png'
+  
+  const loadPhotos = useCallback(async () => {
+    try {
+      const photosData = await fetchPhotos();
+      const countryPhotos = photosData.filter(photo => 
+        photo.pays?.id === parseInt(id)
+      );
+      setPhotos(countryPhotos);
+    } catch (error) {
+      console.error('Error fetching photos:', error);
     }
-  ];
+  }, [id]);
+  
+  const loadOffres = useCallback(async () => {
+    try {
+      const offresData = await fetchOffres();
+      const countryOffres = offresData.filter(offre => 
+        offre.pays?.id === parseInt(id)
+      );
+      setOffres(countryOffres);
+    } catch (error) {
+      console.error('Error fetching offres:', error);
+    }
+  }, [id]);
+  
+  // Update the useEffect
+  useEffect(() => {
+    const loadPays = async () => {
+      try {
+        const paysData = await fetchPays();
+        const selectedPays = paysData.find(o => o.id === parseInt(id));
+        setPays(selectedPays);
+      } catch (error) {
+        console.error('Error fetching offre:', error);
+      }
+    };
+  
+    loadPays();
+    loadPhotos();
+    loadOffres();
+  }, [id, loadPhotos, loadOffres]);
+  
+
+  // console.log(offres);
+
+  const slides = photos?.map(photo => ({
+    id: photo.id,
+    image: photo.url
+  }));
 
   const gridOffers = [
     {
@@ -50,83 +87,57 @@ function DestinationDetails() {
   ];
 
   // Define image sets for each offer
-  const offer1Images = [
-    '/assets/images/dest4.png',
-    '/assets/images/dest6.png',
-    '/assets/images/dest7.png'
-  ];
+  const offer1Images = photos?.map(photo => (
+     photo.url
+  ));
   
-  const offer2Images = [
-    '/assets/images/dest5.png',
-    '/assets/images/dest7.png',
-    '/assets/images/dest6.png',
-  ];
-
   const nextSlide = () => {
     if (isTransitioning) return;
     setIsTransitioning(true);
-    setCurrentSlide((prev) => (prev + 1) % slides.length);
+    setCurrentSlide((prev) => (prev + 1) % slides?.length);
     setTimeout(() => setIsTransitioning(false), 400); // Match this with transition duration
   };
   
   const prevSlide = () => {
     if (isTransitioning) return;
     setIsTransitioning(true);
-    setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
+    setCurrentSlide((prev) => (prev - 1 + slides?.length) % slides?.length);
     setTimeout(() => setIsTransitioning(false), 400); // Match this with transition duration
   };
 
   // Navigation functions for offer 1 gallery
   const nextOffer1Slide = () => {
-    setCurrentOffer1Slide((prev) => (prev + 1) % offer1Images.length);
+    setCurrentOffer1Slide((prev) => (prev + 1) % offer1Images?.length);
   };
   
   const prevOffer1Slide = () => {
-    setCurrentOffer1Slide((prev) => (prev - 1 + offer1Images.length) % offer1Images.length);
+    setCurrentOffer1Slide((prev) => (prev - 1 + offer1Images?.length) % offer1Images?.length);
   };
   
-  // Navigation functions for offer 2 gallery
-  const nextOffer2Slide = () => {
-    setCurrentOffer2Slide((prev) => (prev + 1) % offer2Images.length);
-  };
-  
-  const prevOffer2Slide = () => {
-    setCurrentOffer2Slide((prev) => (prev - 1 + offer2Images.length) % offer2Images.length);
-  };
-
   // Calculate previous and next indices
-  const prevIndex = (currentSlide - 1 + slides.length) % slides.length;
-  const nextIndex = (currentSlide + 1) % slides.length;
-  const bestPeriods = {
-    janvier: [1],
-    février: [1, 2],
-    mars: [1, 2, 3],
-    avril: [1, 2, 3],
-    mai: [1, 2, 3],
-    juin: [1, 2, 3],
-    juillet: [1, 2, 3],
-    août: [1, 2, 3],
-    septembre: [1, 2],
-    octobre: [1, 2],
-    novembre: [1, 2],
-    décembre: [1, 2]
-  };
+  const prevIndex = (currentSlide - 1 + slides?.length) % slides?.length;
+  const nextIndex = (currentSlide + 1) % slides?.length;
+  const months = [
+    'january', 'february', 'march', 'april', 'may', 'june',
+    'july', 'august', 'september', 'october', 'november', 'december'
+  ];
+
   return (
     <div>
       {/* Hero Section */}
       <div 
         className="relative w-full bg-cover bg-center flex items-center justify-center min-h-screen"
         style={{ 
-          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('${process.env.PUBLIC_URL}/assets/images/dest.png')`,
+          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('${pays?.image}')`,
           paddingTop: '80px' // Add padding to compensate for the header
         }}
       >
         <div className="text-center text-white z-10 px-4 sm:px-6 lg:px-8">
           <h1 className="text-4xl sm:text-6xl lg:text-8xl font-light mb-4 font-griffiths leading-tight">
-            Escapade en Afrique du Sud
+            Escapade en {pays?.label}
           </h1>
           <h2 className="text-xl sm:text-2xl lg:text-4xl font-light font-manrope">
-            Loin des foules, proche de la nature
+          {pays?.subTitle}
           </h2>
         </div>
       </div>
@@ -137,15 +148,14 @@ function DestinationDetails() {
             Escapade en
           </h2>
           <h3 className="text-3xl sm:text-4xl lg:text-7xl mb-6 sm:mb-8 lg:mb-10 text-center font-griffiths font-normal">
-            Afrique du Sud
+          {pays?.label}
           </h3>
         </div>
 
         <div className="container mx-auto px-6 sm:px-16 lg:px-48 ">
           <p className="text-sm sm:text-base lg:text-lg text-gray-600 text-center leading-relaxed mb-6 sm:mb-8 font-manrope">
-            Entre safaris privés et lodges somptueux, l'Afrique du Sud dévoile un luxe sauvage où chaque lever de soleil est une œuvre d'art. 
-            Dégustez un grand cru face aux lions, laissez le vent d'Afrique murmurer à votre âme.
-          </p>
+          {pays?.description}
+            </p>
         </div>
       </div>
 
@@ -163,7 +173,7 @@ function DestinationDetails() {
               }}
             >
               <img 
-                src={slides[prevIndex].image}
+                src={slides && slides[prevIndex]?.image}
                 alt="Previous slide" 
                 className="w-full h-full object-cover"
               />
@@ -178,7 +188,7 @@ function DestinationDetails() {
               }}
             >
               <img 
-                src={slides[currentSlide].image}
+                src={slides && slides[currentSlide]?.image}
                 alt="Current slide" 
                 className="w-full h-[300px] sm:h-[400px] lg:h-[550px] object-cover"
               />
@@ -193,7 +203,7 @@ function DestinationDetails() {
               }}
             >
               <img 
-                src={slides[nextIndex].image}
+                src={slides && slides[nextIndex]?.image}
                 alt="Next slide" 
                 className="w-full h-full object-cover"
               />
@@ -224,13 +234,13 @@ function DestinationDetails() {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-light text-center mb-8 sm:mb-12 font-griffiths">
             les meilleures périodes<br />
-            pour découvrir l'afrique du sud
+            pour découvrir {pays?.label}
           </h2>
           
           <div className="max-w-6xl mx-auto overflow-x-auto">
             <div className="min-w-[940px] px-4">
               <div className="grid grid-cols-12 gap-2 sm:gap-10">
-                {Object.entries(bestPeriods).map(([month, dots]) => (
+                {months.map((month) => (
                   <div key={month} className="flex flex-col items-center">
                     <span className="text-xs sm:text-sm font-manrope capitalize mb-2">
                       {month}
@@ -240,7 +250,7 @@ function DestinationDetails() {
                         <div
                           key={dot}
                           className={`w-2 h-2 sm:w-3 sm:h-3 rounded-full ${
-                            dots.includes(dot) 
+                            pays && pays[month] >= dot
                               ? 'bg-[#DDBE8B]' 
                               : 'bg-transparent'
                           }`}
@@ -282,7 +292,7 @@ function DestinationDetails() {
                     <div className="flex justify-between w-full items-center">
                       <span className="text-lg sm:text-2xl font-semibold font-griffiths">Visa</span>
                       <span className="inline-block w-32 sm:w-72  h-0.5 bg-[#707070]"></span>
-                      <span className="text-lg sm:text-lg font-normal font-manrope">oui</span>
+                      <span className="text-lg sm:text-lg font-normal font-manrope">{pays?.visa? 'Oui':'Non'}</span>
                     </div>
                   </div>
                   
@@ -298,7 +308,7 @@ function DestinationDetails() {
                     <div className="flex justify-between w-full items-center">
                       <span className="text-lg sm:text-2xl font-semibold font-griffiths">Durée du vol</span>
                       <span className="inline-block w-16 sm:w-36 h-0.5 bg-[#707070]"></span>
-                      <span className="text-lg sm:text-lg font-normal font-manrope">18h(1escale)</span>
+                      <span className="text-lg sm:text-lg font-normal font-manrope">{pays?.dureeDuVol}</span>
                     </div>
                   </div>
                   
@@ -314,7 +324,7 @@ function DestinationDetails() {
                     <div className="flex justify-between w-full items-center">
                       <span className="text-lg sm:text-2xl font-semibold font-griffiths">Heure locale</span>
                       <span className="inline-block w-32 sm:w-48 h-0.5 bg-[#707070]"></span>
-                      <span className="text-lg sm:text-lg font-normal font-manrope">UTC +2</span>
+                      <span className="text-lg sm:text-lg font-normal font-manrope">{pays?.heureLocale}</span>
                     </div>
                   </div>
                   
@@ -330,7 +340,7 @@ function DestinationDetails() {
                     <div className="flex justify-between w-full items-center">
                       <span className="text-lg sm:text-2xl font-semibold font-griffiths">Monnaie locale</span>
                       <span className="inline-block w-28 sm:w-48 h-0.5 bg-[#707070]"></span>
-                      <span className="text-lg sm:text-lg font-normal font-manrope">Rand</span>
+                      <span className="text-lg sm:text-lg font-normal font-manrope">{pays?.monnaieLocale}</span>
                     </div>
                   </div>
                   
@@ -346,7 +356,7 @@ function DestinationDetails() {
                     <div className="flex justify-between w-full items-center">
                       <span className="text-lg sm:text-2xl font-semibold font-griffiths">Langue parlée</span>
                       <span className="inline-block w-16 h-0.5 bg-[#707070]"></span>
-                      <span className="text-lg sm:text-lg font-normal font-manrope">Afrikaans - Anglais</span>
+                      <span className="text-lg sm:text-lg font-normal font-manrope">{pays?.langueParlee}</span>
                     </div>
                   </div>
                   
@@ -362,7 +372,7 @@ function DestinationDetails() {
                     <div className="flex justify-between w-full items-center">
                       <span className="text-lg sm:text-2xl font-semibold font-griffiths">Vaccins nécessaires</span>
                       <span className="inline-block w-24 sm:w-36 h-0.5 bg-[#707070]"></span>
-                      <span className="text-lg sm:text-lg font-normal font-manrope">Non</span>
+                      <span className="text-lg sm:text-lg font-normal font-manrope">{pays?.vaccinsNecessaires? 'Oui':'Non'}</span>
                     </div>
                   </div>
                 </div>
@@ -376,14 +386,15 @@ function DestinationDetails() {
       <div className="py-20 bg-[#FFFCF7]">
         <div className="">
           {/* First Offer */}
-          <div className="mb-6">
+          {offres?.map((offre , index) => (
+          <div key={offre.id} className="mb-6">
           <div className='px-6 sm:px-16 lg:px-20 w-full sm:w-full lg:w-1/2'>
 
                 <h2 className="font-griffiths text-2xl sm:text-4xl lg:text-6xl font-bold mb-1">
-                  Afrique du Sud
+                {offre?.pays.label}
                 </h2>
                 <h3 className="font-griffiths text-2xl sm:text-4xl lg:text-6xl font-normal mb-6 flex items-baseline w-full">
-                  <span className='w-full'>Loin des foules</span>
+                  <span className='w-full'>{offre?.label}</span>
                   <span className="inline-block w-full h-0.5 bg-black"></span>
                 </h3>
 
@@ -394,20 +405,14 @@ function DestinationDetails() {
               <div className="md:w-1/2">
               <div className='px-6 sm:px-16 lg:px-20 '>
                 <p className="text-gray-700 mb-8 font-manrope">
-                  Bienvenue en Afrique australe ! 
-                  L'Afrique australe, trésor du continent, offre une expérience de voyage unique 
-                  et émouvante, avec des destinations inoubliables comme Le Cap, le parc 
-                  national de Chobe et les chutes Victoria. Le Cap fascine avec ses paysages 
-                  époustouflants et sa culture vibrante. Le parc national de Chobe séduit par 
-                  sa faune exceptionnelle, abritant l'une des plus grandes populations 
-                  d'éléphants d'Afrique.
+                {offre?.description}
                 </p>
                 
                 <div className="flex items-center mb-4">
                   <div className="mr-12">
-                    <p className="text-gray-700 font-manrope">9 nuits / 10 jours</p>
+                    <p className="text-gray-700 font-manrope">{(offre?.offreDayNumber-1)} nuits / {offre?.offreDayNumber} jours</p>
                     <p className="text-xl font-semibold font-griffiths">
-                      Tarif à partir de : 32 000Dhs
+                      Tarif à partir de :  {offre?.price} Dhs
                     </p>
                   </div>
                   
@@ -421,9 +426,9 @@ function DestinationDetails() {
                   </div>
                 </div>
                 
-                <a href="/offreDetails" className="inline-block border border-black px-6 py-2 hover:bg-black hover:text-white transition-colors font-manrope">
+                <Link to={`/offreDetails/${offre?.id}`} className="inline-block border border-black px-6 py-2 hover:bg-black hover:text-white transition-colors font-manrope">
                   Voir l'offre <span className="ml-1">&gt;</span>
-                </a>
+                </Link>
               </div>
               </div>
               
@@ -433,14 +438,14 @@ function DestinationDetails() {
                   <div className="flex">
                     <div className="w-full">
                       <img 
-                        src={`${process.env.PUBLIC_URL}${offer1Images[currentOffer1Slide]}`} 
+                        src={offer1Images && offer1Images[currentOffer1Slide]} 
                         alt="Safari view" 
                         className="w-full h-[300px] object-cover duration-300 hover:scale-105"
                       />
                     </div>
                     <div className="w-1/3 ml-4">
                       <img 
-                        src={`${process.env.PUBLIC_URL}${offer1Images[(currentOffer1Slide + 1) % offer1Images.length]}`} 
+                        src={offer1Images && offer1Images[(currentOffer1Slide + 1) % offer1Images.length]} 
                         alt="Safari wildlife" 
                         className="w-full h-[300px] object-cover duration-300 hover:scale-105"
                       />
@@ -465,101 +470,9 @@ function DestinationDetails() {
               </div>
             </div>
           </div>
-          
-          {/* Second Offer */}
-          <div>
-          <div className='px-6 sm:px-16 lg:px-20 w-full sm:w-full lg:w-1/2'>
-            <h2 className="font-griffiths text-2xl sm:text-4xl lg:text-6xl font-bold mb-1">
-              Afrique du Sud
-            </h2>
-            <h3 className="font-griffiths text-2xl sm:text-4xl lg:text-6xl font-normal mb-6 flex items-baseline w-full">
-              <span className='w-full'>Proche de la nature</span>
-              <span className="inline-block w-1/2 h-0.5 bg-black"></span>
-            </h3>
-
-            </div>
-            <div className="flex flex-col md:flex-row py-4">
-              {/* Left side - Text content */}
-              <div className="md:w-1/2">
-              <div className='px-6 sm:px-16 lg:px-20'>
-                <p className="text-gray-700 mb-8 font-manrope">
-                  Bienvenue en Afrique australe ! 
-                  L'Afrique australe, trésor du continent, offre une expérience de voyage unique 
-                  et émouvante, avec des destinations inoubliables comme Le Cap, le parc 
-                  national de Chobe et les chutes Victoria. Le Cap fascine avec ses paysages 
-                  époustouflants et sa culture vibrante. Le parc national de Chobe séduit par 
-                  sa faune exceptionnelle, abritant l'une des plus grandes populations 
-                  d'éléphants d'Afrique.
-                </p>
-                
-                <div className="flex items-center mb-4">
-                  <div className="mr-12">
-                    <p className="text-gray-700 font-manrope">13 jours</p>
-                    <p className="text-xl font-semibold font-griffiths">
-                      Tarif à partir de : 39 000Dhs
-                    </p>
-                  </div>
-                  
-                  <div>
-                    <p className="text-gray-700 font-semibold mb-1 font-manrope">Inclus: Total pour 1 voyageur</p>
-                    <ul className="text-gray-700 font-manrope">
-                      <li>vols Eco Std</li>
-                      <li>Hôtels</li>
-                      <li>Transfert</li>
-                    </ul>
-                  </div>
-                </div>
-                
-                <a href="/offre/afrique-sud-nature" className="inline-block border border-black px-6 py-2 hover:bg-black hover:text-white transition-colors font-manrope">
-                  Voir l'offre <span className="ml-1">&gt;</span>
-                </a>
-              </div>
-              </div>
-              
-              {/* Right side - Images with slider */}
-              <div className="md:w-1/2 mt-8 md:mt-0">
-                <div className="relative overflow-hidden">
-                  <div className="flex">
-                    <div className="w-full">
-                      <img 
-                        src={`${process.env.PUBLIC_URL}${offer2Images[currentOffer2Slide]}`} 
-                        alt="Safari view" 
-                        className="w-full h-[300px] object-cover duration-300 hover:scale-105"
-                      />
-                    </div>
-                    <div className="w-1/3 ml-4">
-                      <img 
-                        src={`${process.env.PUBLIC_URL}${offer2Images[(currentOffer2Slide + 1) % offer2Images.length]}`} 
-                        alt="Safari wildlife" 
-                        className="w-full h-[300px] object-cover duration-300 hover:scale-105"
-                      />
-                    </div>
-                  </div>
-
-                  {/* Navigation Arrows */}
-                  <div className='w-full px-6 flex justify-end items-center gap-2 sm:gap-4 my-4'>
-                    <button 
-                      onClick={prevOffer2Slide}
-                      className="bg-white rounded-full p-1.5 sm:p-2 shadow-lg hover:bg-gray-100 hover:scale-110 transition-all duration-300"
-                    >
-                      <ChevronLeft size={20} className="text-gray-800 hover:text-[#8C6EA8] transition-colors sm:size-24" />
-                    </button>
-                    <button 
-                      onClick={nextOffer2Slide}
-                      className="bg-white rounded-full p-1.5 sm:p-2 shadow-lg hover:bg-gray-100 hover:scale-110 transition-all duration-300"
-                    >
-                      <ChevronRight size={20} className="text-gray-800 hover:text-[#8C6EA8] transition-colors sm:size-24" />
-                    </button>
-                  </div>
-
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+          ))}
       </div>
-
-      {/* Offres of destination */}
+      </div>
 
       {/* Devis Section */}         
       <div className="  sm:container mx-6 sm:mx-auto px-6 sm:px-6 lg:px-28 py-10 sm:py-12 lg:py-20">

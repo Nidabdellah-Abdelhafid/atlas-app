@@ -1,50 +1,32 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { ChevronRight } from 'lucide-react';
+import { fetchBlogs } from '../services/fetchers/dataFetchers';
+import { Link } from 'react-router-dom';
 
 function Blogs() {
+  const [blogs, setBlogs] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() => {
     window.scrollTo(0, 0);
+    loadBlogsData();
   }, []);
+
+  const loadBlogsData = async () => {
+    try {
+      setIsLoading(true);
+      const blogsData = await fetchBlogs();
+      // console.log("blogs : ", blogsData);
+      setBlogs(blogsData);
+      
+    } catch (error) {
+      console.error('Error fetching offres:', error);
+
+    } finally {
+      setIsLoading(false);
+    }
+  };
   
-    const blogPosts = [
-        {
-          id: 1,
-          image: '/assets/images/blog1.png',
-          title: 'Escapade en Afrique du Sud - Loin des foules, proche de la nature',
-          description: 'Une escapade en Afrique australe. Découvrez notre sélection des plus beaux endroits à visiter, loin des sentiers battus.',
-        },
-        {
-          id: 2,
-          image: '/assets/images/blog2.png',
-          title: `au Lune d'ALULA - L'Arabie Saoudite en adresse exclusives`,
-          description: `Découvrez les merveilles cachées de l'Arabie Saoudite à travers nos adresses exclusives.`,
-        },
-        {
-          id: 3,
-          image: '/assets/images/blog3.png',
-          title: `Escapade en Norvège - Tour en finesse au fil d'adresses privilégiées`,
-          description: `Un voyage au cœur des fjords norvégiens, entre nature sauvage et confort absolu.`,
-        },
-        {
-          id: 4,
-          image: '/assets/images/blog4.png',
-          title: `Escapade en Asie - Une aventure en pleine nature`,
-          description: `Une escapade en Asie, une aventure en pleine nature.`,
-        },
-        {
-          id: 5,
-          image: '/assets/images/blog5.png',
-          title: `Escapade en Nouvelle-Zélande - Un voyage en pleine nature`,
-          description: `Une escapade en Nouvelle-Zélande, un voyage en pleine nature.`,
-     
-        },
-        {
-          id: 6,
-          image: '/assets/images/blog6.png',
-          title: `Escapade en Asie - Une aventure en pleine nature`,
-          description: `Une escapade en Asie, une aventure en pleine nature.`,
-        },
-      ];
   return (
     <div>
       {/* Hero Section */}
@@ -99,26 +81,38 @@ function Blogs() {
       <div className="container mx-auto px-4 sm:px-6 lg:px-28 pb-16">
         
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 mb-4 sm:mb-6 lg:mb-8">
-          {blogPosts.map((post) => (
-          <div key={post.id} className="space-y-3 sm:space-y-4">
+          {isLoading ? (
+          [...Array(6)].map((_, index) => (
+            <div key={index} className="space-y-3 sm:space-y-4 animate-pulse">
+              <div className="relative h-[300px] sm:h-[350px] lg:h-[400px] rounded-lg bg-gray-200"></div>
+              <div>
+                <div className="h-6 bg-gray-200 rounded w-3/4 mb-2"></div>
+                <div className="h-4 bg-gray-200 rounded w-full"></div>
+              </div>
+            </div>
+          ))
+        ) : (
+          blogs?.map((blog, index) => (
+          <div key={blog.id} className="space-y-3 sm:space-y-4">
               <div className="relative h-[300px] sm:h-[350px] lg:h-[400px] rounded-lg overflow-hidden">
-                <img 
-                  src={`${process.env.PUBLIC_URL}${post.image}`}
-                  alt={post.title} 
+                <img
+                  src={blog.imageUrl} 
+                  alt={blog.title}
                   className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
                 />
-                <a href="/blogDetails" className="absolute bottom-4 right-4 bg-white rounded-full p-2 cursor-pointer">
+                <Link to={`/blogDetails/${blog.id}`} className="absolute bottom-4 right-4 bg-white rounded-full p-2 cursor-pointer">
                   <span className="text-black"><ChevronRight size={20}/></span>
-                </a>
+                </Link>
               </div>
               <div>
                 <div className="flex justify-between items-center mb-1 sm:mb-2">
-                  <span className="font-griffiths font-semibold text-sm sm:text-2xl hover:text-[#8C6EA8] transition-colors">{post.title}</span>
+                  <span className="font-griffiths font-semibold text-sm sm:text-2xl hover:text-[#8C6EA8] transition-colors">{blog.title}</span>
                 </div>
-                <h3 className="font-manrope font-light text-xl sm:text-base">{post.description}</h3>
+                <h3 className="font-manrope font-light text-xl sm:text-base">{blog.subTitle}</h3>
               </div>
             </div>
-          ))}
+          ))
+            )}
         </div>
 
         <div className="text-center mt-12">

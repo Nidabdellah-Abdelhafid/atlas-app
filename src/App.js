@@ -22,9 +22,9 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/destinationsTendances" element={<DestinationsTendances />} />
-            <Route path="/destinationDetails" element={<DestinationDetails />} />
-            <Route path="/offreDetails" element={<OffreDetails />} />
-            <Route path="/blogDetails" element={<BlogDetails />} />
+            <Route path="/destinationDetails/:id" element={<DestinationDetails />} />
+            <Route path="/offreDetails/:id" element={<OffreDetails />} />
+            <Route path="/blogDetails/:id" element={<BlogDetails />} />
             <Route path="/blogs" element={<Blogs />} />
           </Routes>
       </div>
