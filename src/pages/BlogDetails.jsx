@@ -1,9 +1,11 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { fetchBlogs } from '../services/fetchers/dataFetchers';
+import { decodeId, encodeId } from '../utils/idEncoder';
 
 function BlogDetails() {  
-    const { id } = useParams();
+    const { encodedId } = useParams();
+    const id = decodeId(encodedId);
     const [blog, setBlog] = useState(null);
 
     const loadBlogsContentData = useCallback(async () => {
@@ -125,7 +127,7 @@ function BlogDetails() {
                     {blog?.title}
                 </h2>
             </div>
-            <Link to={`/destinationDetails/${blog?.pays?.id}`} className="font-manrope font-medium border-2 border-white px-14 py-2 hover:bg-white hover:text-black transition-colors">
+            <Link to={`/destinationDetails/${encodeId(blog?.pays?.id)}`} className="font-manrope font-medium border-2 border-white px-14 py-2 hover:bg-white hover:text-black transition-colors">
                 Découvrir {'>'}
             </Link>
             </div>

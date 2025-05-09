@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { ChevronRight } from 'lucide-react';
 import { fetchBlogs } from '../services/fetchers/dataFetchers';
 import { Link } from 'react-router-dom';
+import { encodeId } from '../utils/idEncoder';
 
 function Blogs() {
   const [blogs, setBlogs] = useState([]);
@@ -100,7 +101,7 @@ function Blogs() {
                   alt={blog.title}
                   className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
                 />
-                <Link to={`/blogDetails/${blog.id}`} className="absolute bottom-4 right-4 bg-white rounded-full p-2 cursor-pointer">
+                <Link to={`/blogDetails/${encodeId(blog.id)}`} className="absolute bottom-4 right-4 bg-white rounded-full p-2 cursor-pointer">
                   <span className="text-black"><ChevronRight size={20}/></span>
                 </Link>
               </div>

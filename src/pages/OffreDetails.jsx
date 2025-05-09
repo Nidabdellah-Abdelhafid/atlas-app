@@ -2,9 +2,11 @@ import { useState, useRef, useEffect, useCallback} from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useParams } from 'react-router-dom';
 import { fetchOffres, fetchPlanings } from '../services/fetchers/dataFetchers';
+import { decodeId} from '../utils/idEncoder';
 
 function OffreDetails() {
-  const { id } = useParams();
+  const { encodedId } = useParams();
+  const id = decodeId(encodedId);
   const [offre, setOffre] = useState(null);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [planings, setPlanings] = useState(null);

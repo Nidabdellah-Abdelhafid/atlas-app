@@ -2,9 +2,11 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Link, useParams } from 'react-router-dom';
 import { fetchOffres, fetchPays, fetchPhotos } from '../services/fetchers/dataFetchers';
+import { encodeId ,decodeId} from '../utils/idEncoder';
 
 function DestinationDetails() {
-  const { id } = useParams();
+  const { encodedId } = useParams();
+  const id = decodeId(encodedId);
   const [pays, setPays] = useState(null);
   const [photos, setPhotos] = useState(null);
   const [offres, setOffres] = useState(null);
@@ -445,7 +447,7 @@ function DestinationDetails() {
                   </div>
                 </div>
                 
-                <Link to={`/offreDetails/${offre?.id}`} className="inline-block border border-black px-6 py-2 hover:bg-black hover:text-white transition-colors font-manrope">
+                <Link to={`/offreDetails/${encodeId(offre.id)}`} className="inline-block border border-black px-6 py-2 hover:bg-black hover:text-white transition-colors font-manrope">
                   Voir l'offre <span className="ml-1">&gt;</span>
                 </Link>
               </div>

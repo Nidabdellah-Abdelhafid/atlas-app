@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from 'react'
 import { ChevronRight } from 'lucide-react';
 import { fetchOffres } from '../services/fetchers/dataFetchers';
 import { Link } from 'react-router-dom';
+import { encodeId } from '../utils/idEncoder';
 
 function DestinationsTendances() {
 
@@ -131,7 +132,7 @@ function DestinationsTendances() {
                 />
                 <div className='absolute bottom-4 p-2 flex flex-row w-full justify-between items-center'>
                   <p className='text-white font-manrope font-medium'>{offre.offreDayNumber} jours, {offre.price} Dhs</p>
-                  <Link to={`/destinationDetails/${offre?.pays.id}`} className="bg-white rounded-full p-1 cursor-pointer">
+                  <Link to={`/destinationDetails/${encodeId(offre?.pays.id)}`} className="bg-white rounded-full p-1 cursor-pointer">
                   <span className="text-black"><ChevronRight size={20}/></span>
                   </Link>
                 </div>

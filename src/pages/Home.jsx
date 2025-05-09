@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { ChevronLeft, ChevronRight, MoveDownIcon, Search } from 'lucide-react';
 import { Link, useNavigate} from 'react-router-dom';
 import { fetchBlogs, fetchOffres, fetchPays} from '../services/fetchers/dataFetchers';
+import { encodeId } from '../utils/idEncoder';
 
 function Home() {
   // Add this near the top of your component
@@ -369,7 +370,7 @@ function Home() {
                       {offre.description}
                     </p>
                     <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
-                      <Link to={`/destinationDetails/${offre?.pays.id}`} className="font-manrope font-medium w-full sm:w-auto border border-white px-4 sm:px-6 py-1.5 sm:py-2 text-sm sm:text-base hover:bg-white hover:text-black transition-colors">
+                      <Link to={`/destinationDetails/${encodeId(offre?.pays.id)}`} className="font-manrope font-medium w-full sm:w-auto border border-white px-4 sm:px-6 py-1.5 sm:py-2 text-sm sm:text-base hover:bg-white hover:text-black transition-colors">
                         Découvrir {'>'}
                       </Link>
                       <div className="font-manrope font-light text-xs sm:text-sm text-white/80 bg-white/20 px-4 sm:px-6 py-1.5 sm:py-2 w-full sm:w-auto text-center sm:text-left">
@@ -428,7 +429,7 @@ function Home() {
                 <h3 className="font-manrope font-medium text-white text-2xl">{pays.label}</h3>
               </div>
               <div className="absolute bottom-0 right-0 p-6">
-                <Link to={`/destinationDetails/${pays.id}`}>
+                <Link to={`/destinationDetails/${encodeId(pays.id)}`}>
                 <ChevronRight className="text-white bg-black rounded-full" size={24} />
                 </Link>
               </div>
@@ -455,7 +456,7 @@ function Home() {
                   <h3 className="font-manrope font-medium text-white text-2xl">{pays.label}</h3>
                 </div>
                 <div className="absolute bottom-0 right-0 p-6">
-                  <Link to={`/destinationDetails/${pays.id}`}>
+                  <Link to={`/destinationDetails/${encodeId(pays.id)}`}>
                     <ChevronRight className="text-white bg-black rounded-full" size={24} />
                   </Link>
                 </div>
@@ -546,7 +547,7 @@ function Home() {
                   <span className="font-manrope font-light text-gray-500 text-sm sm:text-base">
                     {offre.pays.label}
                     </span>
-                  <Link to={`/destinationDetails/${offre.pays.id}`} className="flex font-manrope font-light text-gray-500 text-sm sm:text-base hover:text-[#8C6EA8] transition-colors">
+                  <Link to={`/destinationDetails/${encodeId(offre.pays.id)}`} className="flex font-manrope font-light text-gray-500 text-sm sm:text-base hover:text-[#8C6EA8] transition-colors">
                   En savoir plus 
                   <ChevronRight className="" size={24} />
                     </Link>
@@ -696,7 +697,7 @@ function Home() {
                   <span className="font-manrope font-light text-gray-500">Par Atlas Voyages</span>
                   <span className="font-manrope font-light text-gray-500">{blog.createdAt}</span>
                 </div>
-                <Link to={`/blogDetails/${blog.id}`}  className="flex font-manrope font-light text-gray-500 hover:text-[#8C6EA8] transition-colors underline">
+                <Link to={`/blogDetails/${encodeId(blog.id)}`}  className="flex font-manrope font-light text-gray-500 hover:text-[#8C6EA8] transition-colors underline">
                   Lire l'article                   
                   <ChevronRight className="" size={24} />
 
