@@ -158,7 +158,7 @@ function OffreDetails() {
             {offre?.pays.label}
             </h2>
             
-            <p className="font-manrope font-normal max-w-sm sm:max-w-xl lg:max-w-3xl text-xs sm:text-sm lg:text-lg mb-3 sm:mb-4 lg:mb-6 text-white/90 px-4 sm:px-0">
+            <p className="font-manrope font-normal max-w-sm sm:max-w-xl lg:max-w-3xl text-xs sm:text-sm lg:text-lg mb-3 sm:mb-4 lg:mb-6 text-white/90 px-4 sm:px-0 line-clamp-2">
             {offre?.pays.description}
             </p>
 

@@ -10,8 +10,8 @@ function DestinationDetails() {
   const [offres, setOffres] = useState(null);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
-  const [currentOffer1Slide, setCurrentOffer1Slide] = useState(0);
-  
+  const [currentOfferSlides, setCurrentOfferSlides] = useState({});
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -19,6 +19,7 @@ function DestinationDetails() {
   const loadPhotos = useCallback(async () => {
     try {
       const photosData = await fetchPhotos();
+      // console.log(photosData);
       const countryPhotos = photosData.filter(photo => 
         photo.pays?.id === parseInt(id)
       );
@@ -27,6 +28,8 @@ function DestinationDetails() {
       console.error('Error fetching photos:', error);
     }
   }, [id]);
+
+  // console.log(photosByOffre);
   
   const loadOffres = useCallback(async () => {
     try {
@@ -39,6 +42,8 @@ function DestinationDetails() {
       console.error('Error fetching offres:', error);
     }
   }, [id]);
+
+  // console.log(offres);
   
   // Update the useEffect
   useEffect(() => {
@@ -86,10 +91,7 @@ function DestinationDetails() {
     }
   ];
 
-  // Define image sets for each offer
-  const offer1Images = photos?.map(photo => (
-     photo.url
-  ));
+
   
   const nextSlide = () => {
     if (isTransitioning) return;
@@ -105,13 +107,30 @@ function DestinationDetails() {
     setTimeout(() => setIsTransitioning(false), 400); // Match this with transition duration
   };
 
-  // Navigation functions for offer 1 gallery
-  const nextOffer1Slide = () => {
-    setCurrentOffer1Slide((prev) => (prev + 1) % offer1Images?.length);
+  useEffect(() => {
+    if (offres) {
+      const initialSlides = {};
+      offres.forEach(offre => {
+        initialSlides[offre.id] = 0;
+      });
+      setCurrentOfferSlides(initialSlides);
+      
+    }
+  }, [offres]);
+  
+  // Replace the navigation functions
+  const nextOfferSlide = (offerId, totalPhotos) => {
+    setCurrentOfferSlides(prev => ({
+      ...prev,
+      [offerId]: (prev[offerId] + 1) % totalPhotos
+    }));
   };
   
-  const prevOffer1Slide = () => {
-    setCurrentOffer1Slide((prev) => (prev - 1 + offer1Images?.length) % offer1Images?.length);
+  const prevOfferSlide = (offerId, totalPhotos) => {
+    setCurrentOfferSlides(prev => ({
+      ...prev,
+      [offerId]: (prev[offerId] - 1 + totalPhotos) % totalPhotos
+    }));
   };
   
   // Calculate previous and next indices
@@ -134,7 +153,7 @@ function DestinationDetails() {
       >
         <div className="text-center text-white z-10 px-4 sm:px-6 lg:px-8">
           <h1 className="text-4xl sm:text-6xl lg:text-8xl font-light mb-4 font-griffiths leading-tight">
-            Escapade en {pays?.label}
+            {pays?.label}
           </h1>
           <h2 className="text-xl sm:text-2xl lg:text-4xl font-light font-manrope">
           {pays?.subTitle}
@@ -438,15 +457,15 @@ function DestinationDetails() {
                   <div className="flex">
                     <div className="w-full">
                       <img 
-                        src={offer1Images && offer1Images[currentOffer1Slide]} 
-                        alt="Safari view" 
+                        src={offre.photos[currentOfferSlides[offre.id] || 0]?.url} 
+                        alt="Offer view" 
                         className="w-full h-[300px] object-cover duration-300 hover:scale-105"
                       />
                     </div>
                     <div className="w-1/3 ml-4">
                       <img 
-                        src={offer1Images && offer1Images[(currentOffer1Slide + 1) % offer1Images.length]} 
-                        alt="Safari wildlife" 
+                        src={offre.photos[(currentOfferSlides[offre.id] + 1) % offre.photos.length]?.url} 
+                        alt="Offer preview" 
                         className="w-full h-[300px] object-cover duration-300 hover:scale-105"
                       />
                     </div>
@@ -454,13 +473,13 @@ function DestinationDetails() {
                   {/* Navigation Arrows */}
                   <div className='w-full px-6 flex justify-end items-center gap-2 sm:gap-4 my-4'>
                     <button 
-                      onClick={prevOffer1Slide}
+                      onClick={() => prevOfferSlide(offre.id, offre.photos.length)}
                       className="bg-white rounded-full p-1.5 sm:p-2 shadow-lg hover:bg-gray-100 hover:scale-110 transition-all duration-300"
                     >
                       <ChevronLeft size={20} className="text-gray-800 hover:text-[#8C6EA8] transition-colors sm:size-24" />
                     </button>
                     <button 
-                      onClick={nextOffer1Slide}
+                      onClick={() => nextOfferSlide(offre.id, offre.photos.length)}
                       className="bg-white rounded-full p-1.5 sm:p-2 shadow-lg hover:bg-gray-100 hover:scale-110 transition-all duration-300"
                     >
                       <ChevronRight size={20} className="text-gray-800 hover:text-[#8C6EA8] transition-colors sm:size-24" />

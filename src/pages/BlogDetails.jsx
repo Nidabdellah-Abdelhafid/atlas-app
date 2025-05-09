@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { fetchBlogs } from '../services/fetchers/dataFetchers';
 
 function BlogDetails() {  
@@ -101,7 +101,7 @@ function BlogDetails() {
             <div 
             className="absolute inset-0 bg-cover bg-center"
             style={{
-                backgroundImage: `url(${process.env.PUBLIC_URL}/assets/images/blog5.png)`,
+                backgroundImage: `url(${blog?.pays?.image})`,
                 filter: 'brightness(0.7)'
             }}
             />
@@ -125,9 +125,9 @@ function BlogDetails() {
                     {blog?.title}
                 </h2>
             </div>
-            <button className="font-manrope font-medium border-2 border-white px-14 py-2 hover:bg-white hover:text-black transition-colors">
+            <Link to={`/destinationDetails/${blog?.pays?.id}`} className="font-manrope font-medium border-2 border-white px-14 py-2 hover:bg-white hover:text-black transition-colors">
                 Découvrir {'>'}
-            </button>
+            </Link>
             </div>
         </div>
         </div>
