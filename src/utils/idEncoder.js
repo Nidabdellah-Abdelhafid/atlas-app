@@ -1,4 +1,4 @@
-const SECRET_KEY = process.env.REACT_APP_SECRET_KEY || 'SKY_ATLAS2025';
+const SECRET_KEY = process.env.REACT_APP_SECRET_KEY;
 
 export const encodeId = (id) => {
     if (!id) return '';

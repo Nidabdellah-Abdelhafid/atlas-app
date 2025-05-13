@@ -214,7 +214,7 @@ function Home() {
             className="font-manrope font-normal w-full py-3 px-4 pr-12 bg-white/90 backdrop-blur focus:outline-none focus:ring-2 focus:ring-[#8C6EA8]/50 transition-all duration-300"
           />
           <div 
-            onClick={() => selectedCountry && navigate(`/destinationDetails/${selectedCountry.id}`)}
+            onClick={() => selectedCountry && navigate(`/destinationDetails/${encodeId(selectedCountry.id)}`)}
             className={`absolute right-4 top-1/2 -translate-y-1/2 ${selectedCountry ? 'bg-[#8C6EA8]' : 'bg-gray-700'} hover:bg-[#8C6EA8] rounded-full p-1.5 cursor-pointer transition-colors duration-300`}
           >
             <Search className="text-white" size={18} />
