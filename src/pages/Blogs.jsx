@@ -2,31 +2,34 @@ import React, { useEffect, useState } from 'react'
 import { ChevronRight } from 'lucide-react';
 import { fetchBlogs } from '../services/fetchers/dataFetchers';
 import { Link } from 'react-router-dom';
-import { encodeId } from '../utils/idEncoder';
+import { encodeLabel } from '../utils/idEncoder';
+import LoadingUI from '../components/LoadingUI';
 
 function Blogs() {
   const [blogs, setBlogs] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+
+  const loadBlogsData = async () => {
+    try {
+      setIsLoading(true);
+      const blogsData = await fetchBlogs();
+      setBlogs(blogsData);
+    } catch (error) {
+      console.error('Error fetching offres:', error);
+    } finally {
+      // Add minimum loading time for smooth transition
+      setTimeout(() => setIsLoading(false), 1000);
+    }
+  };
 
   useEffect(() => {
     window.scrollTo(0, 0);
     loadBlogsData();
   }, []);
 
-  const loadBlogsData = async () => {
-    try {
-      setIsLoading(true);
-      const blogsData = await fetchBlogs();
-      // console.log("blogs : ", blogsData);
-      setBlogs(blogsData);
-      
-    } catch (error) {
-      console.error('Error fetching offres:', error);
-
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  if (isLoading) {
+    return <LoadingUI title="Découvrez nos récits de voyage..." />;
+  }
   
   return (
     <div>
@@ -101,7 +104,7 @@ function Blogs() {
                   alt={blog.title}
                   className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
                 />
-                <Link to={`/blogDetails/${encodeId(blog.id)}`} className="absolute bottom-4 right-4 bg-white rounded-full p-2 cursor-pointer">
+                <Link to={`/blogDetails/${encodeLabel(blog.title)}`} className="absolute bottom-4 right-4 bg-white rounded-full p-2 cursor-pointer">
                   <span className="text-black"><ChevronRight size={20}/></span>
                 </Link>
               </div>

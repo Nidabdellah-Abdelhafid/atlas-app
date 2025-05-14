@@ -2,19 +2,16 @@ import React, { useEffect, useState, useRef } from 'react'
 import { ChevronRight } from 'lucide-react';
 import { fetchOffres } from '../services/fetchers/dataFetchers';
 import { Link } from 'react-router-dom';
-import { encodeId } from '../utils/idEncoder';
+import { encodeLabel } from '../utils/idEncoder';
+import LoadingUI from '../components/LoadingUI';
 
 function DestinationsTendances() {
-
   const [showAll, setShowAll] = useState(false);
   const blogSectionRef = useRef(null);
   const [isLoading, setIsLoading] = useState(true);
 
   const [filteredOffresByBadge, setFilteredOffresByBadge] = useState([]);
-  useEffect(() => {
-    window.scrollTo(0, 0);
-        loadOffresData();
-  }, []);
+  
   
   const loadOffresData = async () => {
     try {
@@ -26,9 +23,15 @@ function DestinationsTendances() {
     } catch (error) {
       console.error('Error fetching offres:', error);
     } finally {
-      setIsLoading(false);
+      // Add minimum loading time
+      setTimeout(() => setIsLoading(false), 1000);
     }
   };
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+        loadOffresData();
+  }, []);
 
   const displayedOffres = showAll ? filteredOffresByBadge : filteredOffresByBadge.slice(0, 3);
   // Update the button click handler
@@ -38,6 +41,11 @@ function DestinationsTendances() {
       blogSectionRef.current?.scrollIntoView({ behavior: 'smooth' });
     }
   };
+
+  if (isLoading) {
+    return <LoadingUI title="Découvrez nos destinations tendances..." />;
+  }
+
   return (
     <div>
       {/* Hero Section */}
@@ -132,7 +140,7 @@ function DestinationsTendances() {
                 />
                 <div className='absolute bottom-4 p-2 flex flex-row w-full justify-between items-center'>
                   <p className='text-white font-manrope font-medium'>{offre.offreDayNumber} jours, {offre.price} Dhs</p>
-                  <Link to={`/destinationDetails/${encodeId(offre?.pays.id)}`} className="bg-white rounded-full p-1 cursor-pointer">
+                  <Link to={`/destinationDetails/${encodeLabel(offre?.pays.label)}`} className="bg-white rounded-full p-1 cursor-pointer">
                   <span className="text-black"><ChevronRight size={20}/></span>
                   </Link>
                 </div>

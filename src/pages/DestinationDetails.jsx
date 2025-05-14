@@ -2,17 +2,19 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Link, useParams } from 'react-router-dom';
 import { fetchOffres, fetchPays, fetchPhotos } from '../services/fetchers/dataFetchers';
-import { encodeId ,decodeId} from '../utils/idEncoder';
+import { decodeLabel, encodeLabel } from '../utils/idEncoder';
+import LoadingUI from '../components/LoadingUI';
 
 function DestinationDetails() {
-  const { encodedId } = useParams();
-  const id = decodeId(encodedId);
+  const { encodedLabel } = useParams();
+  const label = decodeLabel(encodedLabel);
   const [pays, setPays] = useState(null);
   const [photos, setPhotos] = useState(null);
   const [offres, setOffres] = useState(null);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [currentOfferSlides, setCurrentOfferSlides] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -23,13 +25,13 @@ function DestinationDetails() {
       const photosData = await fetchPhotos();
       // console.log(photosData);
       const countryPhotos = photosData.filter(photo => 
-        photo.pays?.id === parseInt(id)
+        photo.pays?.label.toLowerCase() === label.toLowerCase()
       );
       setPhotos(countryPhotos);
     } catch (error) {
       console.error('Error fetching photos:', error);
     }
-  }, [id]);
+  }, [label]);
 
   // console.log(photosByOffre);
   
@@ -37,32 +39,35 @@ function DestinationDetails() {
     try {
       const offresData = await fetchOffres();
       const countryOffres = offresData.filter(offre => 
-        offre.pays?.id === parseInt(id)
+        offre.pays?.label.toLowerCase() === label.toLowerCase()
       );
       setOffres(countryOffres);
     } catch (error) {
       console.error('Error fetching offres:', error);
     }
-  }, [id]);
+  }, [label]);
 
   // console.log(offres);
   
   // Update the useEffect
   useEffect(() => {
     const loadPays = async () => {
+      setIsLoading(true);
       try {
         const paysData = await fetchPays();
-        const selectedPays = paysData.find(o => o.id === parseInt(id));
+        const selectedPays = paysData.find(o => o.label.toLowerCase() === label.toLowerCase());
         setPays(selectedPays);
+        await Promise.all([loadPhotos(), loadOffres()]);
       } catch (error) {
-        console.error('Error fetching offre:', error);
+        console.error('Error fetching data:', error);
+      } finally {
+        // Add minimum loading time
+        setTimeout(() => setIsLoading(false), 1000);
       }
     };
-  
+
     loadPays();
-    loadPhotos();
-    loadOffres();
-  }, [id, loadPhotos, loadOffres]);
+  }, [label, loadPhotos, loadOffres]);
   
 
   // console.log(offres);
@@ -142,6 +147,10 @@ function DestinationDetails() {
     'january', 'february', 'march', 'april', 'may', 'june',
     'july', 'august', 'september', 'october', 'november', 'december'
   ];
+
+  if (isLoading) {
+    return <LoadingUI title={'Découvrez votre destination...'}/>;
+  }
 
   return (
     <div>
@@ -447,7 +456,7 @@ function DestinationDetails() {
                   </div>
                 </div>
                 
-                <Link to={`/offreDetails/${encodeId(offre.id)}`} className="inline-block border border-black px-6 py-2 hover:bg-black hover:text-white transition-colors font-manrope">
+                <Link to={`/offreDetails/${encodeLabel(offre.label)}`} className="inline-block border border-black px-6 py-2 hover:bg-black hover:text-white transition-colors font-manrope">
                   Voir l'offre <span className="ml-1">&gt;</span>
                 </Link>
               </div>

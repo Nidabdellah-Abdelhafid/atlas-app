@@ -27,3 +27,18 @@ export  const decodeId = (encodedId) => {
       return null;
     }
   };
+
+  export const encodeLabel = (label) => {
+    if (!label) return '';
+    // Replace spaces with hyphens and convert to lowercase for better URLs
+    return label.trim().replace(/\s+/g, '-').toLowerCase();
+  };
+  
+  // New function to decode a label by replacing hyphens with spaces
+  export const decodeLabel = (encodedLabel) => {
+    if (!encodedLabel) return '';
+    // Replace hyphens with spaces and capitalize first letter of each word
+    return encodedLabel
+      .replace(/-/g, ' ')
+      .replace(/\b\w/g, (char) => char.toLowerCase());
+  };

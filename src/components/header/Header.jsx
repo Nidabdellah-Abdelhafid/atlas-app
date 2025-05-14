@@ -114,7 +114,13 @@ function Header() {
                 <span>Vos envies</span>
                 {enviesOpen? (<ChevronDown size={14} className="w-4 h-4"/>) :(<ChevronRight size={14} className="w-4 h-4"/>)}
               </button>
+              <Link to="/blogs" className={`hover:text-gray-200 ${stateOpen? "text-black":"text-white"} text-sm md:text-base`}
+              
+              >
+                  Blogs
+                </Link>
             </div>
+            
           </div>
   
           {/* Center Logo - Hidden on mobile */}
@@ -150,6 +156,9 @@ function Header() {
                   <span>Vos envies</span>
                   <ChevronRight size={14} />
                 </button>
+                <Link to="/blogs" className="text-black" onClick={() => setMobileMenuOpen(false)}>
+                  Blogs
+                </Link>
                 <a href="tel:+212529001002" className="text-black">
                   +212 5 29 001 002
                 </a>

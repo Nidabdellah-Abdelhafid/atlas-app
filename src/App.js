@@ -8,6 +8,7 @@ import { useEffect } from 'react';
 import BlogDetails from './pages/BlogDetails';
 import Blogs from './pages/Blogs';
 import DestinationDetails from './pages/DestinationDetails';
+import File from './pages/File';
 
 function App() {
   useEffect(() => {
@@ -22,17 +23,22 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/destinationsTendances" element={<DestinationsTendances />} />
           <Route 
-            path="/destinationDetails/:encodedId" 
+            path="/destinationDetails/:encodedLabel" 
             element={<DestinationDetails />
             } 
           />
           <Route 
-            path="/offreDetails/:encodedId" 
+            path="/offreDetails/:encodedLabel" 
             element={<OffreDetails />
             } 
           />
           <Route 
-            path="/blogDetails/:encodedId" 
+            path="/file" 
+            element={<File />
+            } 
+          />
+          <Route 
+            path="/blogDetails/:encodedLabel" 
             element={<BlogDetails />
             } 
           />

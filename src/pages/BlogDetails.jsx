@@ -1,27 +1,32 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { fetchBlogs } from '../services/fetchers/dataFetchers';
-import { decodeId, encodeId } from '../utils/idEncoder';
+import { decodeLabel, encodeLabel } from '../utils/idEncoder';
+import LoadingUI from '../components/LoadingUI';
 
 function BlogDetails() {  
-    const { encodedId } = useParams();
-    const id = decodeId(encodedId);
+    const { encodedLabel } = useParams();
+    const label = decodeLabel(encodedLabel);
     const [blog, setBlog] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
 
     const loadBlogsContentData = useCallback(async () => {
         try {
-          const blogData = await fetchBlogs();
-          const selectedBlog = blogData.find(o => o.id === parseInt(id));
-          setBlog(selectedBlog);
+            setIsLoading(true);
+            const blogData = await fetchBlogs();
+            const selectedBlog = blogData.find(o => o.title.toLowerCase() === label.toLowerCase());
+            setBlog(selectedBlog);
         } catch (error) {
-          console.error('Error fetching offres:', error);
+            console.error('Error fetching offres:', error);
+        } finally {
+            setTimeout(() => setIsLoading(false), 1000);
         }
-      }, [id]);
+        }, [label]);
   
-      useEffect(() => {
-          window.scrollTo(0, 0);
-          loadBlogsContentData();
-      }, [loadBlogsContentData]);
+useEffect(() => {
+    window.scrollTo(0, 0);
+    loadBlogsContentData();
+}, [loadBlogsContentData]);
 
   const isFeminineWord = (word) => {
     if (!word) return false;
@@ -29,6 +34,10 @@ function BlogDetails() {
     const feminineEndings = ['tion', 'sion', 'té', 'ie', 'ure', 'ance', 'ence', 'ette', 'elle'];
     return feminineEndings.some(ending => lowercaseWord.endsWith(ending));
   };
+
+  if (isLoading) {
+    return <LoadingUI title="Chargement de l'article..." />;
+  }
 
   return (
     <div >
@@ -127,7 +136,7 @@ function BlogDetails() {
                     {blog?.title}
                 </h2>
             </div>
-            <Link to={`/destinationDetails/${encodeId(blog?.pays?.id)}`} className="font-manrope font-medium border-2 border-white px-14 py-2 hover:bg-white hover:text-black transition-colors">
+            <Link to={`/destinationDetails/${encodeLabel(blog?.pays?.label)}`} className="font-manrope font-medium border-2 border-white px-14 py-2 hover:bg-white hover:text-black transition-colors">
                 Découvrir {'>'}
             </Link>
             </div>

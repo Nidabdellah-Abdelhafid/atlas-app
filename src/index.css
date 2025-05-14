@@ -49,6 +49,15 @@ code {
   display: none;
 }
 
+.away {
+  transform: translateY(-120vh) rotate(0deg) !important;
+}
+
+.stack-card {
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform;
+}
+
 @font-face {
   font-family: 'Griffiths';
   src: url('./../public/assets/fonts/griffiths-regular.ttf') format('truetype');
