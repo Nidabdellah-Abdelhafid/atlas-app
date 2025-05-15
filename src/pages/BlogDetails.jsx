@@ -179,11 +179,11 @@ useEffect(() => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {/* First Blog Card */}
-            <div className="space-y-4">
+            <div className="space-y-4 group">
             <img 
                 src={`${process.env.PUBLIC_URL}/assets/images/blog7.png`}
                 alt="Grèce"
-                className="w-full h-[300px] object-cover rounded-lg"
+                className="w-full h-[300px] object-cover rounded-lg duration-300 group-hover:scale-105"
             />
             <div className="space-y-2">
                 <p className="font-manrope font-light text-sm text-gray-500">Méditerranée</p>
@@ -200,11 +200,11 @@ useEffect(() => {
             </div>
 
             {/* Second Blog Card */}
-            <div className="space-y-4">
+            <div className="space-y-4 group">
             <img 
                 src={`${process.env.PUBLIC_URL}/assets/images/blog6.png`}
                 alt="Islande"
-                className="w-full h-[300px] object-cover rounded-lg"
+                className="w-full h-[300px] object-cover rounded-lg duration-300 group-hover:scale-105"
             />
             <div className="space-y-2">
                 <p className="font-manrope font-light text-sm text-gray-500">Scandinavie</p>
