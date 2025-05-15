@@ -355,7 +355,8 @@ function OffreDetails() {
                   <img 
                       src={image.url}
                       alt={`Slide ${index + 1}`} 
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-cover bg-center bg-no-repeat"
+                      style={{ objectPosition: 'center center' }}
                   />
                   </div>
               ))}

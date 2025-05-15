@@ -80,7 +80,8 @@ useEffect(() => {
                     <img 
                     src={blogContent.imageUrl}
                     alt={blogContent.title}
-                    className="w-full h-[500px] object-cover"
+                    className="w-full h-[500px] object-cover bg-center bg-no-repeat"
+                      style={{ objectPosition: 'center center' }}
                     />
                     <div className="flex flex-col lg:flex-row gap-8 lg:gap-16">
                     <div className="lg:w-1/3">

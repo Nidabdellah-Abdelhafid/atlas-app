@@ -470,7 +470,8 @@ function DestinationDetails() {
                       <img 
                         src={offre.photos[currentOfferSlides[offre.id] || 0]?.url} 
                         alt="Offer view" 
-                        className="w-full h-[300px] object-cover duration-300 hover:scale-105"
+                        className="w-full h-[300px] object-cover duration-300 hover:scale-105 bg-center bg-no-repeat"
+                      style={{ objectPosition: 'center center' }}
                       />
                     </div>
                     <div className="w-1/3 ml-4">
