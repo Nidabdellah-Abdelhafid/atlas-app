@@ -9,6 +9,8 @@ import BlogDetails from './pages/BlogDetails';
 import Blogs from './pages/Blogs';
 import DestinationDetails from './pages/DestinationDetails';
 import File from './pages/File';
+import { ApiStatusProvider } from './context/ApiStatusContext';
+import { useApiStatus } from './context/ApiStatusContext';
 
 function App() {
   useEffect(() => {
@@ -16,8 +18,18 @@ function App() {
   }, []);
 
   return (
-    <Router>
-      <Header />
+    <ApiStatusProvider>
+      <AppContent />
+    </ApiStatusProvider>
+  );
+}
+
+function AppContent() {
+  const { apiStatus } = useApiStatus();
+
+  return (
+     <Router>
+    {apiStatus !== 'down' && ( <Header /> )}
       <div className="">
         <Routes>
           <Route path="/" element={<Home />} />

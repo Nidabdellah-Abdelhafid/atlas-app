@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import { fetchOffres, fetchPlanings } from '../services/fetchers/dataFetchers';
 import { decodeLabel} from '../utils/idEncoder';
 import LoadingUI from '../components/LoadingUI';
+import { useApiStatus } from '../context/ApiStatusContext';
 
 function OffreDetails() {
   const { encodedLabel } = useParams();
@@ -16,6 +17,7 @@ function OffreDetails() {
   const [activeDay, setActiveDay] = useState(1);
   const [showProgram, setShowProgram] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
+  const { apiStatus } = useApiStatus();
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -143,6 +145,32 @@ function OffreDetails() {
         image: "/assets/images/tokyo.png"
       }
     ];
+    
+    if (apiStatus === 'down') {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-[#F9F5F9]">
+        <div className="text-center px-4 py-8">
+          <img 
+            src={`${process.env.PUBLIC_URL}/assets/images/Logo_AV.png`}
+            alt="Atlas Voyages"
+            className="w-32 mx-auto mb-8"
+          />
+          <h2 className="font-griffiths text-3xl sm:text-4xl text-[#8C6EA8] mb-4">
+            Service temporairement indisponible
+          </h2>
+          <p className="font-manrope text-gray-600 mb-8 max-w-md mx-auto">
+            Nous effectuons actuellement une maintenance. Veuillez réessayer dans quelques instants.
+          </p>
+          <button 
+            onClick={() => window.location.reload()} 
+            className="font-manrope font-medium bg-[#8C6EA8] text-white px-8 py-3 rounded hover:bg-opacity-90 transition-colors"
+          >
+            Actualiser la page {'>'}
+          </button>
+        </div>
+      </div>
+    );
+  }
 
     if (isLoading) {
       return <LoadingUI title={'Chargement de votre voyage...'}/>;

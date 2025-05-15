@@ -3,6 +3,7 @@ import { ChevronLeft, ChevronRight, MoveDownIcon, Search } from 'lucide-react';
 import { Link, useNavigate} from 'react-router-dom';
 import { fetchBlogs, fetchOffres, fetchPays} from '../services/fetchers/dataFetchers';
 import { encodeLabel } from '../utils/idEncoder';
+import { useApiStatus } from '../context/ApiStatusContext';
 
 function Home() {
   // Add this near the top of your component
@@ -22,6 +23,7 @@ function Home() {
   const [isSearchFocused, setIsSearchFocused] = useState(false);
   const searchRef = useRef(null);
   const [isLoading, setIsLoading] = useState(true);
+  const { apiStatus } = useApiStatus();
   const carouselStyles = {
     scrollbarWidth: 'none',
     msOverflowStyle: 'none',
@@ -168,6 +170,32 @@ function Home() {
       items[prevIndex].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }
   };
+
+  if (apiStatus === 'down') {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-[#F9F5F9]">
+        <div className="text-center px-4 py-8">
+          <img 
+            src={`${process.env.PUBLIC_URL}/assets/images/Logo_AV.png`}
+            alt="Atlas Voyages"
+            className="w-32 mx-auto mb-8"
+          />
+          <h2 className="font-griffiths text-3xl sm:text-4xl text-[#8C6EA8] mb-4">
+            Service temporairement indisponible
+          </h2>
+          <p className="font-manrope text-gray-600 mb-8 max-w-md mx-auto">
+            Nous effectuons actuellement une maintenance. Veuillez réessayer dans quelques instants.
+          </p>
+          <button 
+            onClick={() => window.location.reload()} 
+            className="font-manrope font-medium bg-[#8C6EA8] text-white px-8 py-3 rounded hover:bg-opacity-90 transition-colors"
+          >
+            Actualiser la page {'>'}
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div >
