@@ -18,6 +18,8 @@ function OffreDetails() {
   const [showProgram, setShowProgram] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
   const { apiStatus } = useApiStatus();
+  const [currentSection, setCurrentSection] = useState(1);
+  const sectionsRef = useRef([]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -145,6 +147,27 @@ function OffreDetails() {
         image: "/assets/images/tokyo.png"
       }
     ];
+
+    useEffect(() => {
+      const handleScroll = () => {
+        const sections = sectionsRef.current;
+        const scrollPosition = window.scrollY + window.innerHeight / 2;
+    
+        sections.forEach((section, index) => {
+          if (section && scrollPosition >= section.offsetTop) {
+            setCurrentSection(index + 1);
+            if (currentSection !== index + 1) {
+              loadPlaningDay(planings[index]?.id);
+              setActiveDay(index + 1);
+              setShowProgram(true);
+            }
+          }
+        });
+      };
+    
+      window.addEventListener('scroll', handleScroll);
+      return () => window.removeEventListener('scroll', handleScroll);
+    }, [currentSection, planings]);
     
     if (apiStatus === 'down') {
     return (
@@ -282,37 +305,46 @@ function OffreDetails() {
       {/* Planing /program Section   */}
       <div className="mt-16">
         {/* Days Navigation tab*/}
-        <div className="flex overflow-x-auto mb-12 scrollbar-hide" style={{ msOverflowStyle: 'none', scrollbarWidth: 'none' }}>
-          <div className="flex w-full">
-            {planings?.map((planing, index) => {
-              const day = index + 1;
-              return (
-                <button
-                  key={day}
-                  onClick={() => {
-                    loadPlaningDay(planing?.id);
-                    setActiveDay(day);
-                    setShowProgram(true);
-                  }}
-
-                  className={`font-manrope font-normal flex-1 px-6 lg:px-16 py-4 text-xl whitespace-nowrap border border-1 transition-colors ${
-                    day === activeDay 
-                    ? 'bg-[#ACACAC] text-black' 
-                    : 'bg-transparent hover:bg-[#ACACAC]'
-                  }`}
-                >
-                  Jour {day}
-                </button>
-              );
-            })}
+        <div className="sticky top-32 z-30 bg-white">
+          <div className="flex overflow-x-auto mb-12 scrollbar-hide" style={{ msOverflowStyle: 'none', scrollbarWidth: 'none' }}>
+            <div className="flex w-full">
+              {planings?.map((planing, index) => {
+                const day = index + 1;
+                return (
+                  <button
+                    key={day}
+                    onClick={() => {
+                      loadPlaningDay(planing?.id);
+                      setActiveDay(day);
+                      setShowProgram(true);
+                    }}
+                    className={`font-manrope font-normal flex-1 px-6 lg:px-16 py-4 text-xl whitespace-nowrap border border-1 transition-colors ${
+                      day === activeDay 
+                      ? 'bg-[#ACACAC] text-black' 
+                      : 'bg-transparent hover:bg-[#ACACAC]'
+                    }`}
+                  >
+                    Jour {day}
+                  </button>
+                );
+              })}
+            </div>
           </div>
         </div>
+
         {/* tab Content */}
-          <div className="flex flex-col justify-center items-center">
+        <div className="flex overflow-x-auto snap-x snap-mandatory scrollbar-hide">
+        {planings?.map((planing, index) => (
+      <div 
+        key={index}
+        ref={el => sectionsRef.current[index] = el}
+        className="flex-none w-full snap-center"
+      >
           {/* Program Content */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mx-auto px-6 sm:px-8 lg:px-20 py-12">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mx-auto px-6 sm:px-8 lg:px-20 py-12 relative min-w-full">
+          <div className="lg:sticky lg:top-40 h-[calc(100vh-10rem)]">
               {/* Left Content */}
-              <div className="flex flex-col h-full justify-between">
+              <div className="flex flex-col h-full justify-between overflow-y-auto">
               <div className={`${showProgram? 'flex flex-row w-full':''}`}>
               <div className={`${showProgram? 'w-1/2':''}`}>
               <h2 className="font-griffiths text-5xl font-medium mb-4">
@@ -365,7 +397,7 @@ function OffreDetails() {
                   Demander un devis {'>'}
               </button>
               </div>
-          </div>
+          </div></div>
 
           {/* Right Content */}
           <div className="relative">
@@ -425,15 +457,20 @@ function OffreDetails() {
           </div>
           </div>
           
-        </div>
-        {/* Map */}
+          </div>
+
+          {/* Map */}
           <div className="p-4">
               <img 
                 src={`${process.env.PUBLIC_URL}/assets/images/south-africa-map.png`}
                 alt="South Africa Map" 
                 className="w-full"
               />
-            </div>
+          </div>
+
+        </div>
+
+        ))}
       </div>
       </div>
 
