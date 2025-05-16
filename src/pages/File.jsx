@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useCallback, useMemo } from "react";
 
 function File() {  
   const stackAreaRef = useRef(null);
@@ -8,7 +8,7 @@ function File() {
 
 
 
-  const cards = [
+  const cards = useMemo(() => [
     {
       id: 1,
       title: "Investour Hospitality",
@@ -54,11 +54,11 @@ function File() {
       title: "ABdo5",
       icon: "M23.99,18.939c4.528.011,8.197,3.21,8.185,7.739a8.2,8.2,0,1,1-14-5.82c1.543-1.539,3.634-1.923,5.813-1.918ZM43.628,44.946V40.779h-11.4a21.024,21.024,0,0,0,2.695-2.948H45.095A1.476,1.476,0,0,1,46.566,39.3v5.648a4.3,4.3,0,1,1-2.938,0ZM42.6,14.706H36.079a21.4,21.4,0,0,0-2.155-2.943h7.21V8.418a4.3,4.3,0,1,1,2.938-.029v4.85A1.467,1.467,0,0,1,42.6,14.706Z"
     }
-  ];
+  ], []);
   
   // Update the CARDS_COUNT
   const CARDS_COUNT = cards.length;
-  const rotateCards = (index) => {
+  const rotateCards = useCallback((index) => {
     cards.forEach((card, i) => {
       const cardElement = document.getElementById(card.id);
       if (cardElement) {
@@ -72,33 +72,34 @@ function File() {
         }
       }
     });
-  };
+    }, [cards]);
+
   
-  useEffect(() => {
-    const stackArea = stackAreaRef.current;
-    if (!stackArea) return;
-  
-    const handleScroll = () => {
-      if (isScrolling.current) return;
-  
-      let distance = window.innerHeight * 0.5;
-      let topVal = stackArea.getBoundingClientRect().top;
-      let index = Math.floor(-1 * (topVal / distance + 1));
-  
-      if (index !== activeIndex && index >= 0 && index < cards.length) {
-        setActiveIndex(index);
-        rotateCards(index);
-        
-        const currentCard = cards[index]; // Remove reverse
-        if (currentCard) {
-          setActiveTab(currentCard.id);
+    useEffect(() => {
+      const stackArea = stackAreaRef.current;
+      if (!stackArea) return;
+    
+      const handleScroll = () => {
+        if (isScrolling.current) return;
+    
+        let distance = window.innerHeight * 0.5;
+        let topVal = stackArea.getBoundingClientRect().top;
+        let index = Math.floor(-1 * (topVal / distance + 1));
+    
+        if (index !== activeIndex && index >= 0 && index < cards.length) {
+          setActiveIndex(index);
+          rotateCards(index);
+          
+          const currentCard = cards[index];
+          if (currentCard) {
+            setActiveTab(currentCard.id);
+          }
         }
-      }
-    };
-  
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [activeIndex, cards.length]);
+      };
+    
+      window.addEventListener("scroll", handleScroll);
+      return () => window.removeEventListener("scroll", handleScroll);
+    }, [activeIndex, cards, rotateCards]);
 
   // Handles clicking a button or Ellipse element
   const handleButtonClick = (index, tabId) => {
@@ -182,7 +183,7 @@ function File() {
             <div
               key={card.id}
               id={card.id}
-              className="cards bg-[#2C9FD9] p-3 md:h-[490px] h-[510px] md:p-8 shadow-lg rounded-[30px] w-96 justify-start items-start absolute transition-all duration-500"
+              className="cards bg-[#2C9FD9] p-3 md:h-[490px] h-[510px] md:p-8 rounded-[30px] w-96 justify-start items-start absolute transition-all duration-500"
               style={{
                 transform: `translateY(${index * 10}px)`,
                 zIndex: cards.length - index

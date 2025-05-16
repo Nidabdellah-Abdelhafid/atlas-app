@@ -22,6 +22,8 @@ function OffreDetails() {
   const [isScrollingPlan, setIsScrollingPlan] = useState(false);
   const planStackRef = useRef(null);
   const [isMapModalOpen, setIsMapModalOpen] = useState(false);
+  const [isMapLoading, setIsMapLoading] = useState(true);
+
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -194,35 +196,6 @@ function OffreDetails() {
       setCurrentSlide((prev) => (prev - 1 + (planingDay?.photos?.length || 1)) % (planingDay?.photos?.length || 1));
     };
 
-    // const nextSlide = () => {
-    //   if (carouselRef.current) {
-    //       const scrollWidth = carouselRef.current.scrollWidth;
-    //       const itemWidth = scrollWidth / planingDay?.photos.length;
-    //       const newScrollPosition = ((currentSlide + 1) % planingDay?.photos.length) * itemWidth;
-          
-    //       carouselRef.current.scrollTo({
-    //       left: newScrollPosition,
-    //       behavior: 'smooth'
-    //       });
-    //       setCurrentSlide((currentSlide + 1) % planingDay?.photos.length);
-    //   }
-    //   };
-  
-    //   const prevSlide = () => {
-    //   if (carouselRef.current) {
-    //       const scrollWidth = carouselRef.current.scrollWidth;
-    //       const itemWidth = scrollWidth / planingDay?.photos.length;
-    //       const newScrollPosition = ((currentSlide - 1 + planingDay?.photos.length) % planingDay?.photos.length) * itemWidth;
-          
-    //       carouselRef.current.scrollTo({
-    //       left: newScrollPosition,
-    //       behavior: 'smooth'
-    //       });
-    //       setCurrentSlide((currentSlide - 1 + planingDay?.photos.length) % planingDay?.photos.length);
-    //   }
-    //   };
-
-      // console.log("planingDay photos :", planingDay?.photos);
 
     if (apiStatus === 'down') {
     return (
@@ -358,7 +331,7 @@ function OffreDetails() {
       </div>
 
       {/* Planing /program Section Disktop*/}
-      <div className="mt-16"
+      <div className="mt-16 hidden lg:block"
       ref={planStackRef}
       style={{
         height: `${(planings?.length || 1) * 100}vh`,
@@ -416,12 +389,12 @@ function OffreDetails() {
                   <div className="ml-4 ">
                   <div className="space-y-4 border-l border-black px-6 h-full mb-8">
                   {planing?.planing_programmes?.map((programme, index, array) => (
-                      <div key={index} className="flex gap-4 pl-6 ">
+                      <div key={index} className="flex gap-4 pl-6 group">
                           <div className="flex-1 relative h-full">
-                          <div className="absolute top-2 -left-6 w-4 h-4 bg-black rounded-full" />
-                          <h3 className="font-manrope font-light text-md mb-4 lg:mb-4 h-48 lg:h-24">{programme.description}</h3>
+                          <div className="absolute top-2 -left-6 w-4 h-4 bg-black rounded-full transition-all duration-300 group-hover:scale-110 group-hover:bg-[#8C6EA8]" />
+                          <h3 className="font-manrope font-light text-md mb-4 lg:mb-4 h-48 lg:h-24 leading-relaxed  text-gray-800 group-hover:text-black transition-colors">{programme.description}</h3>
                           {index !== array.length - 1 && (
-                              <div className="w-0.5 h-20 bg-black absolute top-8 -left-[18px]"/>
+                              <div className="w-0.5 h-20 bg-black absolute top-8 -left-[18px] transition-all duration-300 group-hover:bg-[#8C6EA8] group-hover:h-20"/>
                           )}
                           </div>
                       </div>
@@ -464,11 +437,22 @@ function OffreDetails() {
                         <X size={24} />
                       </button>
                     </div>
-                    <div className="flex w-full items-center justify-center">
+                    <div className="flex w-full items-center justify-center relative min-h-[400px]">
+                      {isMapLoading && (
+                        <div className="absolute inset-0 flex items-center justify-center bg-white">
+                          <div className="relative w-16 h-16">
+                            <div className="absolute inset-0 border-4 border-gray-200 rounded-full"></div>
+                            <div className="absolute inset-0 border-4 border-[#8C6EA8] rounded-full animate-spin" 
+                              style={{ borderTopColor: 'transparent' }}></div>
+                          </div>
+                        </div>
+                      )}
                       <img 
                         src={`${process.env.PUBLIC_URL}/assets/images/south-africa-map.png`}
                         alt={`Itinéraire jour ${activeDay}`}
                         className="w-96 h-96 object-contain"
+                        onLoad={() => setIsMapLoading(false)}
+                        onError={() => setIsMapLoading(false)}
                       />
                     </div>
                   </div>
@@ -545,7 +529,168 @@ function OffreDetails() {
 
       </div>
 
-      {/* Planing /program Section Small*/}
+      {/* Mobile/Tablet Planning Section */}
+      <div className="lg:hidden mt-16">
+        {/* Days Navigation tab */}
+        <div className="sticky top-8 sm:top-28 z-30 overflow-x-auto mb-2 scrollbar-hide bg-[#FFFCF7]">
+          <div className="flex w-full">
+            {planings?.map((planing, index) => (
+              <button
+                key={planing.id}
+                onClick={() => {
+                  setActivePlanIndex(index);
+                  setActiveDay(index + 1);
+                  loadPlaningDay(planing.id);
+                  setCurrentSlide(0);
+                }}
+                className={`font-manrope font-normal flex-1 px-6 py-4 text-xl whitespace-nowrap border border-1 transition-colors ${
+                  index === activePlanIndex 
+                  ? 'bg-[#ACACAC] text-black' 
+                  : 'bg-transparent hover:bg-[#ACACAC]'
+                }`}
+              >
+                Jour {index + 1}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Content */}
+        {planings?.map((planing, index) => (
+          <div
+            key={planing.id}
+            className={`${index === activePlanIndex ? 'block' : 'hidden'} bg-[#FFFCF7]`}
+          >
+            <div className="grid grid-cols-1 gap-8 mx-auto px-6 sm:px-8 py-2">
+              {/* Content Area */}
+              <div className="flex flex-col h-full justify-between bg-[#FFFCF7]">
+                <div className={`${showProgram ? 'space-y-8' : ''}`}>
+                  <div>
+                    <h2 className="font-griffiths text-4xl font-medium mb-4">
+                      {planing?.label || `Jour ${activeDay}`}
+                    </h2>
+                    <p className="font-manrope font-normal text-gray-600 mb-6 leading-relaxed">
+                      {planing?.description || `Description pour le jour ${activeDay}`}
+                    </p>
+                  </div>
+
+
+                  {/* Program Content */}
+                  {showProgram && (
+                    <div className="space-y-6 border-l border-black/80 px-6 mb-8">
+                      {planing?.planing_programmes?.map((programme, index, array) => (
+                        <div key={index} className="flex gap-4 pl-6 group">
+                          <div className="flex-1 relative h-full">
+                            <div className="absolute top-2 -left-6 w-4 h-4 bg-black rounded-full transition-all duration-300 group-hover:scale-110 group-hover:bg-[#8C6EA8]" />
+                            <h3 className="font-manrope font-light text-md mb-4 leading-relaxed text-gray-800 group-hover:text-black transition-colors">
+                              {programme.description}
+                            </h3>
+                            {index !== array.length - 1 && (
+                              <div className="w-0.5 h-8 bg-black/80 absolute top-8 -left-[18px] transition-all duration-300 group-hover:bg-[#8C6EA8] group-hover:h-8" />
+                            )}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+
+                  {/* Action Buttons */}
+                  <div className="flex items-center justify-between my-4">
+                    <button 
+                      onClick={() => setShowProgram(!showProgram)}
+                      className="font-manrope font-medium underline hover:text-[#8C6EA8]"
+                    >
+                      {showProgram ? (
+                        <div className="flex items-center gap-2">
+                          <ChevronLeft size={24} />
+                          Masquer le programme
+                        </div>
+                      ) : (
+                        'Voir le programme >'
+                      )}
+                    </button>
+                    <button
+                      onClick={() => setIsMapModalOpen(true)}
+                      className="flex items-center gap-2 p-2 border border-black rounded-full hover:bg-black hover:text-white transition-colors"
+                    >
+                      <MapIcon size={24} />
+                    </button>
+                  </div>
+                  {/* Map Modal */}
+                  {isMapModalOpen && (
+                    <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-start justify-center p-4">
+                      <div className="bg-white rounded-lg w-full max-w-2xl max-h-[80vh] overflow-hidden relative">
+                        <div className="flex justify-between items-center p-4 border-b">
+                          <h3 className="font-griffiths text-2xl">Itinéraire du jour {activeDay}</h3>
+                          <button
+                            onClick={() => setIsMapModalOpen(false)}
+                            className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+                          >
+                            <X size={24} />
+                          </button>
+                        </div>
+                        <div className="flex w-full items-center justify-center">
+                          <img 
+                            src={`${process.env.PUBLIC_URL}/assets/images/south-africa-map.png`}
+                            alt={`Itinéraire jour ${activeDay}`}
+                            className="w-96 h-96 object-contain"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Image Carousel */}
+                  <div className="relative h-[300px] sm:h-[400px] overflow-hidden">
+                    <div className="relative w-full h-full">
+                      {planing?.photos.map((image, index) => (
+                        <div 
+                          key={index}
+                          className="absolute inset-0 w-full h-full transition-opacity duration-300"
+                          style={{ opacity: index === currentSlide ? 1 : 0 }}
+                        >
+                          <img 
+                            src={image.url}
+                            alt={`Slide ${index + 1}`} 
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                      ))}
+                    </div>
+                    
+                    {/* Navigation Controls */}
+                    <button onClick={prevSlide} className="absolute left-2 top-1/2 -translate-y-1/2 p-1 z-10 rounded-full bg-white">
+                      <ChevronLeft size={30} className="text-black" />
+                    </button>
+                    <button onClick={nextSlide} className="absolute right-2 top-1/2 -translate-y-1/2 p-1 z-10 rounded-full bg-white">
+                      <ChevronRight size={30} className="text-black" />
+                    </button>
+
+                    {/* Dots */}
+                    <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
+                      {planing?.photos.map((_, index) => (
+                        <button
+                          key={index}
+                          className={`w-2 h-2 rounded-full ${index === currentSlide ? 'bg-white' : 'bg-white/50'}`}
+                          onClick={() => setCurrentSlide(index)}
+                        />
+                      ))}
+                    </div>
+                  </div>
+
+                  
+                </div>
+
+                <button className="font-manrope font-medium border border-black px-6 py-2 mt-8 hover:bg-black hover:text-white transition-colors w-full">
+                  Demander un devis {'>'}
+                </button>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+      
 
 
 
