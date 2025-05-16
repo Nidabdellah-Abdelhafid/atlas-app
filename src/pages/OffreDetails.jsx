@@ -302,24 +302,24 @@ function OffreDetails() {
                 <div className="flex flex-col items-center gap-3 mb-2">
                   <img src={`${process.env.PUBLIC_URL}/assets/images/iconflight.png`} 
                   alt="Duration" className="w-10 h-10" />
-                  <h3 className="font-griffiths text-4xl font-bold text-gray-800">Durée du vol</h3>
+                  <h3 className="font-griffiths text-2xl sm:text-4xl font-bold text-gray-800">Durée du vol</h3>
                 </div>
-                <p className="font-manrope font-normal text-3xl">{offre?.pays.dureeDuVol?.split(' ')[0]}</p>
-                <p className="font-manrope font-light text-lg text-gray-500">{offre?.pays.dureeDuVol?.split(' ')[1]}{offre?.pays.dureeDuVol?.split(' ')[2]}</p>
+                <p className="font-manrope font-normal text-xl sm:text-3xl">{offre?.pays.dureeDuVol?.split(' ')[0]}</p>
+                <p className="font-manrope font-light text-md sm:text-lg text-gray-500">{offre?.pays.dureeDuVol?.split(' ')[1]}{offre?.pays.dureeDuVol?.split(' ')[2]}</p>
               </div>
 
               <div className="flex flex-col items-center">
                 <div className="flex flex-col items-center gap-3 mb-2">
                   <img src={`${process.env.PUBLIC_URL}/assets/images/iconstime.png`} 
                   alt="Time" className="w-10 h-10" />
-                  <h3 className="font-griffiths text-4xl font-bold text-gray-800">Heure locale</h3>
+                  <h3 className="font-griffiths text-2xl sm:text-4xl font-bold text-gray-800">Heure locale</h3>
                 </div>
-                <p className="font-manrope font-normal text-2xl">UTC</p>
-                <p className="font-manrope font-normal text-2xl">{offre?.pays.heureLocale?.replace('GTM', '')}</p>
+                <p className="font-manrope font-normal text-xl sm:text-2xl">UTC</p>
+                <p className="font-manrope font-normal text-lg sm:text-2xl">{offre?.pays.heureLocale?.replace('GTM', '')}</p>
               </div>
             </div>
 
-            <div className="border-l border-black pl-20 ml-4">
+            <div className="border-l border-black pl-8 sm:pl-20 ml-4">
               <h3 className="font-manrope font-normal text-gray-800 mb-3">Inclus: Total pour 1 voyageur</h3>
               <ul className="font-manrope font-normal space-y-1.5 text-gray-700">
                 <li>vols Eco Std</li>
@@ -599,11 +599,11 @@ function OffreDetails() {
                   <div className="flex items-center justify-between my-4">
                     <button 
                       onClick={() => setShowProgram(!showProgram)}
-                      className="font-manrope font-medium underline hover:text-[#8C6EA8]"
+                      className="font-manrope text-sm font-medium underline hover:text-[#8C6EA8]"
                     >
                       {showProgram ? (
                         <div className="flex items-center gap-2">
-                          <ChevronLeft size={24} />
+                          <ChevronLeft size={18} />
                           Masquer le programme
                         </div>
                       ) : (
