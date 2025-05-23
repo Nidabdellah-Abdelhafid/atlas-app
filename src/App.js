@@ -11,6 +11,12 @@ import DestinationDetails from './pages/DestinationDetails';
 import File from './pages/File';
 import { ApiStatusProvider } from './context/ApiStatusContext';
 import { useApiStatus } from './context/ApiStatusContext';
+import Register from './pages/Register';
+import Login from './pages/Login';
+import { AuthProvider } from './context/AuthContext';
+import EspaceClient from './pages/EspaceClient';
+import { ToastContainer } from 'react-toastify';
+import ProtectedRoute from './context/ProtectedRoute';
 
 function App() {
   useEffect(() => {
@@ -19,7 +25,12 @@ function App() {
 
   return (
     <ApiStatusProvider>
-      <AppContent />
+      <AuthProvider>
+        <Router>
+          <AppContent />
+          <ToastContainer />
+        </Router>
+      </AuthProvider>
     </ApiStatusProvider>
   );
 }
@@ -28,7 +39,7 @@ function AppContent() {
   const { apiStatus } = useApiStatus();
 
   return (
-     <Router>
+     <>
     {apiStatus !== 'down' && ( <Header /> )}
       <div className="">
         <Routes>
@@ -50,6 +61,26 @@ function AppContent() {
             } 
           />
           <Route 
+            path="/register" 
+            element={<Register />
+            } 
+          />
+          <Route 
+            path="/login" 
+            element={<Login />
+            } 
+          />
+          
+          <Route 
+            path="/espaceClient" 
+            element={
+              <ProtectedRoute>
+                <EspaceClient />
+              </ProtectedRoute>
+            } 
+          />
+            
+          <Route 
             path="/blogDetails/:encodedLabel" 
             element={<BlogDetails />
             } 
@@ -57,7 +88,7 @@ function AppContent() {
           <Route path="/blogs" element={<Blogs />} />
         </Routes>
       </div>
-    </Router>
+    </>
   );
 }
 

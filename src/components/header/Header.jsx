@@ -1,9 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Menu, ChevronDown, ChevronRight } from 'lucide-react';
+import { Link, useLocation } from 'react-router-dom';
+import { Menu, ChevronDown, ChevronRight, User, UserCircle, LogOut  } from 'lucide-react';
+import { jwtTokenService } from '../../services/auth/jwtTokenService';
+import { authService } from '../../services/auth/authService';
+import { useAuth } from '../../context/AuthContext';
 
 function Header() {
-
+  const location = useLocation();
   const [destinationsOpen, setDestinationsOpen] = useState(false);
   const [enviesOpen, setEnviesOpen] = useState(false);
   const [stateOpen, setStateOpen] = useState(false);
@@ -11,7 +14,30 @@ function Header() {
   const modalRef2 = useRef(null);
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [user, setUser] = useState(null);
+  const { isLoggedIn } = useAuth();
+  const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
 
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const token = jwtTokenService.getAccessToken();
+        if (token) {
+          const response = await authService.getAuthUser();
+          setUser(response.data);
+        }
+      } catch (error) {
+        console.error('Error fetching user:', error);
+      }
+    };
+
+    fetchUser();
+  }, [isLoggedIn]);
+
+  const isAuthPage = () => {
+    return location.pathname === '/login' || location.pathname === '/register' || location.pathname === '/espaceClient';
+  };
+  
   const envies = [
     { title: 'Partir en famille', img: '/assets/images/family.png' },
     { title: 'Croisière de rêve', img: '/assets/images/cruise.png' },
@@ -88,7 +114,11 @@ function Header() {
   
   // Update the logo and menu button section
   return (
-    <header className={`fixed w-full z-50 ${stateOpen ? "bg-white" : isScrolled ? "bg-[#8C6EA8]" : "bg-transparent"}`}>
+    <header className={`fixed w-full z-50 ${
+      isAuthPage() ? "bg-[#8C6EA8]" : 
+      stateOpen ? "bg-white" : 
+      isScrolled ? "bg-[#8C6EA8]" : "bg-transparent"
+    }`}>
       <div className="container mx-auto px-4 md:px-8">
         <nav className="flex items-center justify-between py-2 md:py-4">
           {/* Left Menu Items */}
@@ -174,6 +204,53 @@ function Header() {
             <button className={`hover:text-gray-200 ${stateOpen? "text-black":"text-white"} text-sm md:text-base`}>
               Des propositions ?
             </button>
+            {/* Account Button */}
+            {user ? (
+            <div className="relative">
+            <button
+              onClick={() => setProfileDropdownOpen(!profileDropdownOpen)}
+              className={`flex items-center text-[#8C6EA8] bg-white gap-2 hover:text-white hover:bg-[#8C6EA8] text-sm md:text-base px-4 py-1 rounded-sm`}
+            >
+              <User size={20} />
+              <span className="">{user.fullname}</span>
+              <ChevronDown size={14} className={`transition-transform ${profileDropdownOpen ? 'rotate-180' : ''}`} />
+            </button>
+            
+            {profileDropdownOpen && (
+            <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
+              <Link
+                to="/espaceClient"
+                className="px-4 py-2 text-sm text-gray-700 hover:bg-[#8C6EA8] hover:text-white flex items-center gap-2"
+                onClick={() => setProfileDropdownOpen(false)}
+              >
+                <UserCircle size={16} />
+                Espace Client
+              </Link>
+              <button
+                onClick={() => {
+                  jwtTokenService.remove();
+                  window.location.href = '/';
+                }}
+                className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-[#8C6EA8] hover:text-white flex items-center gap-2"
+              >
+                <LogOut size={16} />
+                Se déconnecter
+              </button>
+            </div>
+          )}
+          </div>
+          ) : (
+            <Link to='/login'
+              className={`flex items-center text-[#8C6EA8] bg-white gap-2 hover:text-white hover:bg-[#8C6EA8] text-sm md:text-base px-4 py-1 rounded-sm`}
+            >
+              <User size={20} />
+              <span className="">Se connecter</span>
+            </Link>
+          )}
+
+          
+
+              
           </div>
         </nav>
 

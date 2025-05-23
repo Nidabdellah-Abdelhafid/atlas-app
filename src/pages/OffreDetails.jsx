@@ -630,7 +630,16 @@ function OffreDetails() {
                             <X size={24} />
                           </button>
                         </div>
-                        <div className="flex w-full items-center justify-center">
+                        <div className="flex w-full items-center justify-center relative">
+                        {isMapLoading && (
+                          <div className="absolute inset-0 flex items-center justify-center bg-white">
+                            <div className="relative w-16 h-16">
+                              <div className="absolute inset-0 border-4 border-gray-200 rounded-full"></div>
+                              <div className="absolute inset-0 border-4 border-[#8C6EA8] rounded-full animate-spin" 
+                                style={{ borderTopColor: 'transparent' }}></div>
+                            </div>
+                          </div>
+                        )}
                           <img 
                             src={`${process.env.PUBLIC_URL}/assets/images/south-africa-map.png`}
                             alt={`Itinéraire jour ${activeDay}`}
