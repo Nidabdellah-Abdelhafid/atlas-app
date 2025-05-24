@@ -24,5 +24,15 @@ export const authService = {
 
   updateUser(id, userData) {
     return axiosInstance.put(`${API_URL}/profile/${id}`, userData);
+  },
+
+  deleteProfile() {
+    return axiosInstance.post(`${API_URL}/profile/delete`, {}, {
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('access_token')}`,
+        'Content-Type': 'application/json'
+      }
+    });
   }
+
 };

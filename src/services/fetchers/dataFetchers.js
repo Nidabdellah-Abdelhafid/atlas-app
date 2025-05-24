@@ -7,7 +7,8 @@ import {
   PhotoService,
   PlaningService,
   ProgrammeService,
-  ThemeService
+  ThemeService,
+  MessageService
 } from '../index';
 
 export const fetchBadges = async () => {
@@ -99,3 +100,52 @@ export const fetchThemes = async () => {
     throw error;
   }
 };
+
+
+export const fetchMessages = async () => {
+  try {
+    const messageService = new MessageService();
+    return await messageService.getAll();
+  } catch (error) {
+    console.error('Error fetching messages:', error);
+    throw error;
+  }
+};
+
+export const createMessage = async (messageData) => {
+  try {
+    const messageService = new MessageService();
+    return await messageService.create(messageData);
+  } catch (error) {
+    console.error('Error creating message:', error);
+    throw error;
+  }
+};
+
+export const setupMessageWebSocket = (token, userEmail, onMessageReceived) => {
+  try {
+    return MessageService.setupWebSocket(token, userEmail, onMessageReceived);
+  } catch (error) {
+    console.error('Error setting up WebSocket:', error);
+    throw error;
+  }
+};
+
+export const addOffreFavorite = async (data) => {
+  try {
+    return await OffreService.addFavoriteToOffre(data);
+  } catch (error) {
+    console.error('Error adding favorite:', error);
+    throw error;
+  }
+};
+
+export const removeOffreFavorite = async (data) => {
+  try {
+    return await OffreService.removeFavoriteFromOffre(data);
+  } catch (error) {
+    console.error('Error removing favorite:', error);
+    throw error;
+  }
+};
+

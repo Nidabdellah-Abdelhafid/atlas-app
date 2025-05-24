@@ -8,3 +8,4 @@ export * from './photo/photo';
 export * from './planing/planing';
 export * from './programme/programme';
 export * from './theme/theme';
+export * from './message/message';

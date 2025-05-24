@@ -209,7 +209,7 @@ function Header() {
             <div className="relative">
             <button
               onClick={() => setProfileDropdownOpen(!profileDropdownOpen)}
-              className={`flex items-center text-[#8C6EA8] bg-white gap-2 hover:text-white hover:bg-[#8C6EA8] text-sm md:text-base px-4 py-1 rounded-sm`}
+              className={`flex items-center text-[#8C6EA8] bg-white gap-2 hover:text-white hover:bg-[#8C6EA8] hover:border hover:border-white text-sm md:text-base px-4 py-1 rounded-sm`}
             >
               <User size={20} />
               <span className="">{user.fullname}</span>
@@ -241,7 +241,7 @@ function Header() {
           </div>
           ) : (
             <Link to='/login'
-              className={`flex items-center text-[#8C6EA8] bg-white gap-2 hover:text-white hover:bg-[#8C6EA8] text-sm md:text-base px-4 py-1 rounded-sm`}
+              className={`flex items-center text-[#8C6EA8] bg-white gap-2 hover:text-white hover:bg-[#8C6EA8] hover:border hover:border-white text-sm md:text-base px-4 py-1 rounded-sm`}
             >
               <User size={20} />
               <span className="">Se connecter</span>

@@ -61,7 +61,7 @@ const AddUser = () => {
     }
 
     try {
-      const res = await userService.addUser(formData);
+      await userService.addUser(formData);
       await userService.addRoleToUser({
         email: values.email,
         roleName: 'USER'

@@ -1,10 +1,14 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { Link, useParams } from 'react-router-dom';
+import { ChevronLeft, ChevronRight, HeartIcon } from 'lucide-react';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { fetchOffres, fetchPays, fetchPhotos } from '../services/fetchers/dataFetchers';
 import { decodeLabel, encodeLabel } from '../utils/idEncoder';
 import LoadingUI from '../components/LoadingUI';
 import { useApiStatus } from '../context/ApiStatusContext';
+import { addOffreFavorite, removeOffreFavorite } from '../services/fetchers/dataFetchers';
+import { authService } from '../services/auth/authService';
+import FavoriteButton from '../components/FavoriteButton';
+import { toast } from 'react-toastify';
 
 function DestinationDetails() {
   const { encodedLabel } = useParams();
@@ -17,10 +21,32 @@ function DestinationDetails() {
   const [currentOfferSlides, setCurrentOfferSlides] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const { apiStatus } = useApiStatus();
+  const [user, setUser] = useState(null);
+  const navigate = useNavigate();
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const [selectedOffer, setSelectedOffer] = useState(null);
+  const [loadingFavorite, setLoadingFavorite] = useState(null);
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  useEffect(() => {
+        const fetchUser = async () => {
+            try {
+                setIsLoading(true);
+                const response = await authService.getAuthUser();
+                setUser(response.data);
+            } catch (error) {
+                console.error('Error fetching user:', error);
+            } finally {
+            // Add minimum loading time for smooth transition
+            setTimeout(() => setIsLoading(false), 1000);
+            }
+        };
+
+        fetchUser();
+    }, []);
   
   const loadPhotos = useCallback(async () => {
     try {
@@ -70,9 +96,60 @@ function DestinationDetails() {
 
     loadPays();
   }, [label, loadPhotos, loadOffres]);
-  
 
+  const isOfferFavorited = (offer) => {
+    if (!offer?.usersFvrOffre || !user) return false;
+    return offer.usersFvrOffre.some((u) => u.id === user?.id);
+  };
+  
+  const handleToggleFavorite = async (offer) => {
+    try {
+      setLoadingFavorite(offer.id);
+      if (isOfferFavorited(offer)) {
+        await removeOffreFavorite({
+          offre: offer,
+          appUser: user
+        });
+        toast.success('Offre retirée des favoris', {
+        position: "top-right",
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+      } else {
+        await addOffreFavorite({
+          offre: offer,
+          appUser: user
+        });
+        toast.success('Offre ajoutée aux favoris', {
+        position: "top-right",
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+      }
+      loadOffres();
+    } catch (error) {
+      console.error('Error toggling favorite:', error);
+      toast.error('Une erreur est survenue');
+    } finally {
+      setLoadingFavorite(null);
+    }
+  };
   // console.log(offres);
+
+  const handleFavoriteClick = (offre) => {
+    if (!user) {
+      setSelectedOffer(offre);
+      setIsLoginModalOpen(true);
+      return;
+    }
+    handleToggleFavorite(offre);
+  };
 
   const slides = photos?.map(photo => ({
     id: photo.id,
@@ -486,6 +563,27 @@ function DestinationDetails() {
                 <Link to={`/offreDetails/${encodeLabel(offre.label)}`} className="inline-block border border-black px-6 py-2 hover:bg-black hover:text-white transition-colors font-manrope">
                   Voir l'offre <span className="ml-1">&gt;</span>
                 </Link>
+                <div className="inline-block ml-2 ">
+                  {user ? (
+                    <FavoriteButton
+                      offer={offre}
+                      authUser={user}
+                      onToggleFavorite={handleToggleFavorite}
+                      isLoading={loadingFavorite === offre.id}
+                  />
+                  ) : (
+                    <button
+                    onClick={() => handleFavoriteClick(offre)}
+                    className="btn btn-ghost btn-circle tooltip tooltip-bottom group"
+                    data-tip="Connectez-vous pour ajouter aux favoris"
+                  >
+                    <HeartIcon
+                      size={30}
+                      className="transform transition-transform duration-200 ease-in-out group-hover:scale-125 hover:text-[#f55656] animate-pulse"
+                    />
+                  </button>
+                  )}
+                </div>
               </div>
               </div>
               
@@ -591,6 +689,33 @@ function DestinationDetails() {
           ))}
         </div>
       </div>
+
+      <dialog id="login_modal" className={`modal ${isLoginModalOpen ? 'modal-open' : ''}`}>
+        <div className="modal-box">
+          <h3 className="font-griffiths text-lg">Connectez-vous</h3>
+          <p className="py-4 font-manrope">Pour ajouter cette offre à vos favoris, veuillez vous connecter à votre compte.</p>
+          <div className="modal-action">
+            <button 
+              className="btn btn-ghost"
+              onClick={() => setIsLoginModalOpen(false)}
+            >
+              Annuler
+            </button>
+            <button
+              className="btn bg-[#8C6EA8] text-white hover:bg-[#7C5E98]"
+              onClick={() => {
+                setIsLoginModalOpen(false);
+                navigate('/login');
+              }}
+            >
+              Se connecter
+            </button>
+          </div>
+        </div>
+        <form method="dialog" className="modal-backdrop">
+          <button onClick={() => setIsLoginModalOpen(false)}>close</button>
+        </form>
+      </dialog>
     </div>
   )
 }
