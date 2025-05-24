@@ -11,6 +11,7 @@ const Message = () => {
   const [newMessage, setNewMessage] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [admin, setAdmin] = useState(null);
+  const [showScrollButton, setShowScrollButton] = useState(false);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -29,44 +30,41 @@ const Message = () => {
         fetchUser();
     }, []);
 
-    const loadMessages = async () => {
-      try {
-      const response = await fetchMessages();
-      // console.log("messages list : ",response);
-      const filteredMessages = response.filter(msg => 
-          (msg.sender?.email === user.email && msg.receiver?.email === 'hafidnid909@gmail.com') ||
-          (msg.sender?.email === 'hafidnid909@gmail.com' && msg.receiver?.email === user.email)
-      );
-      setMessages(filteredMessages);
-      setAdmin({
-          email: 'hafidnid909@gmail.com',
-          fullname: 'Administrator'
-      });
-      } catch (error) {
-      console.error('Error loading messages:', error);
-      } finally {
-      setIsLoading(false);
-      }
-  };
-
     useEffect(() => {
-        if (user) {
-        
-
+      if (user) {
+        const loadMessages = async () => {
+          try {
+            const response = await fetchMessages();
+            const filteredMessages = response.filter(msg => 
+              (msg.sender?.email === user.email && msg.receiver?.email === 'hafidnid909@gmail.com') ||
+              (msg.sender?.email === 'hafidnid909@gmail.com' && msg.receiver?.email === user.email)
+            );
+            setMessages(filteredMessages);
+            setAdmin({
+              email: 'hafidnid909@gmail.com',
+              fullname: 'Administrator'
+            });
+          } catch (error) {
+            console.error('Error loading messages:', error);
+          } finally {
+            setIsLoading(false);
+          }
+        };
+    
         loadMessages();
         const token = jwtTokenService.getAccessToken();
         const stompClient = setupMessageWebSocket(
-            token,
-            user.email,
-            handleNewMessage
+          token,
+          user.email,
+          handleNewMessage
         );
-
+    
         return () => {
-            if (stompClient) {
+          if (stompClient) {
             stompClient.deactivate();
-            }
+          }
         };
-        }
+      }
     }, [user]);
 
   const handleNewMessage = (newMessage) => {
@@ -77,9 +75,40 @@ const Message = () => {
 
   const scrollToBottom = () => {
     if (scrollContainer.current) {
-      scrollContainer.current.scrollTop = scrollContainer.current.scrollHeight;
+      setTimeout(() => {
+        scrollContainer.current.scrollTo({
+          top: scrollContainer.current.scrollHeight,
+          behavior: 'smooth'
+        });
+      }, 100);
     }
   };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+
+  const handleScroll = () => {
+    if (scrollContainer.current) {
+      const { scrollTop, scrollHeight, clientHeight } = scrollContainer.current;
+      const isNotAtBottom = scrollHeight - scrollTop - clientHeight > 100;
+      setShowScrollButton(isNotAtBottom);
+    }
+  };
+
+  const refreshMessages = async () => {
+    try {
+      const response = await fetchMessages();
+      const filteredMessages = response.filter(msg => 
+        (msg.sender?.email === user?.email && msg.receiver?.email === 'hafidnid909@gmail.com') ||
+        (msg.sender?.email === 'hafidnid909@gmail.com' && msg.receiver?.email === user?.email)
+      );
+      setMessages(filteredMessages);
+    } catch (error) {
+      console.error('Error refreshing messages:', error);
+    }
+  };
+  
 
   const sendMessage = async () => {
     if (!newMessage.trim() || !user || !admin) return;
@@ -96,9 +125,8 @@ const Message = () => {
     formData.append('message', JSON.stringify(messageData));
 
     try {
-      const response = await createMessage(formData);
-      loadMessages();
-      setMessages(prev => [...prev, response.data]);
+      await createMessage(formData);
+      await refreshMessages();
       setNewMessage('');
       scrollToBottom();
     } catch (error) {
@@ -134,7 +162,8 @@ const Message = () => {
 
         <div 
           ref={scrollContainer}
-          className="flex-1 custom-scrollbar p-4 space-y-4"
+          onScroll={handleScroll}
+          className="flex-1 custom-scrollbar p-4 space-y-4 relative"
         >
           {isLoading ? (
             <div className="flex justify-center items-center h-full">
@@ -159,6 +188,17 @@ const Message = () => {
                 </div>
               </div>
             ))
+          )}
+
+        {showScrollButton && (
+            <button
+              onClick={scrollToBottom}
+              className="fixed bottom-24 right-4 bg-primary text-white p-2 rounded-full shadow-lg hover:bg-primary-focus transition-all"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+              </svg>
+            </button>
           )}
         </div>
 
