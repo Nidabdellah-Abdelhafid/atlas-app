@@ -99,7 +99,7 @@ function EspaceClient() {
             if (result.isConfirmed) {
                 try {
 
-                    const res = authService.deleteProfile();
+                    authService.deleteProfile();
                     
                     Swal.fire({
                         title: 'Compte supprimé',
@@ -140,6 +140,34 @@ function EspaceClient() {
     const logout = () => {
         jwtTokenService.remove();
         window.location.href = '/';
+    };
+
+    const logoutButton = () => {
+        Swal.fire({
+            title: 'Déconnexion',
+            text: 'Êtes-vous sûr de vouloir vous déconnecter ?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#8C6EA8',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Oui, me déconnecter',
+            cancelButtonText: 'Non, annuler',
+            reverseButtons: true,
+            customClass: {
+                container: 'font-manrope',
+                popup: 'rounded-xl border-2',
+                title: 'text-xl font-griffiths',
+                htmlContainer: 'font-manrope text-gray-600',
+                confirmButton: 'bg-[#8C6EA8] font-manrope px-6 py-2 rounded-lg',
+                cancelButton: 'bg-[#d33] font-manrope px-6 py-2 rounded-lg text-white',
+                actions: 'space-x-3'
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                jwtTokenService.remove();
+                window.location.href = '/';
+            }
+        });
     };
 
     const decodeImage = (base64String) => {
@@ -219,7 +247,7 @@ function EspaceClient() {
                                     <MessageSquare size={20} /> Messages
                                 </button>
                                 <button
-                                    onClick={logout}
+                                    onClick={logoutButton}
                                     className="w-full text-left px-4 py-2 rounded-lg flex items-center gap-3 text-red-500 hover:bg-red-50"
                                 >
                                     <LogOut size={20} /> Se déconnecter
