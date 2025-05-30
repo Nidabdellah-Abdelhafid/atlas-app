@@ -17,6 +17,7 @@ import { AuthProvider } from './context/AuthContext';
 import EspaceClient from './pages/EspaceClient';
 import { ToastContainer } from 'react-toastify';
 import ProtectedRoute from './context/ProtectedRoute';
+import { RedirectIfAuthenticated } from './components/RedirectIfAuthenticated';
 
 function App() {
   useEffect(() => {
@@ -44,7 +45,12 @@ function AppContent() {
       <div className="">
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/destinationsTendances" element={<DestinationsTendances />} />
+          <Route
+            path="/destinationsTendances" 
+            element={<DestinationsTendances />
+
+            } 
+          />
           <Route 
             path="/destinationDetails/:encodedLabel" 
             element={<DestinationDetails />
@@ -62,15 +68,20 @@ function AppContent() {
           />
           <Route 
             path="/register" 
-            element={<Register />
+            element={
+              <RedirectIfAuthenticated>
+                <Register />
+              </RedirectIfAuthenticated>
             } 
           />
           <Route 
             path="/login" 
-            element={<Login />
+            element={
+              <RedirectIfAuthenticated>
+                <Login />
+              </RedirectIfAuthenticated>
             } 
           />
-          
           <Route 
             path="/espaceClient" 
             element={

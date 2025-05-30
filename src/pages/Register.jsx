@@ -90,7 +90,7 @@ const AddUser = () => {
     const file = event.target.files[0];
     if (file) {
       const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg'];
-      const maxSize = 2 * 1024 * 1024;
+      const maxSize = 500 * 1024;
 
       if (!allowedTypes.includes(file.type)) {
         setFileError('Only JPG, JPEG, and PNG files are allowed.');
@@ -101,7 +101,7 @@ const AddUser = () => {
       }
 
       if (file.size > maxSize) {
-        setFileError('File size must be less than 2MB.');
+        setFileError('File size must be less than 500KB.');
         setFilePreview(null);
         setUserPhoto(null);
         formik.setFieldValue('userPhoto', null);
@@ -210,7 +210,7 @@ const AddUser = () => {
                                             <i className="bi bi-upload text-4xl text-gray-500 mb-4"></i>
                                             <p className="mb-2 text-sm text-gray-500">Upload a photo of your face</p>
                                             <p className="text-xs text-gray-500">Make sure your face is clearly visible</p>
-                                            <p className="text-xs text-gray-500">JPG, JPEG, and PNG (MAX. 800x400px)</p>
+                                            <p className="text-xs text-gray-500">JPG, JPEG, and PNG (MAX. 500KB)</p>
                                         </div>
                                     ) : (
                                         <div className="relative w-56 h-56 overflow-hidden rounded-lg mx-auto">

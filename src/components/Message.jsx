@@ -197,16 +197,16 @@ const Message = () => {
         textFormData.append('message', JSON.stringify(textMessageData));
         
         // Send text message
-        const textResponse = await createMessage(textFormData);
-        setMessages(prev => [...prev, textResponse]);
+         await createMessage(textFormData);
+        // setMessages(prev => [...prev, textResponse]);
         
         // Then send file message
-        const fileResponse = await createMessage(formData);
-        setMessages(prev => [...prev, fileResponse]);
+         await createMessage(formData);
+        // setMessages(prev => [...prev, fileResponse]);
       } else {
         // Send single message (either text or file)
-        const response = await createMessage(formData);
-        setMessages(prev => [...prev, response]);
+         await createMessage(formData);
+        // setMessages(prev => [...prev, response]);
       }
   
       // Reset form and scroll to bottom
@@ -299,31 +299,40 @@ const Message = () => {
             <X size={20} />
           </button>
         </div>
-        <div className="space-y-4">
-        <div className="flex items-center gap-3 p-3 bg-base-200 rounded-lg">
-          <Mail size={20} className="text-primary"/>
-          <div>
-            <div className="font-semibold">Email</div>
-            <a 
-              href={`mailto:${admin?.email || 'hafidnid909@gmail.com'}`}
-              className="text-sm select-text hover:text-primary transition-colors"
-            >
-              {admin?.email || 'hafidnid909@gmail.com'}
-            </a>
+        <div className="space-y-4 p-2">
+          <div className="flex items-center gap-4 p-4 bg-base-200/50 rounded-xl hover:bg-base-200 transition-all duration-300 group backdrop-blur-sm shadow-sm">
+            <div className="p-3 bg-primary/10 rounded-lg group-hover:bg-primary/20 transition-colors">
+              <Mail size={20} className="text-primary"/>
+            </div>
+            <div className="flex-1">
+              <div className="font-semibold text-base-content/80 text-sm uppercase tracking-wide mb-1">
+                Email Address
+              </div>
+              <a 
+                href={`mailto:${admin?.email || 'hafidnid909@gmail.com'}`}
+                className="text-sm font-medium hover:text-primary transition-colors flex items-center gap-2 group-hover:translate-x-1 transition-transform"
+              >
+                {admin?.email || 'hafidnid909@gmail.com'}
+              </a>
+            </div>
           </div>
-        </div>
-        <div className="flex items-center gap-3 p-3 bg-base-200 rounded-lg">
-          <Phone size={20} className="text-primary"/>
-          <div>
-            <div className="font-semibold">Phone</div>
-            <a 
-              href={`tel:${admin?.telephone || '+212608089640'}`}
-              className="text-sm select-text hover:text-primary transition-colors"
-            >
-              {admin?.telephone || '+212 608089640'}
-            </a>
+
+          <div className="flex items-center gap-4 p-4 bg-base-200/50 rounded-xl hover:bg-base-200 transition-all duration-300 group backdrop-blur-sm shadow-sm">
+            <div className="p-3 bg-primary/10 rounded-lg group-hover:bg-primary/20 transition-colors">
+              <Phone size={20} className="text-primary"/>
+            </div>
+            <div className="flex-1">
+              <div className="font-semibold text-base-content/80 text-sm uppercase tracking-wide mb-1">
+                Phone Number
+              </div>
+              <a 
+                href={`tel:${admin?.telephone || '+212608089640'}`}
+                className="text-sm font-medium hover:text-primary transition-colors flex items-center gap-2 group-hover:translate-x-1 transition-transform"
+              >
+                {admin?.telephone || '+212 608089640'}
+              </a>
+            </div>
           </div>
-        </div>
         </div>
       </div>
     </div>

@@ -4,6 +4,7 @@ import { Menu, ChevronDown, ChevronRight, User, UserCircle, LogOut  } from 'luci
 import { jwtTokenService } from '../../services/auth/jwtTokenService';
 import { authService } from '../../services/auth/authService';
 import { useAuth } from '../../context/AuthContext';
+import { fetchPays } from '../../services/fetchers/dataFetchers';
 
 function Header() {
   const location = useLocation();
@@ -17,6 +18,7 @@ function Header() {
   const [user, setUser] = useState(null);
   const { isLoggedIn } = useAuth();
   const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
+  const [pays, setPays] = useState([]);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -38,6 +40,19 @@ function Header() {
     return location.pathname === '/login' || location.pathname === '/register' || location.pathname === '/espaceClient';
   };
   
+  
+  useEffect(() => {
+    const loadPaysData = async () => {
+      try {
+        const response = await fetchPays();
+        setPays(response);
+      } catch (error) {
+        console.error('Error fetching pays:', error);
+      }
+    };
+    loadPaysData();
+  }, []);
+
   const envies = [
     { title: 'Partir en famille', img: '/assets/images/family.png' },
     { title: 'Croisière de rêve', img: '/assets/images/cruise.png' },
@@ -46,20 +61,7 @@ function Header() {
     { title: 'All Inc', img: '/assets/images/allinc.png' }
   ];
 
-  const destinations = [
-    'Argentine', 'Dubai', 'Islande', 'Philippines', 'Vietnam',
-    'Arabie Saoudite', 'Egypte', 'Istanbul', 'Plage', 'Autres',
-    'Australie', 'Espagne', 'Italie', 'Portugal',
-    'Bali', 'Fidji', 'Japon', 'République Dominicaine',
-    'Brésil', 'Finlande', 'Londres', 'Sardaigne',
-    'Club Med', 'Floride', 'Maldives', 'Seychelles',
-    'Colombie', 'France', 'Mexique', 'Ski',
-    'Corée du Sud', 'French Riviera', 'Miami', 'Suède',
-    'Costa Rica', 'Grèce', 'New York', 'Suisse',
-    'Côte d\'Azur', 'Îles', 'Norvège', 'Tanzanie',
-    'Croatie', 'Îles Maldives', 'Omra', 'Thaïlande',
-    'Croisière', 'Indonésie', 'Pérou', 'USA'
-  ];
+  const destinations = pays?.map(pays => pays.label);
 
 // Add this state near your other states
   // Add scroll event listener

@@ -71,7 +71,7 @@ const UpdateProfileForm = ({ user, onClose, onUpdate }) => {
     const file = event.target.files?.[0];
     if (file) {
       const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg'];
-      const maxSize = 2 * 1024 * 1024; // 2MB
+      const maxSize = 500 * 1024;
 
       if (!allowedTypes.includes(file.type)) {
         formik.setFieldError('userPhoto', 'Only JPG, JPEG, and PNG files are allowed.');
@@ -80,7 +80,7 @@ const UpdateProfileForm = ({ user, onClose, onUpdate }) => {
       }
 
       if (file.size > maxSize) {
-        formik.setFieldError('userPhoto', 'File size must be less than 2MB.');
+        formik.setFieldError('userPhoto', 'File size must be less than 500KB.');
         setImagePreview(null);
         return;
       }
@@ -129,7 +129,7 @@ const UpdateProfileForm = ({ user, onClose, onUpdate }) => {
                     <div className="flex flex-col items-center justify-center pt-5 pb-6">
                       <i className="bi bi-upload text-4xl text-gray-500 mb-4"></i>
                       <p className="mb-2 text-sm text-gray-500">Upload a photo of your face</p>
-                      <p className="text-xs text-gray-500">JPG, JPEG, and PNG (MAX. 2MB)</p>
+                      <p className="text-xs text-gray-500">JPG, JPEG, and PNG (MAX. 500KB)</p>
                     </div>
                   ) : (
                     <div className="relative w-56 h-56 overflow-hidden rounded-lg mx-auto">

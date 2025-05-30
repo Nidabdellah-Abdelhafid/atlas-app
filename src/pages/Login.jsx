@@ -47,7 +47,7 @@ const Login = () => {
     jwtTokenService.handle(res);
     changeStatus(true);
     toast.success('Login successful!');
-    navigate('/espaceClient');
+    navigate(-1);
   };
 
   const handleError = (err) => {
