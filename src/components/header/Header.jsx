@@ -5,6 +5,7 @@ import { jwtTokenService } from '../../services/auth/jwtTokenService';
 import { authService } from '../../services/auth/authService';
 import { useAuth } from '../../context/AuthContext';
 import { fetchPays } from '../../services/fetchers/dataFetchers';
+import { encodeLabel } from '../../utils/idEncoder';
 
 function Header() {
   const location = useLocation();
@@ -294,18 +295,19 @@ function Header() {
         {/* Destinations Modal */}
         {destinationsOpen && (
           <div className="absolute top-full left-0 w-full h-screen md:h-[84vh] bg-white p-4 md:p-10 overflow-y-auto" ref={modalRef2}>
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-x-4 md:gap-x-16 gap-y-2 md:gap-y-4 max-w-6xl mx-auto">
-              {destinations.map((destination, index) => (
-                <Link 
-                  key={index}
-                  to={`/`}
-                  className="text-gray-500 hover:text-black transition-colors text-sm md:text-base"
-                >
-                  {destination}
-                </Link>
-              ))}
-            </div>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-x-4 md:gap-x-16 gap-y-2 md:gap-y-4 max-w-6xl mx-auto">
+            {destinations.map((destination, index) => (
+              <Link 
+                key={index}
+                to={`/destinationDetails/${encodeLabel(destination)}`}
+                className="text-gray-500 hover:text-black transition-colors text-sm md:text-base"
+                onClick={() => setDestinationsOpen(false)}
+              >
+                {destination}
+              </Link>
+            ))}
           </div>
+        </div>
         )}
       </div>
     </header>
